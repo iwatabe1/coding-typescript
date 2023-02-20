@@ -57,6 +57,30 @@ function flush() {
   console.log(outputBuffer);
 }
 
+// 組み合わせ
+const combination = (nums: number[], k: number): number[][] => {
+  let ans = [];
+  if (nums.length < k) {
+    return [];
+  }
+
+  if (k === 1) {
+    for (let i = 0; i < nums.length; i++) {
+      ans[i] = [nums[i]];
+    }
+  } else {
+    for (let i = 0; i < nums.length - k + 1; i++) {
+      let row = combination(nums.slice(i + 1), k - 1);
+      if (row && row.length) {
+        for (let j = 0; j < row.length; j++) {
+          ans.push([nums[i]].concat(row[j]));
+        }
+      }
+    }
+  }
+  return ans;
+};
+
 // デバッグ環境がWindowsであれば条件分岐する
 if (process.env.OS == 'Windows_NT') {
   const stream = createInterface({
@@ -79,31 +103,21 @@ if (process.env.OS == 'Windows_NT') {
   flush();
 }
 
-function sortAsc(a: number, b: number) {
-  return a - b;
-}
-
-function sortDesc(a: number, b: number) {
-  return b - a;
-}
-
 function main() {
   // ここに処理を記述していく。
-  let [N] = nextNums(1);
-  let cards = nextNums(N);
-
-  let aSum = 0;
-  let bSum = 0;
+  let [N, A, B] = nextNums(3);
 
   let result = 0;
-  const cardsSorted = cards.sort(sortDesc);
-  for (let i = 0; i < N; ++i) {
-    if (i % 2 === 1) {
-      bSum += cardsSorted[i];
-    } else {
-      aSum += cardsSorted[i];
+
+  for (let i = 1; i <= N; i++) {
+    const nums = Array.from(String(i), Number);
+    let sum = 0;
+    nums.map((num) => {
+      sum += num;
+    });
+    if (sum >= A && sum <= B) {
+      result += i;
     }
   }
-  result = aSum - bSum;
   println(`${result}`);
 }
