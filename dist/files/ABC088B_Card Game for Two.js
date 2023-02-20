@@ -98,37 +98,29 @@ else {
     main();
     flush();
 }
-/**
- * compare numbers for sort number[] ascending
- * @param a
- * @param b
- * @returns number
- */
 function sortAsc(a, b) {
     return a - b;
 }
-/**
- * compare numbers for sort number[] descending
- * @param a
- * @param b
- * @returns number
- */
 function sortDesc(a, b) {
     return b - a;
 }
 function main() {
     // ここに処理を記述していく。
-    let [N, Y] = nextNums(2);
-    let result = [-1, -1, -1];
-    for (let a = 0; a <= N; ++a) {
-        for (let b = 0; b + a <= N; ++b) {
-            let c = N - a - b;
-            if (10000 * a + 5000 * b + 1000 * c === Y) {
-                result = [a, b, c];
-                break;
-            }
+    let [N] = nextNums(1);
+    let cards = nextNums(N);
+    let aSum = 0;
+    let bSum = 0;
+    let result = 0;
+    const cardsSorted = cards.sort(sortDesc);
+    for (let i = 0; i < N; ++i) {
+        if (i % 2 === 1) {
+            bSum += cardsSorted[i];
+        }
+        else {
+            aSum += cardsSorted[i];
         }
     }
-    println(result, ' ');
+    result = aSum - bSum;
+    println(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC088B_Card%20Game%20for%20Two.js.map

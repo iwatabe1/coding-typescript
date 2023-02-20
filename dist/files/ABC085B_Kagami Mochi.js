@@ -118,17 +118,25 @@ function sortDesc(a, b) {
 }
 function main() {
     // ここに処理を記述していく。
-    let [N, Y] = nextNums(2);
-    let result = [-1, -1, -1];
-    for (let a = 0; a <= N; ++a) {
-        for (let b = 0; b + a <= N; ++b) {
-            let c = N - a - b;
-            if (10000 * a + 5000 * b + 1000 * c === Y) {
-                result = [a, b, c];
-                break;
-            }
+    let [N] = nextNums(1);
+    let mochies = [];
+    for (let i = 0; i < N; ++i) {
+        mochies.push(nextNum());
+    }
+    mochies = mochies.sort(sortDesc);
+    let result = 0;
+    let mochiNum = 0;
+    let mochiNumNext = 0;
+    for (let i = 0; i < mochies.length; ++i) {
+        mochiNumNext = mochies[i];
+        if (mochiNum === mochiNumNext) {
+            continue;
+        }
+        else {
+            mochiNum = mochies[i];
+            result++;
         }
     }
-    println(result, ' ');
+    println(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC085B_Kagami%20Mochi.js.map
