@@ -131,4 +131,4 @@ function main() {
     }
     println(result, ' ');
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC085C_Otoshidama.js.map
