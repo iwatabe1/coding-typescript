@@ -116,32 +116,40 @@ function sortAsc(a, b) {
 function sortDesc(a, b) {
     return b - a;
 }
-// 文字列反転
 function reverseString(str) {
     return str.split('').reverse().join('');
 }
 function main() {
     // ここに処理を記述していく。
-    let N = nextNum();
-    let points = [[0, 0, 0]];
-    for (let i = 0; i < N; i++) {
-        points.push(nextNums(3));
-    }
-    let canMove = 0;
-    let x = 0;
-    let y = 0;
+    let S = next();
+    let candidates = ['dream', 'dreamer', 'erase', 'eraser'];
+    let result = '';
+    // Sを反転させる
+    const reversedS = reverseString(S);
     let can = true;
-    for (let i = 0; i < N; ++i) {
-        canMove = points[i + 1][0] - points[i][0];
-        x = Math.abs(points[i + 1][1] - points[i][1]); // 絶対値を取得する
-        y = Math.abs(points[i + 1][2] - points[i][2]); // 絶対値を取得する
-        let dist = x + y;
-        if (canMove < dist)
-            can = false;
-        if (canMove % 2 !== dist % 2)
-            can = false;
+    // candidatesを反転させる
+    for (let i = 0; i < 4; ++i) {
+        candidates[i] = reverseString(candidates[i]);
     }
-    const result = can ? 'Yes' : 'No';
+    // 反転させたSを繰り返し、端から切っていく
+    for (let i = 0; i < reversedS.length;) {
+        let can2 = false; //4種の文字列のどれかでdivideできるかする。
+        for (let j = 0; j < 4; ++j) {
+            let compStr = candidates[j];
+            if (reversedS.substring(i, i + compStr.length) === compStr) {
+                // divide出来るか
+                can2 = true;
+                i += compStr.length; // divide出来たらiを進める
+                break;
+            }
+        }
+        if (!can2) {
+            // どの文字列でもdivide出来なかったら
+            can = false;
+            break;
+        }
+    }
+    result = can ? 'YES' : 'NO';
     println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC049C_%E7%99%BD%E6%98%BC%E5%A4%A2.js.map

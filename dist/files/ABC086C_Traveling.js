@@ -144,4 +144,4 @@ function main() {
     const result = can ? 'Yes' : 'No';
     println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC086C_Traveling.js.map
