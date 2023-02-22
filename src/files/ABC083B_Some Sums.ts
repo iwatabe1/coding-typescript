@@ -103,6 +103,15 @@ if (process.env.OS == 'Windows_NT') {
   flush();
 }
 
+function findSumOfDigit(num: number) {
+  let sum = 0;
+  while (num > 0) {
+    sum += num % 10;
+    num = Math.floor(num / 10);
+  }
+  return sum;
+}
+
 function main() {
   // ここに処理を記述していく。
   let [N, A, B] = nextNums(3);
@@ -119,5 +128,14 @@ function main() {
       result += i;
     }
   }
+  /* 別回答
+  for (let i = 1; i < N; ++i) {
+    let sum = 0;
+    sum += findSumOfDigit(i);
+    if (sum >= A && sum <= B){
+      result += i
+    }
+  }
+  */
   println(`${result}`);
 }
