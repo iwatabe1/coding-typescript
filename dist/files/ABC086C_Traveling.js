@@ -122,40 +122,26 @@ function reverseString(str) {
 }
 function main() {
     // ここに処理を記述していく。
-    let [H, W] = nextNums(2);
-    let S = [];
-    for (let i = 0; i < H; ++i) {
-        S.push(next().split(''));
+    let N = nextNum();
+    let points = [[0, 0, 0]];
+    for (let i = 0; i < N; i++) {
+        points.push(nextNums(3));
     }
-    // 空きマス(.)の探索と周囲の#を数える。数えた数字を(.)と置き換える。
-    for (let i = 0; i < H; ++i) {
-        for (let j = 0; j < W; ++j) {
-            if (S[i][j] === '.') {
-                let countBoms = 0;
-                if (i > 0 && j > 0 && S[i - 1][j - 1] === '#')
-                    ++countBoms;
-                if (i > 0 && S[i - 1][j] === '#')
-                    ++countBoms;
-                if (i > 0 && j < W - 1 && S[i - 1][j + 1] === '#')
-                    ++countBoms;
-                if (j > 0 && S[i][j - 1] === '#')
-                    ++countBoms;
-                if (j < W - 1 && S[i][j + 1] === '#')
-                    ++countBoms;
-                if (i < H - 1 && j > 0 && S[i + 1][j - 1] === '#')
-                    ++countBoms;
-                if (i < H - 1 && S[i + 1][j] === '#')
-                    ++countBoms;
-                if (i < H - 1 && j < W - 1 && S[i + 1][j + 1] === '#')
-                    ++countBoms;
-                S[i][j] = String(countBoms);
-            }
-        }
+    let canMove = 0;
+    let x = 0;
+    let y = 0;
+    let can = true;
+    for (let i = 0; i < N; ++i) {
+        canMove = points[i + 1][0] - points[i][0];
+        x = Math.abs(points[i + 1][1] - points[i][1]); // 絶対値を取得する
+        y = Math.abs(points[i + 1][2] - points[i][2]); // 絶対値を取得する
+        let dist = x + y;
+        if (canMove < dist)
+            can = false;
+        if (canMove % 2 !== dist % 2)
+            can = false;
     }
-    let result = [];
-    for (let i = 0; i < H; ++i) {
-        result.push(S[i].join(''));
-    }
-    println(result.join('\n'));
+    const result = can ? 'Yes' : 'No';
+    println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC086C_Traveling.js.map

@@ -119,6 +119,19 @@ function main() {
       result++;
     }
   }
+  // バケットソート法：配列を用意して数を数える。同じ値で配列にセットするときは加算されない
+  /*
+  let num: number[] = Array(110);
+  for (let i = 0; i < N; ++i) {
+    num[mochies[i]]++;
+  }
 
+  let res = 0;
+  for (let i = 1; i <= 100; ++i) {
+    if (num[i]) {
+      ++res;
+    }
+  }
+  */
   println(`${result}`);
 }

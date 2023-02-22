@@ -57,30 +57,6 @@ function flush() {
   console.log(outputBuffer);
 }
 
-// 組み合わせ
-const combination = (nums: number[], k: number): number[][] => {
-  let ans = [];
-  if (nums.length < k) {
-    return [];
-  }
-
-  if (k === 1) {
-    for (let i = 0; i < nums.length; i++) {
-      ans[i] = [nums[i]];
-    }
-  } else {
-    for (let i = 0; i < nums.length - k + 1; i++) {
-      let row = combination(nums.slice(i + 1), k - 1);
-      if (row && row.length) {
-        for (let j = 0; j < row.length; j++) {
-          ans.push([nums[i]].concat(row[j]));
-        }
-      }
-    }
-  }
-  return ans;
-};
-
 // デバッグ環境がWindowsであれば条件分岐する
 if (process.env.OS == 'Windows_NT') {
   const stream = createInterface({
@@ -102,40 +78,66 @@ if (process.env.OS == 'Windows_NT') {
   main();
   flush();
 }
+/**
+ * compare numbers for sort number[] ascending
+ * @param a
+ * @param b
+ * @returns number
+ */
+function sortAsc(a: number, b: number) {
+  return a - b;
+}
 
-function findSumOfDigit(num: number) {
-  let sum = 0;
-  while (num > 0) {
-    sum += num % 10;
-    num = Math.floor(num / 10);
-  }
-  return sum;
+/**
+ * compare numbers for sort number[] descending
+ * @param a
+ * @param b
+ * @returns number
+ */
+function sortDesc(a: number, b: number) {
+  return b - a;
+}
+
+function reverseString(str: string) {
+  return str.split('').reverse().join('');
 }
 
 function main() {
   // ここに処理を記述していく。
-  let [N, A, B] = nextNums(3);
+  let S = next();
+  let candidates = ['dream', 'dreamer', 'erase', 'eraser'];
 
-  let result = 0;
+  let result = '';
 
-  for (let i = 1; i <= N; i++) {
-    const nums = Array.from(String(i), Number);
-    let sum = 0;
-    nums.map((num) => {
-      sum += num;
-    });
-    if (sum >= A && sum <= B) {
-      result += i;
+  // Sを反転させる
+  const reversedS = reverseString(S);
+  let can = true;
+
+  // candidatesを反転させる
+  for (let i = 0; i < 4; ++i) {
+    candidates[i] = reverseString(candidates[i]);
+  }
+
+  // 反転させたSを繰り返し、端から切っていく
+  for (let i = 0; i < reversedS.length; ) {
+    let can2 = false; //4種の文字列のどれかでdivideできるかする。
+    for (let j = 0; j < 4; ++j) {
+      let compStr = candidates[j];
+      if (reversedS.substring(i, i + compStr.length) === compStr) {
+        // divide出来るか
+        can2 = true;
+        i += compStr.length; // divide出来たらiを進める
+        break;
+      }
+    }
+    if (!can2) {
+      // どの文字列でもdivide出来なかったら
+      can = false;
+      break;
     }
   }
-  /* 別回答
-  for (let i = 1; i < N; ++i) {
-    let sum = 0;
-    sum += findSumOfDigit(i);
-    if (sum >= A && sum <= B){
-      result += i
-    }
-  }
-  */
-  println(`${result}`);
+
+  result = can ? 'YES' : 'NO';
+
+  println(result);
 }

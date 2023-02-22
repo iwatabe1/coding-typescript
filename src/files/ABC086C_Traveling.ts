@@ -57,30 +57,6 @@ function flush() {
   console.log(outputBuffer);
 }
 
-// 組み合わせ
-const combination = (nums: number[], k: number): number[][] => {
-  let ans = [];
-  if (nums.length < k) {
-    return [];
-  }
-
-  if (k === 1) {
-    for (let i = 0; i < nums.length; i++) {
-      ans[i] = [nums[i]];
-    }
-  } else {
-    for (let i = 0; i < nums.length - k + 1; i++) {
-      let row = combination(nums.slice(i + 1), k - 1);
-      if (row && row.length) {
-        for (let j = 0; j < row.length; j++) {
-          ans.push([nums[i]].concat(row[j]));
-        }
-      }
-    }
-  }
-  return ans;
-};
-
 // デバッグ環境がWindowsであれば条件分岐する
 if (process.env.OS == 'Windows_NT') {
   const stream = createInterface({
@@ -102,40 +78,54 @@ if (process.env.OS == 'Windows_NT') {
   main();
   flush();
 }
+/**
+ * compare numbers for sort number[] ascending
+ * @param a
+ * @param b
+ * @returns number
+ */
+function sortAsc(a: number, b: number) {
+  return a - b;
+}
 
-function findSumOfDigit(num: number) {
-  let sum = 0;
-  while (num > 0) {
-    sum += num % 10;
-    num = Math.floor(num / 10);
-  }
-  return sum;
+/**
+ * compare numbers for sort number[] descending
+ * @param a
+ * @param b
+ * @returns number
+ */
+function sortDesc(a: number, b: number) {
+  return b - a;
+}
+// 文字列反転
+function reverseString(str: string) {
+  return str.split('').reverse().join('');
 }
 
 function main() {
   // ここに処理を記述していく。
-  let [N, A, B] = nextNums(3);
-
-  let result = 0;
-
-  for (let i = 1; i <= N; i++) {
-    const nums = Array.from(String(i), Number);
-    let sum = 0;
-    nums.map((num) => {
-      sum += num;
-    });
-    if (sum >= A && sum <= B) {
-      result += i;
-    }
+  let N = nextNum();
+  let points: number[][] = [[0, 0, 0]];
+  for (let i = 0; i < N; i++) {
+    points.push(nextNums(3));
   }
-  /* 別回答
-  for (let i = 1; i < N; ++i) {
-    let sum = 0;
-    sum += findSumOfDigit(i);
-    if (sum >= A && sum <= B){
-      result += i
-    }
+
+  let canMove = 0;
+  let x = 0;
+  let y = 0;
+
+  let can = true;
+
+  for (let i = 0; i < N; ++i) {
+    canMove = points[i + 1][0] - points[i][0];
+    x = Math.abs(points[i + 1][1] - points[i][1]); // 絶対値を取得する
+    y = Math.abs(points[i + 1][2] - points[i][2]); // 絶対値を取得する
+    let dist = x + y;
+
+    if (canMove < dist) can = false;
+    if (canMove % 2 !== dist % 2) can = false;
   }
-  */
-  println(`${result}`);
+
+  const result = can ? 'Yes' : 'No';
+  println(result);
 }

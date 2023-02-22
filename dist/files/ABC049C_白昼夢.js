@@ -116,46 +116,40 @@ function sortAsc(a, b) {
 function sortDesc(a, b) {
     return b - a;
 }
-// 文字列反転
 function reverseString(str) {
     return str.split('').reverse().join('');
 }
 function main() {
     // ここに処理を記述していく。
-    let [H, W] = nextNums(2);
-    let S = [];
-    for (let i = 0; i < H; ++i) {
-        S.push(next().split(''));
+    let S = next();
+    let candidates = ['dream', 'dreamer', 'erase', 'eraser'];
+    let result = '';
+    // Sを反転させる
+    const reversedS = reverseString(S);
+    let can = true;
+    // candidatesを反転させる
+    for (let i = 0; i < 4; ++i) {
+        candidates[i] = reverseString(candidates[i]);
     }
-    // 空きマス(.)の探索と周囲の#を数える。数えた数字を(.)と置き換える。
-    for (let i = 0; i < H; ++i) {
-        for (let j = 0; j < W; ++j) {
-            if (S[i][j] === '.') {
-                let countBoms = 0;
-                if (i > 0 && j > 0 && S[i - 1][j - 1] === '#')
-                    ++countBoms;
-                if (i > 0 && S[i - 1][j] === '#')
-                    ++countBoms;
-                if (i > 0 && j < W - 1 && S[i - 1][j + 1] === '#')
-                    ++countBoms;
-                if (j > 0 && S[i][j - 1] === '#')
-                    ++countBoms;
-                if (j < W - 1 && S[i][j + 1] === '#')
-                    ++countBoms;
-                if (i < H - 1 && j > 0 && S[i + 1][j - 1] === '#')
-                    ++countBoms;
-                if (i < H - 1 && S[i + 1][j] === '#')
-                    ++countBoms;
-                if (i < H - 1 && j < W - 1 && S[i + 1][j + 1] === '#')
-                    ++countBoms;
-                S[i][j] = String(countBoms);
+    // 反転させたSを繰り返し、端から切っていく
+    for (let i = 0; i < reversedS.length;) {
+        let can2 = false; //4種の文字列のどれかでdivideできるかする。
+        for (let j = 0; j < 4; ++j) {
+            let compStr = candidates[j];
+            if (reversedS.substring(i, i + compStr.length) === compStr) {
+                // divide出来るか
+                can2 = true;
+                i += compStr.length; // divide出来たらiを進める
+                break;
             }
         }
+        if (!can2) {
+            // どの文字列でもdivide出来なかったら
+            can = false;
+            break;
+        }
     }
-    let result = [];
-    for (let i = 0; i < H; ++i) {
-        result.push(S[i].join(''));
-    }
-    println(result.join('\n'));
+    result = can ? 'YES' : 'NO';
+    println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC049C_%E7%99%BD%E6%98%BC%E5%A4%A2.js.map

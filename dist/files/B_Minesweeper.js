@@ -158,4 +158,4 @@ function main() {
     }
     println(result.join('\n'));
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Minesweeper.js.map
