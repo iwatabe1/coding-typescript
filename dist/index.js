@@ -120,22 +120,30 @@ function sortDesc(a, b) {
 function reverseString(str) {
     return str.split('').reverse().join('');
 }
+// 最大公約数
+function gcd(a, b) {
+    if (b === 0)
+        return a;
+    else
+        return gcd(b, a % b);
+}
 function main() {
     // ここに処理を記述していく。
-    let [a, b, x] = nextBigInts(3);
-    let result;
-    // f(n) = n/x + 1
-    // 答えは f(b) − f(a − 1)
-    // b/x + 1 - ((a - 1) / x + 1)
-    // b /x -(a -1) /x
-    // +1は消しこまれる。
-    if (a === BigInt(0)) {
-        // aが0の場合は-1になる為分岐して、aは考慮しない
-        result = b / x + BigInt(1);
+    let [A, B, C] = nextNums(3);
+    let result = '';
+    let bool = false;
+    // CがAとBの最大公約数の倍数であるという問題
+    // パターン1：愚直にA<=A*BにCが一致するかを調べる
+    for (let i = 1; i < A * B; ++i) {
+        if ((i * A) % B === C) {
+            bool = true;
+            break;
+        }
     }
-    else {
-        result = b / x - (a - BigInt(1)) / x;
-    }
+    // パターン2：AとBの最大公約数の倍数がCであることを調べる。
+    if (C % gcd(A, B) !== 0)
+        bool = false;
+    result = bool ? 'YES' : 'NO';
     println(result);
 }
 //# sourceMappingURL=index.js.map
