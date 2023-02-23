@@ -129,4 +129,4 @@ function main() {
     }
     println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_AtCoDeer%E3%81%8F%E3%82%93%E3%81%A8%E3%83%9C%E3%83%BC%E3%83%AB%E8%89%B2%E5%A1%97%E3%82%8A.js.map
