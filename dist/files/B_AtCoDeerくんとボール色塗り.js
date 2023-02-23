@@ -122,20 +122,11 @@ function reverseString(str) {
 }
 function main() {
     // ここに処理を記述していく。
-    let [a, b, x] = nextBigInts(3);
-    let result;
-    // f(n) = n/x + 1
-    // 答えは f(b) − f(a − 1)
-    // b/x + 1 - ((a - 1) / x + 1)
-    // b /x -(a -1) /x
-    // +1は消しこまれる。
-    if (a === BigInt(0)) {
-        // aが0の場合は-1になる為分岐して、aは考慮しない
-        result = b / x + BigInt(1);
-    }
-    else {
-        result = b / x - (a - BigInt(1)) / x;
+    let [N, K] = nextNums(2);
+    let result = K;
+    for (let i = 1; i < N; ++i) {
+        result *= K - 1;
     }
     println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_AtCoDeer%E3%81%8F%E3%82%93%E3%81%A8%E3%83%9C%E3%83%BC%E3%83%AB%E8%89%B2%E5%A1%97%E3%82%8A.js.map

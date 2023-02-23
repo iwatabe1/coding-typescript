@@ -104,20 +104,12 @@ function reverseString(str: string) {
 
 function main() {
   // ここに処理を記述していく。
-  let [a, b, x] = nextBigInts(3);
+  let [N, K] = nextNums(2);
 
-  let result: bigint;
+  let result = K;
 
-  // f(n) = n/x + 1
-  // 答えは f(b) − f(a − 1)
-  // b/x + 1 - ((a - 1) / x + 1)
-  // b /x -(a -1) /x
-  // +1は消しこまれる。
-  if (a === BigInt(0)) {
-    // aが0の場合は-1になる為分岐して、aは考慮しない
-    result = b / x + BigInt(1);
-  } else {
-    result = b / x - (a - BigInt(1)) / x;
+  for (let i = 1; i < N; ++i) {
+    result *= K - 1;
   }
 
   println(result);
