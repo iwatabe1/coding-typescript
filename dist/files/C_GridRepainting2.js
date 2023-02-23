@@ -150,4 +150,4 @@ function main() {
     const message = result ? 'Yes' : 'No';
     println(message);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=C_GridRepainting2.js.map
