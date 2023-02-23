@@ -139,4 +139,4 @@ function main() {
     const result = power % BigInt(10 ** 9 + 7);
     println(power);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Training%20Camp.js.map
