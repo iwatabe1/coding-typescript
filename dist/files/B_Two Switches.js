@@ -138,4 +138,4 @@ function main() {
     count = Math.max(0, upper - lower);
     println(count);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Two%20Switches.js.map
