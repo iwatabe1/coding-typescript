@@ -107,91 +107,28 @@ function gcd(a: number, b: number): any {
   else return gcd(b, a % b);
 }
 
-// 動的計画法(大きい方を返す)
-function chmax(dp: number[][], i: number, j: number, b: number) {
-  if (dp[i][j] < b) {
-    dp[i][j] = b;
-    return true;
-  }
-  return false;
-}
-
-// 動的計画法(小さい方を返す)
-function chmin(a: number, b: number) {
-  if (a > b) {
-    a = b;
-    return true;
-  }
-  return false;
-}
-
 function main() {
   // ここに処理を記述していく。
-  /*
   let [N] = nextNums(1);
-
-  let A1 = nextNums(N);
-  let A2 = nextNums(N);
-
-  let result = 0;
-  let count = 0;
-  let sums: number[] = [];
-  // 回答1
-  for (let i = 1; i <= 2; i++) {
-    for (let j = 0; j < N; ++j) {
-      for (let k = 0; k < N; ++k) {
-        if (k === j) {
-          count += A1[k] + A2[k];
-        } else if (k > j) {
-          count += A2[k];
-        } else {
-          count += A1[k];
-        }
-      }
-      sums.push(count);
-      count = 0;
-    }
-  }
-*/
-  // 回答2
-  /*
-  sums = [];
-  count = 0;
-
+  let buttons: number[] = [];
   for (let i = 0; i < N; ++i) {
-    for (let j = 0; j <= i; ++j) {
-      count += A1[j];
-    }
-
-    for (let k = i; k < N; ++k) {
-      count += A2[k];
-    }
-    sums.push(count);
-    count = 0;
+    buttons.push(nextNum());
   }
 
-    result = sums.sort(sortDesc)[0];
-  */
-  /*　回答3:DPしようとしたけど謎だった
-  let [N] = nextNums(1);
-  let A1 = nextNums(N);
-  let A2 = nextNums(N);
-  let A: number[][] = [];
-  A.push(A1);
-  A.push(A2);
-
-  let dp = A;
-  console.log(dp);
-
-  for (let y = 0; y < 2; ++y) {
-    for (let x = 0; x < N; ++x) {
-      if (x !== 0) chmax(dp, y, x, dp[y][x - 1] + A[y][x]);
-      if (y !== 0) chmax(dp, y, x, dp[y - 1][x] + A[y][x]);
+  let indexNum = 1;
+  let count = 0;
+  let result = false;
+  for (let i = 0; i < N; ++i) {
+    count++;
+    if (buttons[indexNum - 1] === 2) {
+      result = true;
+      break;
+    } else {
+      indexNum = buttons[indexNum - 1];
     }
   }
 
-  console.log(dp);
+  const res = result ? count : -1;
 
-  println(dp[1][N - 1]);
-  */
+  println(res);
 }

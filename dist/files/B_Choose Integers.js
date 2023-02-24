@@ -127,90 +127,23 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 動的計画法(大きい方を返す)
-function chmax(dp, i, j, b) {
-    if (dp[i][j] < b) {
-        dp[i][j] = b;
-        return true;
-    }
-    return false;
-}
-// 動的計画法(小さい方を返す)
-function chmin(a, b) {
-    if (a > b) {
-        a = b;
-        return true;
-    }
-    return false;
-}
 function main() {
     // ここに処理を記述していく。
-    /*
-    let [N] = nextNums(1);
-  
-    let A1 = nextNums(N);
-    let A2 = nextNums(N);
-  
-    let result = 0;
-    let count = 0;
-    let sums: number[] = [];
-    // 回答1
-    for (let i = 1; i <= 2; i++) {
-      for (let j = 0; j < N; ++j) {
-        for (let k = 0; k < N; ++k) {
-          if (k === j) {
-            count += A1[k] + A2[k];
-          } else if (k > j) {
-            count += A2[k];
-          } else {
-            count += A1[k];
-          }
+    let [A, B, C] = nextNums(3);
+    let result = '';
+    let bool = false;
+    // CがAとBの最大公約数の倍数であるという問題
+    // パターン1：愚直にA<=A*BにCが一致するかを調べる
+    for (let i = 1; i < A * B; ++i) {
+        if ((i * A) % B === C) {
+            bool = true;
+            break;
         }
-        sums.push(count);
-        count = 0;
-      }
     }
-  */
-    // 回答2
-    /*
-    sums = [];
-    count = 0;
-  
-    for (let i = 0; i < N; ++i) {
-      for (let j = 0; j <= i; ++j) {
-        count += A1[j];
-      }
-  
-      for (let k = i; k < N; ++k) {
-        count += A2[k];
-      }
-      sums.push(count);
-      count = 0;
-    }
-  
-      result = sums.sort(sortDesc)[0];
-    */
-    /*　回答3:DPしようとしたけど謎だった
-    let [N] = nextNums(1);
-    let A1 = nextNums(N);
-    let A2 = nextNums(N);
-    let A: number[][] = [];
-    A.push(A1);
-    A.push(A2);
-  
-    let dp = A;
-    console.log(dp);
-  
-    for (let y = 0; y < 2; ++y) {
-      for (let x = 0; x < N; ++x) {
-        if (x !== 0) chmax(dp, y, x, dp[y][x - 1] + A[y][x]);
-        if (y !== 0) chmax(dp, y, x, dp[y - 1][x] + A[y][x]);
-      }
-    }
-  
-    console.log(dp);
-  
-    println(dp[1][N - 1]);
-    */
+    // パターン2：AとBの最大公約数の倍数がCであることを調べる。
+    if (C % gcd(A, B) !== 0)
+        bool = false;
+    result = bool ? 'YES' : 'NO';
+    println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Choose%20Integers.js.map

@@ -213,4 +213,4 @@ function main() {
     println(dp[1][N - 1]);
     */
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=C_Candies.js.map
