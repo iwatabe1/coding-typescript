@@ -129,25 +129,21 @@ function gcd(a, b) {
 }
 function main() {
     // ここに処理を記述していく。
-    let [N] = nextNums(1);
-    let buttons = [];
-    for (let i = 0; i < N; ++i) {
-        buttons.push(nextNum());
-    }
-    let indexNum = 1;
-    let count = 0;
-    let result = false;
-    for (let i = 0; i < N; ++i) {
-        count++;
-        if (buttons[indexNum - 1] === 2) {
-            result = true;
+    let [A, B, C] = nextNums(3);
+    let result = '';
+    let bool = false;
+    // CがAとBの最大公約数の倍数であるという問題
+    // パターン1：愚直にA<=A*BにCが一致するかを調べる
+    for (let i = 1; i < A * B; ++i) {
+        if ((i * A) % B === C) {
+            bool = true;
             break;
         }
-        else {
-            indexNum = buttons[indexNum - 1];
-        }
     }
-    const res = result ? count : -1;
-    println(res);
+    // パターン2：AとBの最大公約数の倍数がCであることを調べる。
+    if (C % gcd(A, B) !== 0)
+        bool = false;
+    result = bool ? 'YES' : 'NO';
+    println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Choose%20Integers.js.map

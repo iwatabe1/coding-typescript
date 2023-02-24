@@ -150,4 +150,4 @@ function main() {
     const res = result ? count : -1;
     println(res);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Trained.js.map
