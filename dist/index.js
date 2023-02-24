@@ -190,27 +190,23 @@ function main() {
   
       result = sums.sort(sortDesc)[0];
     */
-    /*　回答3:DPしようとしたけど謎だった
+    //　回答3:DPしようとしたけど謎だった
     let [N] = nextNums(1);
     let A1 = nextNums(N);
     let A2 = nextNums(N);
-    let A: number[][] = [];
+    const A = [];
     A.push(A1);
     A.push(A2);
-  
-    let dp = A;
-    console.log(dp);
-  
+    // ディープコピーで配列を複製しないと、値が連動する(参照される。)
+    const dp = JSON.parse(JSON.stringify(A));
     for (let y = 0; y < 2; ++y) {
-      for (let x = 0; x < N; ++x) {
-        if (x !== 0) chmax(dp, y, x, dp[y][x - 1] + A[y][x]);
-        if (y !== 0) chmax(dp, y, x, dp[y - 1][x] + A[y][x]);
-      }
+        for (let x = 0; x < N; ++x) {
+            if (x !== 0)
+                chmax(dp, y, x, dp[y][x - 1] + A[y][x]);
+            if (y !== 0)
+                chmax(dp, y, x, dp[y - 1][x] + A[y][x]);
+        }
     }
-  
-    console.log(dp);
-  
     println(dp[1][N - 1]);
-    */
 }
 //# sourceMappingURL=index.js.map
