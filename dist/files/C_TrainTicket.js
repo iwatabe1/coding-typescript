@@ -205,4 +205,4 @@ function main() {
     }
     println(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=C_TrainTicket.js.map
