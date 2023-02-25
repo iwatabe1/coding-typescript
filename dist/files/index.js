@@ -194,23 +194,23 @@ function main() {
     }
     // インデックス毎に最小値を取得
     let dp = N;
-    /*
-    for (let i = 0; i < N; ++i) {
-      let sum = 0;
-      if (i !== 0) sum += countW[i - 1]; // iより左にいるWの数
-      sum += countE[N - 1] - countE[i]; // iより右にいるEの数
-      if (dp > sum) dp = sum;
-    }
-    */
-    // インデックス毎に最小値を取得
     for (let i = 0; i < N; ++i) {
         let sum = 0;
         if (i !== 0)
             sum += countW[i - 1]; // iより左にいるWの数
         sum += countE[N - 1] - countE[i]; // iより右にいるEの数
-        if (chmin2(dp, sum))
+        if (dp > sum)
             dp = sum;
     }
+    // AtCoderのTypeScriptのバージョンのせいか、関数が正常に動作しない。
+    /*
+    for (let i = 0; i < N; ++i) {
+      let sum = 0;
+      if (i !== 0) sum += countW[i - 1]; // iより左にいるWの数
+      sum += countE[N - 1] - countE[i]; // iより右にいるEの数
+      chmin2(dp, sum);
+    }
+    */
     println(dp);
 }
 //# sourceMappingURL=index.js.map
