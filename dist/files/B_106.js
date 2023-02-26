@@ -187,4 +187,4 @@ function main() {
     }
     println(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_106.js.map

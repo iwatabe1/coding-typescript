@@ -158,17 +158,38 @@ function chmin2(dp: number, b: number) {
 }
 
 function main() {
-  let N = nextNum();
-  let result = 0;
+  let N = next()
+    .split('')
+    .map((num) => {
+      return Number(num);
+    });
 
-  for (let i = 1; i <= N; i++) {
-    if (i % 2 === 0) continue; //偶数はスキップ
-    let count = 0;
-    for (let j = 1; j <= i; j++) {
-      if (i % j === 0) count++; // 約数なら
+  let result = '';
+
+  for (let bit = 0; bit < 8; bit++) {
+    let count = N[0];
+    for (let i = 0; i < 3; i++) {
+      if (bit & (1 << i)) {
+        count += N[i + 1];
+      } else {
+        count -= N[i + 1];
+      }
     }
-    if (count === 8) result++;
+
+    if (count === 7) {
+      result += `${N[0]}`;
+      for (let i = 0; i < 3; i++) {
+        if (bit & (1 << i)) {
+          result += '+';
+        } else {
+          result += '-';
+        }
+        result += `${N[i + 1]}`;
+      }
+      result += '=7';
+      break;
+    }
   }
 
-  println(`${result}`);
+  println(result);
 }
