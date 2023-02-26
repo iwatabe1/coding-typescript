@@ -172,24 +172,15 @@ function chmin2(dp, b) {
     return false;
 }
 function main() {
-    let N = nextNum();
     let S = next().split('');
-    let x = 0;
-    let y = 0;
-    const VX = { R: 1, L: -1, U: 0, D: 0 };
-    const VY = { R: 0, L: 0, U: 1, D: -1 };
-    let resultXY = new Set();
-    let result = false;
-    resultXY.add(x + ',' + y);
-    for (let i = 0; i < N; ++i) {
-        x += VX[S[i]];
-        y += VY[S[i]];
-        let t = x + ',' + y;
-        if (resultXY.has(t)) {
-            result = true;
+    const rAtZ = /[A-Z]/;
+    let result = 0;
+    for (let i = 0; i < S.length; i++) {
+        if (rAtZ.test(S[i])) {
+            result += i + 1;
             break;
         }
     }
-    println(`${result ? 'Yes' : 'No'}`);
+    println(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=A_CamelCase.js.map

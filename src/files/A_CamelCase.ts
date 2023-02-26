@@ -158,28 +158,16 @@ function chmin2(dp: number, b: number) {
 }
 
 function main() {
-  let N = nextNum();
   let S = next().split('');
-  let x = 0;
-  let y = 0;
-  const VX: any = { R: 1, L: -1, U: 0, D: 0 };
-  const VY: any = { R: 0, L: 0, U: 1, D: -1 };
-  let resultXY = new Set(); // Setで高速化
-  let result = false;
 
-  resultXY.add(x + ',' + y);
-  for (let i = 0; i < N; ++i) {
-    x += VX[S[i]];
-    y += VY[S[i]];
-    let t = x + ',' + y;
-    // 過去に値を持っていた場合。Setで早くなる。
-    // オブジェクトや配列の一致確認をすることが出来ないため、文字列 x,y をSetし、存在確認を行う。
-    if (resultXY.has(t)) {
-      result = true;
+  const rAtZ = /[A-Z]/;
+  let result = 0;
+  for (let i = 0; i < S.length; i++) {
+    if (rAtZ.test(S[i])) {
+      result += i + 1;
       break;
     }
-    resultXY.add(x + ',' + y);
   }
 
-  println(`${result ? 'Yes' : 'No'}`);
+  println(`${result}`);
 }

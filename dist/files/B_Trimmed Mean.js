@@ -173,23 +173,14 @@ function chmin2(dp, b) {
 }
 function main() {
     let N = nextNum();
-    let S = next().split('');
-    let x = 0;
-    let y = 0;
-    const VX = { R: 1, L: -1, U: 0, D: 0 };
-    const VY = { R: 0, L: 0, U: 1, D: -1 };
-    let resultXY = new Set();
-    let result = false;
-    resultXY.add(x + ',' + y);
-    for (let i = 0; i < N; ++i) {
-        x += VX[S[i]];
-        y += VY[S[i]];
-        let t = x + ',' + y;
-        if (resultXY.has(t)) {
-            result = true;
-            break;
-        }
+    let X = nextNums(5 * N);
+    let sortedX = X.sort(sortAsc);
+    let scoreSum = 0;
+    let canScoreNum = 3 * N;
+    for (let i = N; i < 4 * N; i++) {
+        scoreSum += sortedX[i];
     }
-    println(`${result ? 'Yes' : 'No'}`);
+    let result = scoreSum / canScoreNum;
+    println(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_Trimmed%20Mean.js.map
