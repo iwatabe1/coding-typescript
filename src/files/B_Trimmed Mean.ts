@@ -159,27 +159,16 @@ function chmin2(dp: number, b: number) {
 
 function main() {
   let N = nextNum();
-  let S = next().split('');
-  let x = 0;
-  let y = 0;
-  const VX: any = { R: 1, L: -1, U: 0, D: 0 };
-  const VY: any = { R: 0, L: 0, U: 1, D: -1 };
-  let resultXY = new Set(); // Setで高速化
-  let result = false;
+  let X = nextNums(5 * N);
+  let sortedX = X.sort(sortAsc);
+  let scoreSum = 0;
+  let canScoreNum = 3 * N;
 
-  resultXY.add(x + ',' + y);
-  for (let i = 0; i < N; ++i) {
-    x += VX[S[i]];
-    y += VY[S[i]];
-    let t = x + ',' + y;
-    // 過去に値を持っていた場合。Setで早くなる。
-    // オブジェクトや配列の一致確認をすることが出来ないため、文字列 x,y をSetし、存在確認を行う。
-    if (resultXY.has(t)) {
-      result = true;
-      break;
-    }
-    resultXY.add(x + ',' + y);
+  for (let i = N; i < 4 * N; i++) {
+    scoreSum += sortedX[i];
   }
 
-  println(`${result ? 'Yes' : 'No'}`);
+  let result = scoreSum / canScoreNum;
+
+  println(`${result}`);
 }
