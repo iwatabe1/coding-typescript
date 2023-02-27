@@ -158,28 +158,23 @@ function chmin2(dp: number, b: number) {
 }
 
 function main() {
-  let S = next().split('');
-  let ACGT = new Set();
-  ACGT.add('A').add('C').add('G').add('T');
-  let result: number[] = [];
+  let [N, M] = nextNums(2);
+  let Aij: number[][] = [];
+  let result = 0;
 
-  for (let i = 0; i < S.length; i++) {
-    let count = 0;
-    if (ACGT.has(S[i])) {
-      for (let j = i; j < S.length; j++) {
-        if (ACGT.has(S[j])) {
-          count++;
-        } else {
-          break;
-        }
+  for (let i = 0; i < N; i++) {
+    Aij.push(nextNums(M));
+  }
+
+  for (let i = 0; i < M; i++) {
+    for (let j = i + 1; j < M; j++) {
+      let count = 0;
+      for (let verticalNum = 0; verticalNum < N; verticalNum++) {
+        count += Math.max(Aij[verticalNum][i], Aij[verticalNum][j]);
       }
-      result.push(count);
-    } else {
-      result.push(count);
+      result = Math.max(result, count);
     }
   }
 
-  result.sort(sortDesc);
-
-  println(`${result[0]}`);
+  println(`${result}`);
 }

@@ -196,4 +196,4 @@ function main() {
     result.sort(sortDesc);
     println(`${result[0]}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_122.js.map
