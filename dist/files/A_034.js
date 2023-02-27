@@ -172,28 +172,8 @@ function chmin2(dp, b) {
     return false;
 }
 function main() {
-    let S = next().split('');
-    let ACGT = new Set();
-    ACGT.add('A').add('C').add('G').add('T');
-    let result = [];
-    for (let i = 0; i < S.length; i++) {
-        let count = 0;
-        if (ACGT.has(S[i])) {
-            for (let j = i; j < S.length; j++) {
-                if (ACGT.has(S[j])) {
-                    count++;
-                }
-                else {
-                    break;
-                }
-            }
-            result.push(count);
-        }
-        else {
-            result.push(count);
-        }
-    }
-    result.sort(sortDesc);
-    println(`${result[0]}`);
+    let [x, y] = nextNums(2);
+    const result = x < y ? 'Better' : 'Worse';
+    println(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=A_034.js.map

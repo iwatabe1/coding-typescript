@@ -172,28 +172,27 @@ function chmin2(dp, b) {
     return false;
 }
 function main() {
+    let N = nextNum();
     let S = next().split('');
-    let ACGT = new Set();
-    ACGT.add('A').add('C').add('G').add('T');
-    let result = [];
-    for (let i = 0; i < S.length; i++) {
-        let count = 0;
-        if (ACGT.has(S[i])) {
-            for (let j = i; j < S.length; j++) {
-                if (ACGT.has(S[j])) {
-                    count++;
-                }
-                else {
-                    break;
-                }
-            }
-            result.push(count);
+    let x = 0;
+    let y = 0;
+    const VX = { R: 1, L: -1, U: 0, D: 0 };
+    const VY = { R: 0, L: 0, U: 1, D: -1 };
+    let resultXY = new Set(); // Setで高速化
+    let result = false;
+    resultXY.add(x + ',' + y);
+    for (let i = 0; i < N; ++i) {
+        x += VX[S[i]];
+        y += VY[S[i]];
+        let t = x + ',' + y;
+        // 過去に値を持っていた場合。Setで早くなる。
+        // オブジェクトや配列の一致確認をすることが出来ないため、文字列 x,y をSetし、存在確認を行う。
+        if (resultXY.has(t)) {
+            result = true;
+            break;
         }
-        else {
-            result.push(count);
-        }
+        resultXY.add(x + ',' + y);
     }
-    result.sort(sortDesc);
-    println(`${result[0]}`);
+    println(`${result ? 'Yes' : 'No'}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=C_LRUDInstructions2.js.map

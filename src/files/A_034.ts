@@ -158,28 +158,9 @@ function chmin2(dp: number, b: number) {
 }
 
 function main() {
-  let S = next().split('');
-  let ACGT = new Set();
-  ACGT.add('A').add('C').add('G').add('T');
-  let result: number[] = [];
+  let [x, y] = nextNums(2);
 
-  for (let i = 0; i < S.length; i++) {
-    let count = 0;
-    if (ACGT.has(S[i])) {
-      for (let j = i; j < S.length; j++) {
-        if (ACGT.has(S[j])) {
-          count++;
-        } else {
-          break;
-        }
-      }
-      result.push(count);
-    } else {
-      result.push(count);
-    }
-  }
+  const result = x < y ? 'Better' : 'Worse';
 
-  result.sort(sortDesc);
-
-  println(`${result[0]}`);
+  println(`${result}`);
 }
