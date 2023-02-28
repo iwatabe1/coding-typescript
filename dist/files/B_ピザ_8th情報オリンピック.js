@@ -213,4 +213,4 @@ function main() {
     }
     print(resultSum);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=B_%E3%83%94%E3%82%B6_8th%E6%83%85%E5%A0%B1%E3%82%AA%E3%83%AA%E3%83%B3%E3%83%94%E3%83%83%E3%82%AF.js.map
