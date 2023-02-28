@@ -231,4 +231,4 @@ function main() {
     */
     print(resultSum);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=C_Half%20and%20Half.js.map
