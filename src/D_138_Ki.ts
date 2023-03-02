@@ -183,14 +183,55 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [A, B, C] = nextNums(3);
+  let [N, Q] = nextNums(2);
+  let graph: Vector[] = [];
+  let seen: { sum: number; seen: boolean }[] = [];
+  let todo: Vector[] = [];
 
-  let result = 0;
-  if (A < B) {
-    result = Math.floor(C / A);
-  } else {
-    result = Math.floor(C / B);
+  // search tree
+  for (let i = 0; i < N - 1; ++i) {
+    let [a, b] = nextNums(2);
+
+    graph.push({ x: a, y: b });
+  }
+  console.log(graph);
+
+  // points
+  for (let i = 0; i < N; ++i) {
+    seen.push({ sum: 0, seen: false });
   }
 
-  print(`${result}`);
+  // operation
+  for (let j = 0; j < Q; j++) {
+    let [p, x] = nextNums(2);
+    todo.push({ x: p - 1, y: x });
+  }
+
+  // by operation
+  for (let t = 0; t < Q; ++t) {
+    seen.map((seen) => (seen.seen = false));
+    // thisDfs(graph, todo[t].x, todo[t].y);
+    thisDfs(graph, todo[t].x, todo[t].y);
+    console.log(seen);
+  }
+
+  function thisDfs(graph: Vector[], index: number, add: number) {
+    if (!graph[index]) return seen;
+    // seen[index].seen = true;
+
+    // v から行ける各頂点 next_v について
+    for (const [key, value] of Object.entries(graph[index])) {
+      if (seen[value - 1].seen === true) continue;
+      seen[value - 1].sum += add;
+      seen[value - 1].seen = true;
+
+      thisDfs(graph, value, add);
+    }
+  }
+
+  const result = seen.map((seen) => {
+    return seen.sum;
+  });
+
+  print(`${result.join(' ')}`);
 }
