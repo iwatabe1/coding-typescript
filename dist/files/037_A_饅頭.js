@@ -191,11 +191,14 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [a, b] = nextNums(2);
+    let [A, B, C] = nextNums(3);
     let result = 0;
-    result += a - 1;
-    if (b >= a)
-        result++;
+    if (A < B) {
+        result = Math.floor(C / A);
+    }
+    else {
+        result = Math.floor(C / B);
+    }
     print(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=037_A_%E9%A5%85%E9%A0%AD.js.map

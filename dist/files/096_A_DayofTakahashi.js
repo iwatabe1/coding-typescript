@@ -198,4 +198,4 @@ function main() {
         result++;
     print(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=096_A_DayofTakahashi.js.map

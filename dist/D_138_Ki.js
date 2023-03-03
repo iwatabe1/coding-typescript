@@ -191,11 +191,51 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [a, b] = nextNums(2);
-    let result = 0;
-    result += a - 1;
-    if (b >= a)
-        result++;
-    print(`${result}`);
+    let [N, Q] = nextNums(2);
+    let graph = [];
+    graph.push({ x: 0, y: 1 });
+    let seen = [];
+    let todo = [];
+    // search tree
+    for (let i = 0; i < N - 1; ++i) {
+        let [a, b] = nextNums(2);
+        graph.push({ x: a, y: b });
+    }
+    console.log(graph);
+    // points
+    for (let i = 0; i < N + 1; ++i) {
+        seen.push({ sum: 0, seen: false });
+    }
+    // operation
+    for (let j = 0; j < Q; j++) {
+        let [p, x] = nextNums(2);
+        todo.push({ x: p, y: x });
+    }
+    // by operation
+    for (let t = 0; t < Q; ++t) {
+        seen.map((seen) => (seen.seen = false));
+        // thisDfs(graph, todo[t].x, todo[t].y);
+        thisDfs(graph, 0, todo[t].x, todo[t].y);
+        console.log(seen);
+    }
+    function thisDfs(graph, index, compareNum, add) {
+        seen[index].seen = true;
+        if (!graph[index])
+            return seen;
+        // v から行ける各頂点 next_v について
+        for (const value of Object.values(graph[index])) {
+            if (seen[value].seen === true)
+                continue;
+            console.log(value);
+            console.log(compareNum);
+            if (value >= compareNum)
+                seen[value].sum += add;
+            thisDfs(graph, value, compareNum, add);
+        }
+    }
+    const result = seen.map((seen) => {
+        return seen.sum;
+    });
+    print(`${result.join(' ')}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=D_138_Ki.js.map

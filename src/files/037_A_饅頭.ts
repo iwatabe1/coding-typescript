@@ -183,10 +183,14 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [a, b] = nextNums(2);
+  let [A, B, C] = nextNums(3);
+
   let result = 0;
-  result += a - 1;
-  if (b >= a) result++;
+  if (A < B) {
+    result = Math.floor(C / A);
+  } else {
+    result = Math.floor(C / B);
+  }
 
   print(`${result}`);
 }
