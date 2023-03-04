@@ -191,29 +191,14 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let N = nextNum();
-    const n = {};
-    for (let i = 1; i <= N - 1; i++) {
-        n[i] = countPrimes(i);
+    let A = nextNum();
+    let result = '';
+    if (Math.cbrt(A) === Math.floor(Math.cbrt(A))) {
+        result = 'YES';
     }
-    let result = 0;
-    for (let i = 1; i <= N - 1; i++) {
-        result += n[i] * n[N - i];
+    else {
+        result = 'NO';
     }
-    function countPrimes(n) {
-        let result = 0;
-        for (let i = 1; i * i <= n; i++) {
-            if (n % i === 0) {
-                if (i * i === n) {
-                    result++;
-                }
-                else {
-                    result += 2;
-                }
-            }
-        }
-        return result;
-    }
-    println(`${result}`);
+    print(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=A_%E7%AB%8B%E6%96%B9%E6%95%B0.js.map
