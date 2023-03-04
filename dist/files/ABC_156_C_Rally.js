@@ -191,20 +191,17 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [N, K] = nextNums(2);
-    let hasSweet = new Set();
-    let di = 0;
-    for (let i = 0; i < 2 * K; i++) {
-        if (i % 2 === 0)
-            di = nextNum();
-        if (i % 2 === 1) {
-            let member = nextNums(di);
-            member.map((val) => {
-                hasSweet.add(val);
-            });
-        }
+    let N = nextNum();
+    let X = nextNums(N);
+    let ans = 10000000;
+    for (let i = 1; i <= 100; i++) {
+        let sum = 0;
+        X.map((val) => {
+            sum += (val - i) * (val - i);
+            // sum += Math.pow(Math.abs(val - i), 2);
+        });
+        ans = Math.min(ans, sum);
     }
-    let result = N - hasSweet.size;
-    print(`${result}`);
+    print(`${ans}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC_156_C_Rally.js.map
