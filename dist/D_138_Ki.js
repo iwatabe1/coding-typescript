@@ -192,50 +192,38 @@ function commonDfs(graph, v, seen) {
 }
 function main() {
     let [N, Q] = nextNums(2);
-    let graph = [];
-    graph.push({ x: 0, y: 1 });
-    let seen = [];
-    let todo = [];
-    // search tree
+    let graph = Array.from({ length: N }, () => []);
+    // edges pf tree
     for (let i = 0; i < N - 1; ++i) {
         let [a, b] = nextNums(2);
-        graph.push({ x: a, y: b });
+        graph[a - 1].push(b - 1); // 子
+        graph[b - 1].push(a - 1); // 親
     }
-    console.log(graph);
-    // points
-    for (let i = 0; i < N + 1; ++i) {
-        seen.push({ sum: 0, seen: false });
-    }
-    // operation
+    // operation : 最初に現れる要素(p)にxを加算する。
+    const val = Array(N).fill(0);
     for (let j = 0; j < Q; j++) {
         let [p, x] = nextNums(2);
-        todo.push({ x: p, y: x });
+        val[p - 1] += x; // 0から開始した要素にする
     }
-    // by operation
-    for (let t = 0; t < Q; ++t) {
-        seen.map((seen) => (seen.seen = false));
-        // thisDfs(graph, todo[t].x, todo[t].y);
-        thisDfs(graph, 0, todo[t].x, todo[t].y);
-        console.log(seen);
-    }
-    function thisDfs(graph, index, compareNum, add) {
-        seen[index].seen = true;
-        if (!graph[index])
-            return seen;
+    console.log('graph:');
+    console.log(graph);
+    console.log('val:');
+    console.log(val);
+    thisDfs(0, -1, val);
+    // 頂点v。p:vの親。res:根から頂点までの x の値の総和
+    function thisDfs(edge, parent, res) {
+        if (parent != -1)
+            res[edge] += res[parent];
         // v から行ける各頂点 next_v について
-        for (const value of Object.values(graph[index])) {
-            if (seen[value].seen === true)
+        for (const value of Object.values(graph[edge])) {
+            if (value === parent)
                 continue;
             console.log(value);
-            console.log(compareNum);
-            if (value >= compareNum)
-                seen[value].sum += add;
-            thisDfs(graph, value, compareNum, add);
+            console.log(edge);
+            console.log(res);
+            thisDfs(value, edge, res);
         }
     }
-    const result = seen.map((seen) => {
-        return seen.sum;
-    });
-    print(`${result.join(' ')}`);
+    print(`${val.join(' ')}`);
 }
 //# sourceMappingURL=D_138_Ki.js.map

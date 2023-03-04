@@ -183,31 +183,7 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let N = nextNum();
-  const n = {} as Record<number, number>;
+  let S = next();
 
-  for (let i = 1; i <= N - 1; i++) {
-    n[i] = countPrimes(i);
-  }
-
-  let result = 0;
-  for (let i = 1; i <= N - 1; i++) {
-    result += n[i] * n[N - i];
-  }
-
-  function countPrimes(n: number) {
-    let result = 0;
-    for (let i = 1; i * i <= n; i++) {
-      if (n % i === 0) {
-        if (i * i === n) {
-          result++;
-        } else {
-          result += 2;
-        }
-      }
-    }
-    return result;
-  }
-
-  println(`${result}`);
+  println(`${S.toUpperCase()}`);
 }
