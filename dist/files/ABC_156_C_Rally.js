@@ -204,4 +204,4 @@ function main() {
     }
     print(`${ans}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC_156_C_Rally.js.map
