@@ -207,4 +207,4 @@ function main() {
     let result = N - hasSweet.size;
     print(`${result}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=166_B_TrickOrTreat.js.map
