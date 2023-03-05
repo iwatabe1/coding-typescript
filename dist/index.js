@@ -191,19 +191,50 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let S = next();
-    let T = next();
-    let result = 'No';
-    for (let i = 0; i < S.length; i++) {
-        let rolledStr = '';
-        rolledStr = S.substring(S.length - 1);
-        rolledStr += S.substring(0, S.length - 1);
-        S = rolledStr;
-        if (rolledStr === T) {
-            result = 'Yes';
-            break;
+    let [N, Q] = nextNums(2);
+    // let graph: number[][] = Array.from({ length: N }, () => []);
+    let graph = Array.from({ length: N }, () => []);
+    // edges pf tree
+    for (let i = 0; i < N - 1; ++i) {
+        let [a, b] = nextNums(2);
+        graph[a - 1].push(b - 1); // 子
+        graph[b - 1].push(a - 1); // 親
+    }
+    // operation : 最初に現れる要素(p)にxを加算する。
+    const val = Array(N).fill(0);
+    for (let j = 0; j < Q; j++) {
+        let [p, x] = nextNums(2);
+        val[p - 1] += x; // 0から開始した要素にする
+    }
+    // Stackへのvalの出し入れを行う
+    // 再帰関数による処理は上限に引っかかる為。
+    function thisDfs(s) {
+        const stack = [];
+        stack.push([s, -1]);
+        // 枝に紐づく枝を再帰的に処理する
+        while (stack.length) {
+            const [edge, parent] = stack.pop();
+            graph[edge].forEach((to) => {
+                if (to !== parent) {
+                    val[to] += val[edge];
+                    stack.push([to, edge]);
+                }
+            });
         }
     }
-    println(`${result}`);
+    thisDfs(0);
+    /* 再帰関数を使用するとTypeScriptの上限に引っ掛かりエラーとなる
+    // 頂点v。p:vの親。res:根から頂点までの x の値の総和
+    function thisDfs(edge: number, parent: number, res: number[]) {
+      if (parent != -1) res[edge] += res[parent];
+  
+      // edge から行ける各頂点 value の操作
+      for (const value of Object.values(graph[edge])) {
+        if (value === parent) continue;
+        thisDfs(value, edge, res);
+      }
+    }
+  */
+    print(`${val.join(' ')}`);
 }
 //# sourceMappingURL=index.js.map

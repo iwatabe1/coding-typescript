@@ -184,6 +184,7 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 
 function main() {
   let [N, Q] = nextNums(2);
+  // let graph: number[][] = Array.from({ length: N }, () => []);
   let graph: number[][] = Array.from({ length: N }, () => []);
 
   // edges pf tree
@@ -200,18 +201,36 @@ function main() {
     val[p - 1] += x; // 0から開始した要素にする
   }
 
-  thisDfs(0, -1, val);
+  // Stackへのvalの出し入れを行う
+  // 再帰関数による処理は上限に引っかかる為。
+  function thisDfs(s: number) {
+    const stack: number[][] = [];
+    stack.push([s, -1]);
 
+    // 枝に紐づく枝を再帰的に処理する
+    while (stack.length) {
+      const [edge, parent] = stack.pop() as number[];
+      graph[edge].forEach((to) => {
+        if (to !== parent) {
+          val[to] += val[edge];
+          stack.push([to, edge]);
+        }
+      });
+    }
+  }
+
+  thisDfs(0);
+  /* 再帰関数を使用するとTypeScriptの上限に引っ掛かりエラーとなる
   // 頂点v。p:vの親。res:根から頂点までの x の値の総和
   function thisDfs(edge: number, parent: number, res: number[]) {
     if (parent != -1) res[edge] += res[parent];
 
-    // v から行ける各頂点 next_v について
+    // edge から行ける各頂点 value の操作
     for (const value of Object.values(graph[edge])) {
       if (value === parent) continue;
       thisDfs(value, edge, res);
     }
   }
-
+*/
   print(`${val.join(' ')}`);
 }

@@ -164,27 +164,77 @@ function chmin1(dp, i, b) {
     }
     return false;
 }
-function chmin2(dp, b) {
-    if (dp > b) {
-        dp = b;
-        return true;
+// bit探索
+function searchBound(array, item) {
+    let low = 0;
+    let high = array.length - 1;
+    while (high - low > 1) {
+        let midIndex = 0;
+        midIndex = Math.floor((low + high) / 2);
+        if (item <= array[midIndex]) {
+            high = midIndex;
+        }
+        else {
+            low = midIndex;
+        }
     }
-    return false;
+    return high;
+}
+// 深さ優先探索:汎用
+function commonDfs(graph, v, seen) {
+    seen[v] = true; // vを訪問済とする
+    // v から行ける各頂点 next_v について
+    for (const [key, value] of Object.entries(graph[v])) {
+        if (seen[value])
+            continue;
+        commonDfs(graph, value, seen);
+    }
 }
 function main() {
-    let N = nextNum();
-    let result = 0;
-    for (let i = 1; i <= N; i++) {
-        if (i % 2 === 0)
-            continue; //偶数はスキップ
-        let count = 0;
-        for (let j = 1; j <= i; j++) {
-            if (i % j === 0)
-                count++; // 約数なら
-        }
-        if (count === 8)
-            result++;
+    let [N, Q] = nextNums(2);
+    // let graph: number[][] = Array.from({ length: N }, () => []);
+    let graph = Array.from({ length: N }, () => []);
+    // edges pf tree
+    for (let i = 0; i < N - 1; ++i) {
+        let [a, b] = nextNums(2);
+        graph[a - 1].push(b - 1); // 子
+        graph[b - 1].push(a - 1); // 親
     }
-    println(`${result}`);
+    // operation : 最初に現れる要素(p)にxを加算する。
+    const val = Array(N).fill(0);
+    for (let j = 0; j < Q; j++) {
+        let [p, x] = nextNums(2);
+        val[p - 1] += x; // 0から開始した要素にする
+    }
+    // Stackへのvalの出し入れを行う
+    // 再帰関数による処理は上限に引っかかる為。
+    function thisDfs(s) {
+        const stack = [];
+        stack.push([s, -1]);
+        // 枝に紐づく枝を再帰的に処理する
+        while (stack.length) {
+            const [edge, parent] = stack.pop();
+            graph[edge].forEach((to) => {
+                if (to !== parent) {
+                    val[to] += val[edge];
+                    stack.push([to, edge]);
+                }
+            });
+        }
+    }
+    thisDfs(0);
+    /* 再帰関数を使用するとTypeScriptの上限に引っ掛かりエラーとなる
+    // 頂点v。p:vの親。res:根から頂点までの x の値の総和
+    function thisDfs(edge: number, parent: number, res: number[]) {
+      if (parent != -1) res[edge] += res[parent];
+  
+      // edge から行ける各頂点 value の操作
+      for (const value of Object.values(graph[edge])) {
+        if (value === parent) continue;
+        thisDfs(value, edge, res);
+      }
+    }
+  */
+    print(`${val.join(' ')}`);
 }
-//# sourceMappingURL=B_106.js.map
+//# sourceMappingURL=138_D_Ki.js.map
