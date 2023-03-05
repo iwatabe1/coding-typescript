@@ -191,32 +191,19 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [N, Q] = nextNums(2);
-    let graph = Array.from({ length: N }, () => []);
-    // edges pf tree
-    for (let i = 0; i < N - 1; ++i) {
-        let [a, b] = nextNums(2);
-        graph[a - 1].push(b - 1); // 子
-        graph[b - 1].push(a - 1); // 親
-    }
-    // operation : 最初に現れる要素(p)にxを加算する。
-    const val = Array(N).fill(0);
-    for (let j = 0; j < Q; j++) {
-        let [p, x] = nextNums(2);
-        val[p - 1] += x; // 0から開始した要素にする
-    }
-    thisDfs(0, -1, val);
-    // 頂点v。p:vの親。res:根から頂点までの x の値の総和
-    function thisDfs(edge, parent, res) {
-        if (parent != -1)
-            res[edge] += res[parent];
-        // v から行ける各頂点 next_v について
-        for (const value of Object.values(graph[edge])) {
-            if (value === parent)
-                continue;
-            thisDfs(value, edge, res);
+    let S = next();
+    let T = next();
+    let result = 'No';
+    for (let i = 0; i < S.length; i++) {
+        let rolledStr = '';
+        rolledStr = S.substring(S.length - 1);
+        rolledStr += S.substring(0, S.length - 1);
+        S = rolledStr;
+        if (rolledStr === T) {
+            result = 'Yes';
+            break;
         }
     }
-    print(`${val.join(' ')}`);
+    println(`${result}`);
 }
-//# sourceMappingURL=D_138_Ki.js.map
+//# sourceMappingURL=B_String%20Rotation.js.map
