@@ -187,7 +187,7 @@ function main() {
   // let graph: number[][] = Array.from({ length: N }, () => []);
   let graph: number[][] = Array.from({ length: N }, () => []);
 
-  // edges pf tree
+  // edges of tree:枝のグラフを生成する
   for (let i = 0; i < N - 1; ++i) {
     let [a, b] = nextNums(2);
     graph[a - 1].push(b - 1); // 子
