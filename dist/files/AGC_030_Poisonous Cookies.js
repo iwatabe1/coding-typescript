@@ -201,4 +201,4 @@ function main() {
     }
     print(`${deliciousCookies}`);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=AGC_030_Poisonous%20Cookies.js.map
