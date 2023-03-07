@@ -233,4 +233,4 @@ function main() {
         .filter((val) => val !== undefined);
     println(result, '\n');
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC_260_B_Better%20Students%20Are%20Needed.js.map
