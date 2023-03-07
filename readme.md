@@ -1,8 +1,8 @@
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript
-$ git init
-Initialized empty Git repository in H:/projects/coding-typescript/.git/
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+$ git init
+Initialized empty Git repository in coding-typescript/.git/
+
+ (master)
 $ npm init
 This utility will walk you through creating a package.json file.
 It only covers the most common items, and tries to guess sensible defaults.
@@ -23,7 +23,7 @@ git repository:
 keywords:
 author:
 license: (ISC)
-About to write to H:\projects\coding-typescript\package.json:
+About to write to coding-typescript\package.json:
 
 {
   "name": "coding-typescript",
@@ -40,14 +40,14 @@ About to write to H:\projects\coding-typescript\package.json:
 
 Is this OK? (yes)
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+ (master)
 $ npm install typescript
 
 added 1 package, and audited 2 packages in 2s
 
 found 0 vulnerabilities
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+ (master)
 $ npx tsc --init
 
 Created a new tsconfig.json with:
@@ -63,7 +63,7 @@ Created a new tsconfig.json with:
 You can learn more at https://aka.ms/tsconfig
 
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+ (master)
 $ npm install eslint
 
 added 97 packages, and audited 99 packages in 6s
@@ -73,7 +73,7 @@ added 97 packages, and audited 99 packages in 6s
 
 found 0 vulnerabilities
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+ (master)
 $ npx eslint --init
 You can also run this command directly using 'npm init @eslint/config'.
 √ How would you like to use ESLint? · style
@@ -102,9 +102,9 @@ added 108 packages, and audited 207 packages in 9s
   run `npm fund` for details
 
 found 0 vulnerabilities
-Successfully created .eslintrc.js file in H:\projects\coding-typescript
+Successfully created .eslintrc.js file in coding-typescript
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+ (master)
 $ npm install prettier eslint-config-prettier
 
 added 2 packages, and audited 209 packages in 1s
@@ -114,7 +114,7 @@ added 2 packages, and audited 209 packages in 1s
 
 found 0 vulnerabilities
 
-ISSEKI@ISSEKI-PC MINGW64 /h/projects/coding-typescript (master)
+ (master)
 $ npm install -D @types/node
 
 added 1 package, and audited 210 packages in 2s

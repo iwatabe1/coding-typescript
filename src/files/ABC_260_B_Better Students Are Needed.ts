@@ -183,36 +183,54 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [R, C] = nextNums(2);
-  let [sy, sx] = nextNums(2).map((v) => v - 1);
-  let [gy, gx] = nextNums(2).map((v) => v - 1);
-  let checkStr: string[][] = [];
-  const queue = [[sy, sx, 0]]; // y軸、x軸、移動数合計
-  const checked = {} as any;
-  let ans = 0;
+  let [N, X, Y, Z] = nextNums(4);
+  let A = nextNums(N);
+  let B = nextNums(N);
 
-  // ＃ or , を配列に格納する
-  for (let i = 1; i <= R; i++) {
-    checkStr.push(next().split(''));
+  const C: number[] = [];
+  const E: number[] = [];
+  const sum: number[] = [];
+  const passed: boolean[] = Array(N + 5).fill(false);
+
+  // 数学
+  for (let i = 0; i < N; i++) {
+    C.push(10000 * (100 - A[i]) + i);
   }
 
-  while (queue.length) {
-    const [y, x, d] = queue.shift() as number[];
-    if (y < 0 || R <= y || x < 0 || C <= x || checkStr[y][x] === '#') {
-      continue;
-    }
-    if (checked[`${y},${x}`]) {
-      continue;
-    }
-    if (y === gy && x === gx) {
-      ans = d;
-      break;
-    }
-    checked[`${y},${x}`] = true;
-    queue.push([y + 1, x, d + 1]);
-    queue.push([y - 1, x, d + 1]);
-    queue.push([y, x + 1, d + 1]);
-    queue.push([y, x - 1, d + 1]);
+  C.sort(sortAsc);
+
+  for (let i = 0; i < X; i++) {
+    passed[C[i] % 10000] = true;
   }
-  print(ans);
+
+  // 英語
+  for (let i = 0; i < N; i++) {
+    if (!passed[i]) E.push(10000 * (100 - B[i]) + i);
+  }
+
+  E.sort(sortAsc);
+
+  for (let i = 0; i < Y; i++) {
+    passed[E[i] % 10000] = true;
+  }
+
+  // 数学+英語
+  for (let i = 0; i < N; i++) {
+    if (!passed[i]) sum.push(10000 * (200 - (A[i] + B[i])) + i);
+  }
+
+  sum.sort(sortAsc);
+
+  for (let i = 0; i < Z; i++) {
+    passed[sum[i] % 10000] = true;
+  }
+
+  // 配列の整形
+  const result = passed
+    .map((val, index) => {
+      if (val === true) return index + 1;
+    })
+    .filter((val): val is number => val !== undefined);
+
+  println(result, '\n');
 }
