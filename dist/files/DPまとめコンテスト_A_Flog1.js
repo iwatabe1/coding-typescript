@@ -202,4 +202,4 @@ function main() {
     }
     print(dp[N - 1]);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=DP%E3%81%BE%E3%81%A8%E3%82%81%E3%82%B3%E3%83%B3%E3%83%86%E3%82%B9%E3%83%88_A_Flog1.js.map
