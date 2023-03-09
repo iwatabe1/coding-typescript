@@ -211,4 +211,4 @@ function main() {
         result = Math.max(result, dp[N][i]);
     print(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=DP%E3%81%BE%E3%81%A8%E3%82%81%E3%82%B3%E3%83%B3%E3%83%86%E3%82%B9%E3%83%88_C_Vacation.js.map

@@ -182,24 +182,15 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let N = nextNum();
-  let ai: number[][] = [];
-  for (let i = 0; i < N; i++) {
-    ai.push(nextNums(3));
-  }
-  let dp = Array.from({ length: N + 1 }, () => 0).map((v, i, array) => (array = [0, 0, 0]));
+  let [N, K] = nextNums(2);
+  let hi = nextNums(N);
+  let dp = Array.from({ length: 100010 }, () => Infinity);
+  dp[0] = 0;
 
   for (let i = 0; i < N; ++i) {
-    for (let j = 0; j < 3; ++j) {
-      for (let k = 0; k < 3; ++k) {
-        if (j === k) continue;
-        chmax(dp, i + 1, k, dp[i][j] + ai[i][k]);
-      }
+    for (let j = 1; j <= K; ++j) {
+      chmin1(dp, i + j, dp[i] + Math.abs(hi[i] - hi[i + j]));
     }
   }
-
-  let result = 0;
-  for (let i = 0; i < 3; ++i) result = Math.max(result, dp[N][i]);
-
-  print(result);
+  print(dp[N - 1]);
 }

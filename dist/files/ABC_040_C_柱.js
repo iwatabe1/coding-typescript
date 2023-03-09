@@ -192,23 +192,14 @@ function commonDfs(graph, v, seen) {
 }
 function main() {
     let N = nextNum();
-    let ai = [];
-    for (let i = 0; i < N; i++) {
-        ai.push(nextNums(3));
+    let ai = nextNums(N);
+    let dp = Array.from({ length: 100010 }, () => Infinity);
+    dp[0] = 0;
+    for (let i = 1; i < N; ++i) {
+        chmin1(dp, i, dp[i - 1] + Math.abs(ai[i] - ai[i - 1]));
+        if (i > 1)
+            chmin1(dp, i, dp[i - 2] + Math.abs(ai[i] - ai[i - 2]));
     }
-    let dp = Array.from({ length: N + 1 }, () => 0).map((v, i, array) => (array = [0, 0, 0]));
-    for (let i = 0; i < N; ++i) {
-        for (let j = 0; j < 3; ++j) {
-            for (let k = 0; k < 3; ++k) {
-                if (j === k)
-                    continue;
-                chmax(dp, i + 1, k, dp[i][j] + ai[i][k]);
-            }
-        }
-    }
-    let result = 0;
-    for (let i = 0; i < 3; ++i)
-        result = Math.max(result, dp[N][i]);
-    print(result);
+    print(dp[N - 1]);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC_040_C_%E6%9F%B1.js.map
