@@ -191,24 +191,22 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let N = nextNum();
-    let ai = [];
-    for (let i = 0; i < N; i++) {
-        ai.push(nextNums(3));
-    }
-    let dp = Array.from({ length: N + 1 }, () => 0).map((v, i, array) => (array = [0, 0, 0]));
+    let [N, W] = nextNums(2);
+    let wi = []; // weight,value
     for (let i = 0; i < N; ++i) {
-        for (let j = 0; j < 3; ++j) {
-            for (let k = 0; k < 3; ++k) {
-                if (j === k)
-                    continue;
-                chmax(dp, i + 1, k, dp[i][j] + ai[i][k]);
+        wi.push(nextNums(2));
+    }
+    let dp = Array.from({ length: N + 1 }, () => 0).map((v, i, array) => (array = Array.from({ length: W + 1 }, () => 0)));
+    for (let i = 0; i < N; ++i) {
+        for (let sum_w = 0; sum_w <= W; ++sum_w) {
+            if (sum_w - wi[i][0] >= 0) {
+                // i 番目の品物を選ぶ場合
+                chmax(dp, i + 1, sum_w, dp[i][sum_w - wi[i][0]] + wi[i][1]);
             }
+            // i 番目の品物を選ばない場合
+            chmax(dp, i + 1, sum_w, dp[i][sum_w]);
         }
     }
-    let result = 0;
-    for (let i = 0; i < 3; ++i)
-        result = Math.max(result, dp[N][i]);
-    print(result);
+    print(dp[N][W]);
 }
 //# sourceMappingURL=index.js.map
