@@ -191,15 +191,32 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let N = nextNum();
-    let hi = nextNums(N);
-    let dp = Array.from({ length: 100010 }, () => Infinity);
-    dp[0] = 0;
-    for (let i = 1; i < N; ++i) {
-        chmin1(dp, i, dp[i - 1] + Math.abs(hi[i] - hi[i - 1]));
-        if (i > 1)
-            chmin1(dp, i, dp[i - 2] + Math.abs(hi[i] - hi[i - 2]));
+    let [N, W] = nextNums(2);
+    let wv = []; // weight,value
+    const MAX_V = N * 10 ** 3 + 1;
+    for (let i = 0; i < N; ++i) {
+        wv.push(nextNums(2));
     }
-    print(dp[N - 1]);
+    let dp = Array.from({ length: N + 1 }, () => Infinity).map((v, i, array) => (array = Array.from({ length: MAX_V }, () => Infinity)));
+    // 初期値
+    dp[0][0] = 0;
+    // i 番目までの品物を、価値がsum_v 以下になるように選んだときの重さの最小値を記す
+    for (let i = 0; i < N; ++i) {
+        for (let sum_v = 0; sum_v <= MAX_V; ++sum_v) {
+            if (sum_v - wv[i][1] >= 0) {
+                // i 番目の品物を選ぶ場合
+                chmin(dp, i + 1, sum_v, dp[i][sum_v - wv[i][1]] + wv[i][0]);
+            }
+            // i 番目の品物を選ばない場合
+            chmin(dp, i + 1, sum_v, dp[i][sum_v]);
+        }
+    }
+    // dp[N]の内、最大の価値を出力
+    let result = 0;
+    for (let sum_v = 0; sum_v < MAX_V; ++sum_v) {
+        if (dp[N][sum_v] <= W)
+            result = sum_v;
+    }
+    print(result);
 }
-//# sourceMappingURL=EducationalDPContest_A_Flog1.js.map
+//# sourceMappingURL=EducationalDPContest_E_Knapsack2.js.map

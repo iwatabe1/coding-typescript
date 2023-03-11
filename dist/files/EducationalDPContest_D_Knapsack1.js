@@ -192,16 +192,17 @@ function commonDfs(graph, v, seen) {
 }
 function main() {
     let [N, W] = nextNums(2);
-    let wi = []; // weight,value
+    let wv = []; // weight,value
     for (let i = 0; i < N; ++i) {
-        wi.push(nextNums(2));
+        wv.push(nextNums(2));
     }
     let dp = Array.from({ length: N + 1 }, () => 0).map((v, i, array) => (array = Array.from({ length: W + 1 }, () => 0)));
+    // i 番目までの品物を、重さがsum_w 以下になるように選んだときの価値の最大値を記す
     for (let i = 0; i < N; ++i) {
         for (let sum_w = 0; sum_w <= W; ++sum_w) {
-            if (sum_w - wi[i][0] >= 0) {
+            if (sum_w - wv[i][0] >= 0) {
                 // i 番目の品物を選ぶ場合
-                chmax(dp, i + 1, sum_w, dp[i][sum_w - wi[i][0]] + wi[i][1]);
+                chmax(dp, i + 1, sum_w, dp[i][sum_w - wv[i][0]] + wv[i][1]);
             }
             // i 番目の品物を選ばない場合
             chmax(dp, i + 1, sum_w, dp[i][sum_w]);
