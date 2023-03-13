@@ -182,45 +182,16 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [H, W] = nextNums(2);
-  let cells: number[][] = [];
-  for (let i = 0; i < H; ++i) {
-    cells.push(nextNums(W));
-  }
-
-  let l = H + W - 2;
+  let [N] = nextNums(1);
+  let seats: number[][] = [];
   let ans = 0;
-  const set = new Set<{}>();
-  /*
-  function dfs(i: number, j: number, s: Set<{}>) {
-    if (set.has(cells[i][j])) return;
-    if (i === H - 1 && j === W - 1) {
-      ans++;
-      return;
-    }
-    set.add(cells[i][j]);
-    if (j + 1 < W) dfs(i, j + 1, set);
-    if (i + 1 < H) dfs(i + 1, j, set);
-    set.delete(cells[i][j]); // setは参照がかえってしまうので、戻るときに消す。
+  for (let i = 0; i < N; ++i) {
+    seats.push(nextNums(2));
   }
 
-  dfs(0, 0, set);
-*/
-
-  const dfs = (i: number, j: number) => {
-    if (i >= H || j >= W) return;
-    if (set.has(cells[i][j])) return;
-    if (i === H - 1 && j === W - 1) {
-      ans++;
-      return;
-    }
-    set.add(cells[i][j]);
-    dfs(i, j + 1);
-    dfs(i + 1, j);
-    set.delete(cells[i][j]);
-  };
-
-  dfs(0, 0);
+  for (let seat of seats) {
+    ans += seat[1] - seat[0] + 1;
+  }
 
   print(ans);
 }

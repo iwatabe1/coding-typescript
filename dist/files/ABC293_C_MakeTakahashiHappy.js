@@ -231,4 +231,4 @@ function main() {
     dfs(0, 0);
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC293_C_MakeTakahashiHappy.js.map

@@ -196,39 +196,52 @@ function main() {
     for (let i = 0; i < H; ++i) {
         cells.push(nextNums(W));
     }
+    let p = new Array(20).fill(0);
     let l = H + W - 2;
     let ans = 0;
-    const set = new Set();
-    /*
-    function dfs(i: number, j: number, s: Set<{}>) {
-      if (set.has(cells[i][j])) return;
-      if (i === H - 1 && j === W - 1) {
-        ans++;
-        return;
-      }
-      set.add(cells[i][j]);
-      if (j + 1 < W) dfs(i, j + 1, set);
-      if (i + 1 < H) dfs(i + 1, j, set);
-      set.delete(cells[i][j]); // setは参照がかえってしまうので、戻るときに消す。
+    for (let i = 0; i < l; i++) {
+        if (i > W - l)
+            p[i] = 1;
+        else
+            p[i] = 0;
     }
-  
-    dfs(0, 0, set);
-  */
-    const dfs = (i, j) => {
-        if (i >= H || j >= W)
-            return;
-        if (set.has(cells[i][j]))
-            return;
-        if (i === H - 1 && j === W - 1) {
-            ans++;
-            return;
+    do {
+        console.log(p);
+        // let x = 0,
+        //   y = 0;
+        // const S = new Set();
+        // S.add(cells[x][y]);
+        // for (let i = 0; i < l; i++) {
+        //   console.log(x);
+        //   console.log(y);
+        //   if (p[i]) y++;
+        //   else x++;
+        //   S.add(cells[x][y]);
+        // }
+        // console.log(S);
+        // if (S.size === l + 1) ans++;
+    } while (next_permutation(p));
+    println(ans);
+    let row = Array.from(Array(3).keys());
+    do {
+        console.log(row);
+    } while (next_permutation(row));
+    function next_permutation(arr) {
+        for (let i = arr.length - 2; i >= 0; i--) {
+            if (arr[i] < arr[i + 1]) {
+                for (let j = arr.length - 1; j > i; j--) {
+                    if (arr[j] > arr[i]) {
+                        [arr[i], arr[j]] = [arr[j], arr[i]];
+                        const len = (arr.length - (i + 1)) >> 1;
+                        for (let k = 0; k < len; k++) {
+                            [arr[i + 1 + k], arr[arr.length - 1 - k]] = [arr[arr.length - 1 - k], arr[i + 1 + k]];
+                        }
+                        return true;
+                    }
+                }
+            }
         }
-        set.add(cells[i][j]);
-        dfs(i, j + 1);
-        dfs(i + 1, j);
-        set.delete(cells[i][j]);
-    };
-    dfs(0, 0);
-    print(ans);
+        return false;
+    }
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index%20copy.js.map
