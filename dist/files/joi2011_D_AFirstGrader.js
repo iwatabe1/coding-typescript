@@ -222,4 +222,4 @@ function main() {
     }
     print(dp[N - 2][nums[N - 1]]);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=joi2011_D_AFirstGrader.js.map
