@@ -127,7 +127,7 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 動的計画法(大きい方を返す):変数名はdpで引数を渡す
+// 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
         dp[i][j] = b;
@@ -149,7 +149,7 @@ function chmax2(dp, b) {
     }
     return false;
 }
-// 動的計画法(小さい方を返す):変数名はdpで引数を渡す
+// 小さい方を返す:変数名はdpで引数を渡す
 function chmin(dp, i, j, b) {
     if (dp[i][j] > b) {
         dp[i][j] = b;
@@ -191,35 +191,44 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [R, C] = nextNums(2);
-    let [sy, sx] = nextNums(2).map((v) => v - 1);
-    let [gy, gx] = nextNums(2).map((v) => v - 1);
-    let checkStr = [];
-    const queue = [[sy, sx, 0]]; // y軸、x軸、移動数合計
-    const checked = {};
+    let [H, W] = nextNums(2);
+    let cells = [];
+    for (let i = 0; i < H; ++i) {
+        cells.push(nextNums(W));
+    }
+    let l = H + W - 2;
     let ans = 0;
-    // ＃ or , を配列に格納する
-    for (let i = 1; i <= R; i++) {
-        checkStr.push(next().split(''));
+    const set = new Set();
+    /*
+    function dfs(i: number, j: number, s: Set<{}>) {
+      if (set.has(cells[i][j])) return;
+      if (i === H - 1 && j === W - 1) {
+        ans++;
+        return;
+      }
+      set.add(cells[i][j]);
+      if (j + 1 < W) dfs(i, j + 1, set);
+      if (i + 1 < H) dfs(i + 1, j, set);
+      set.delete(cells[i][j]); // setは参照がかえってしまうので、戻るときに消す。
     }
-    while (queue.length) {
-        const [y, x, d] = queue.shift();
-        if (y < 0 || R <= y || x < 0 || C <= x || checkStr[y][x] === '#') {
-            continue;
+  
+    dfs(0, 0, set);
+  */
+    const dfs = (i, j) => {
+        if (i >= H || j >= W)
+            return;
+        if (set.has(cells[i][j]))
+            return;
+        if (i === H - 1 && j === W - 1) {
+            ans++;
+            return;
         }
-        if (checked[`${y},${x}`]) {
-            continue;
-        }
-        if (y === gy && x === gx) {
-            ans = d;
-            break;
-        }
-        checked[`${y},${x}`] = true;
-        queue.push([y + 1, x, d + 1]);
-        queue.push([y - 1, x, d + 1]);
-        queue.push([y, x + 1, d + 1]);
-        queue.push([y, x - 1, d + 1]);
-    }
+        set.add(cells[i][j]);
+        dfs(i, j + 1);
+        dfs(i + 1, j);
+        set.delete(cells[i][j]);
+    };
+    dfs(0, 0);
     print(ans);
 }
-//# sourceMappingURL=ABC_007_C_%E5%B9%85%E5%84%AA%E5%85%88%E6%8E%A2%E7%B4%A2.js.map
+//# sourceMappingURL=ABC293_C_MakeTakahashiHappy.js.map

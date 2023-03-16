@@ -127,7 +127,7 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 動的計画法(大きい方を返す):変数名はdpで引数を渡す
+// 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
         dp[i][j] = b;
@@ -149,7 +149,7 @@ function chmax2(dp, b) {
     }
     return false;
 }
-// 動的計画法(小さい方を返す):変数名はdpで引数を渡す
+// 小さい方を返す:変数名はdpで引数を渡す
 function chmin(dp, i, j, b) {
     if (dp[i][j] > b) {
         dp[i][j] = b;
@@ -191,14 +191,35 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [A, B, C] = nextNums(3);
-    let deliciousCookies = 0;
-    if (A + B < C) {
-        deliciousCookies += A + B + 1 + B;
+    let N = nextNum();
+    let nums = nextNums(N);
+    let dp = Array.from({ length: N - 1 }, () => Array(21).fill(0n));
+    dp[0][nums[0]] = 1n;
+    /*
+    for (let i = 0; i < N - 2; ++i) {
+      for (let j = 0; j < 21; ++j) {
+        if (dp[i][j] === 0n) continue;
+  
+        if (j - nums[i + 1] >= 0) {
+          dp[i + 1][j - nums[i + 1]] += dp[i][j];
+        }
+  
+        if (j + nums[i + 1] <= 20) {
+          dp[i + 1][j + nums[i + 1]] += dp[i][j];
+        }
+      }
     }
-    else if (A + B >= C) {
-        deliciousCookies += B + C;
+    */
+    for (let i = 1; i < N - 1; ++i) {
+        for (let j = 0; j < 21; ++j) {
+            if (j - nums[i] >= 0) {
+                dp[i][j] += dp[i - 1][j - nums[i]];
+            }
+            if (j + nums[i] <= 20) {
+                dp[i][j] += dp[i - 1][j + nums[i]];
+            }
+        }
     }
-    print(`${deliciousCookies}`);
+    print(dp[N - 2][nums[N - 1]]);
 }
-//# sourceMappingURL=AGC_030_Poisonous%20Cookies.js.map
+//# sourceMappingURL=joi2011_D_AFirstGrader.js.map

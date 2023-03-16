@@ -127,7 +127,7 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 大きい方を返す:変数名はdpで引数を渡す
+// 動的計画法(大きい方を返す):変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
         dp[i][j] = b;
@@ -149,7 +149,7 @@ function chmax2(dp, b) {
     }
     return false;
 }
-// 小さい方を返す:変数名はdpで引数を渡す
+// 動的計画法(小さい方を返す):変数名はdpで引数を渡す
 function chmin(dp, i, j, b) {
     if (dp[i][j] > b) {
         dp[i][j] = b;
@@ -191,36 +191,46 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [N, M] = nextNums(2);
-    let si = [];
-    let ans = 0;
-    // Sijを配列に格納する
-    for (let i = 0; i < M; ++i) {
-        let k = nextNum();
-        si.push([]);
-        for (let j = 0; j < k; ++j) {
-            si[i].push(nextNum() - 1); // siの値をindexに合わせる為に -1
-        }
+    let [N, X, Y, Z] = nextNums(4);
+    let A = nextNums(N);
+    let B = nextNums(N);
+    const C = [];
+    const E = [];
+    const sum = [];
+    const passed = Array(N + 5).fill(false);
+    // 数学
+    for (let i = 0; i < N; i++) {
+        C.push(10000 * (100 - A[i]) + i);
     }
-    const pi = nextNums(M);
-    for (let i = 0; i < 1 << N; ++i) {
-        // 1~Nまでbit全探索
-        let ok = 0;
-        for (let k = 0; k < M; ++k) {
-            // k毎に判定を行う
-            let cnt = 0;
-            for (let s of si[k]) {
-                // i のbitで、siの配列内それぞれの値のbitがonになっている数を数える
-                if (i & (1 << s)) {
-                    cnt++;
-                }
-            }
-            if (cnt % 2 === pi[k])
-                ok++;
-        }
-        if (ok === M)
-            ans++;
+    C.sort(sortAsc);
+    for (let i = 0; i < X; i++) {
+        passed[C[i] % 10000] = true;
     }
-    print(ans);
+    // 英語
+    for (let i = 0; i < N; i++) {
+        if (!passed[i])
+            E.push(10000 * (100 - B[i]) + i);
+    }
+    E.sort(sortAsc);
+    for (let i = 0; i < Y; i++) {
+        passed[E[i] % 10000] = true;
+    }
+    // 数学+英語
+    for (let i = 0; i < N; i++) {
+        if (!passed[i])
+            sum.push(10000 * (200 - (A[i] + B[i])) + i);
+    }
+    sum.sort(sortAsc);
+    for (let i = 0; i < Z; i++) {
+        passed[sum[i] % 10000] = true;
+    }
+    // 配列の整形
+    const result = passed
+        .map((val, index) => {
+        if (val === true)
+            return index + 1;
+    })
+        .filter((val) => val !== undefined);
+    println(result, '\n');
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC260B_Better%20Students%20Are%20Needed.js.map

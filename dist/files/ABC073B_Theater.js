@@ -191,36 +191,15 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [N, M] = nextNums(2);
-    let si = [];
+    let [N] = nextNums(1);
+    let seats = [];
     let ans = 0;
-    // Sijを配列に格納する
-    for (let i = 0; i < M; ++i) {
-        let k = nextNum();
-        si.push([]);
-        for (let j = 0; j < k; ++j) {
-            si[i].push(nextNum() - 1); // siの値をindexに合わせる為に -1
-        }
+    for (let i = 0; i < N; ++i) {
+        seats.push(nextNums(2));
     }
-    const pi = nextNums(M);
-    for (let i = 0; i < 1 << N; ++i) {
-        // 1~Nまでbit全探索
-        let ok = 0;
-        for (let k = 0; k < M; ++k) {
-            // k毎に判定を行う
-            let cnt = 0;
-            for (let s of si[k]) {
-                // i のbitで、siの配列内それぞれの値のbitがonになっている数を数える
-                if (i & (1 << s)) {
-                    cnt++;
-                }
-            }
-            if (cnt % 2 === pi[k])
-                ok++;
-        }
-        if (ok === M)
-            ans++;
+    for (let seat of seats) {
+        ans += seat[1] - seat[0] + 1;
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC073B_Theater.js.map

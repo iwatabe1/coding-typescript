@@ -127,7 +127,7 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 大きい方を返す:変数名はdpで引数を渡す
+// 動的計画法(大きい方を返す):変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
         dp[i][j] = b;
@@ -149,7 +149,7 @@ function chmax2(dp, b) {
     }
     return false;
 }
-// 小さい方を返す:変数名はdpで引数を渡す
+// 動的計画法(小さい方を返す):変数名はdpで引数を渡す
 function chmin(dp, i, j, b) {
     if (dp[i][j] > b) {
         dp[i][j] = b;
@@ -191,15 +191,35 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let N = nextNum();
-    let ai = nextNums(N);
-    let dp = Array.from({ length: 100010 }, () => Infinity);
-    dp[0] = 0;
-    for (let i = 1; i < N; ++i) {
-        chmin1(dp, i, dp[i - 1] + Math.abs(ai[i] - ai[i - 1]));
-        if (i > 1)
-            chmin1(dp, i, dp[i - 2] + Math.abs(ai[i] - ai[i - 2]));
+    let [R, C] = nextNums(2);
+    let [sy, sx] = nextNums(2).map((v) => v - 1);
+    let [gy, gx] = nextNums(2).map((v) => v - 1);
+    let checkStr = [];
+    const queue = [[sy, sx, 0]]; // y軸、x軸、移動数合計
+    const checked = {};
+    let ans = 0;
+    // ＃ or , を配列に格納する
+    for (let i = 1; i <= R; i++) {
+        checkStr.push(next().split(''));
     }
-    print(dp[N - 1]);
+    while (queue.length) {
+        const [y, x, d] = queue.shift();
+        if (y < 0 || R <= y || x < 0 || C <= x || checkStr[y][x] === '#') {
+            continue;
+        }
+        if (checked[`${y},${x}`]) {
+            continue;
+        }
+        if (y === gy && x === gx) {
+            ans = d;
+            break;
+        }
+        checked[`${y},${x}`] = true;
+        queue.push([y + 1, x, d + 1]);
+        queue.push([y - 1, x, d + 1]);
+        queue.push([y, x + 1, d + 1]);
+        queue.push([y, x - 1, d + 1]);
+    }
+    print(ans);
 }
-//# sourceMappingURL=ABC_040_C_%E6%9F%B1.js.map
+//# sourceMappingURL=ABC007C_%E5%B9%85%E5%84%AA%E5%85%88%E6%8E%A2%E7%B4%A2.js.map

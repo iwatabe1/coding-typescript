@@ -191,46 +191,14 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [N, X, Y, Z] = nextNums(4);
-    let A = nextNums(N);
-    let B = nextNums(N);
-    const C = [];
-    const E = [];
-    const sum = [];
-    const passed = Array(N + 5).fill(false);
-    // 数学
-    for (let i = 0; i < N; i++) {
-        C.push(10000 * (100 - A[i]) + i);
+    let [A, B, C] = nextNums(3);
+    let deliciousCookies = 0;
+    if (A + B < C) {
+        deliciousCookies += A + B + 1 + B;
     }
-    C.sort(sortAsc);
-    for (let i = 0; i < X; i++) {
-        passed[C[i] % 10000] = true;
+    else if (A + B >= C) {
+        deliciousCookies += B + C;
     }
-    // 英語
-    for (let i = 0; i < N; i++) {
-        if (!passed[i])
-            E.push(10000 * (100 - B[i]) + i);
-    }
-    E.sort(sortAsc);
-    for (let i = 0; i < Y; i++) {
-        passed[E[i] % 10000] = true;
-    }
-    // 数学+英語
-    for (let i = 0; i < N; i++) {
-        if (!passed[i])
-            sum.push(10000 * (200 - (A[i] + B[i])) + i);
-    }
-    sum.sort(sortAsc);
-    for (let i = 0; i < Z; i++) {
-        passed[sum[i] % 10000] = true;
-    }
-    // 配列の整形
-    const result = passed
-        .map((val, index) => {
-        if (val === true)
-            return index + 1;
-    })
-        .filter((val) => val !== undefined);
-    println(result, '\n');
+    print(`${deliciousCookies}`);
 }
-//# sourceMappingURL=ABC_260_B_Better%20Students%20Are%20Needed.js.map
+//# sourceMappingURL=AGC030_Poisonous%20Cookies.js.map

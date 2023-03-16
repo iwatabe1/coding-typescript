@@ -182,36 +182,45 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [N, M] = nextNums(2);
-  let si: number[][] = [];
+  let [H, W] = nextNums(2);
+  let cells: number[][] = [];
+  for (let i = 0; i < H; ++i) {
+    cells.push(nextNums(W));
+  }
+
+  let l = H + W - 2;
   let ans = 0;
-
-  // Sijを配列に格納する
-  for (let i = 0; i < M; ++i) {
-    let k = nextNum();
-    si.push([]);
-    for (let j = 0; j < k; ++j) {
-      si[i].push(nextNum() - 1); // siの値をindexに合わせる為に -1
+  const set = new Set<{}>();
+  /*
+  function dfs(i: number, j: number, s: Set<{}>) {
+    if (set.has(cells[i][j])) return;
+    if (i === H - 1 && j === W - 1) {
+      ans++;
+      return;
     }
+    set.add(cells[i][j]);
+    if (j + 1 < W) dfs(i, j + 1, set);
+    if (i + 1 < H) dfs(i + 1, j, set);
+    set.delete(cells[i][j]); // setは参照がかえってしまうので、戻るときに消す。
   }
-  const pi = nextNums(M);
 
-  for (let i = 0; i < 1 << N; ++i) {
-    // 1~Nまでbit全探索
-    let ok = 0;
-    for (let k = 0; k < M; ++k) {
-      // k毎に判定を行う
-      let cnt = 0;
-      for (let s of si[k]) {
-        // i のbitで、siの配列内それぞれの値のbitがonになっている数を数える
-        if (i & (1 << s)) {
-          cnt++;
-        }
-      }
-      if (cnt % 2 === pi[k]) ok++;
+  dfs(0, 0, set);
+*/
+
+  const dfs = (i: number, j: number) => {
+    if (i >= H || j >= W) return;
+    if (set.has(cells[i][j])) return;
+    if (i === H - 1 && j === W - 1) {
+      ans++;
+      return;
     }
-    if (ok === M) ans++;
-  }
+    set.add(cells[i][j]);
+    dfs(i, j + 1);
+    dfs(i + 1, j);
+    set.delete(cells[i][j]);
+  };
+
+  dfs(0, 0);
 
   print(ans);
 }

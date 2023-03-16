@@ -182,36 +182,37 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [N, M] = nextNums(2);
-  let si: number[][] = [];
-  let ans = 0;
+  let N = nextNum();
+  let nums = nextNums(N);
+  let dp = Array.from({ length: N - 1 }, () => Array(21).fill(0n));
 
-  // Sijを配列に格納する
-  for (let i = 0; i < M; ++i) {
-    let k = nextNum();
-    si.push([]);
-    for (let j = 0; j < k; ++j) {
-      si[i].push(nextNum() - 1); // siの値をindexに合わせる為に -1
-    }
-  }
-  const pi = nextNums(M);
+  dp[0][nums[0]] = 1n;
+  /*
+  for (let i = 0; i < N - 2; ++i) {
+    for (let j = 0; j < 21; ++j) {
+      if (dp[i][j] === 0n) continue;
 
-  for (let i = 0; i < 1 << N; ++i) {
-    // 1~Nまでbit全探索
-    let ok = 0;
-    for (let k = 0; k < M; ++k) {
-      // k毎に判定を行う
-      let cnt = 0;
-      for (let s of si[k]) {
-        // i のbitで、siの配列内それぞれの値のbitがonになっている数を数える
-        if (i & (1 << s)) {
-          cnt++;
-        }
+      if (j - nums[i + 1] >= 0) {
+        dp[i + 1][j - nums[i + 1]] += dp[i][j];
       }
-      if (cnt % 2 === pi[k]) ok++;
+
+      if (j + nums[i + 1] <= 20) {
+        dp[i + 1][j + nums[i + 1]] += dp[i][j];
+      }
     }
-    if (ok === M) ans++;
+  }
+  */
+  for (let i = 1; i < N - 1; ++i) {
+    for (let j = 0; j < 21; ++j) {
+      if (j - nums[i] >= 0) {
+        dp[i][j] += dp[i - 1][j - nums[i]];
+      }
+
+      if (j + nums[i] <= 20) {
+        dp[i][j] += dp[i - 1][j + nums[i]];
+      }
+    }
   }
 
-  print(ans);
+  print(dp[N - 2][nums[N - 1]]);
 }
