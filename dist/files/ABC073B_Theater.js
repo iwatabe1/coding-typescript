@@ -127,7 +127,7 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 動的計画法(大きい方を返す):変数名はdpで引数を渡す
+// 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
         dp[i][j] = b;
@@ -149,7 +149,7 @@ function chmax2(dp, b) {
     }
     return false;
 }
-// 動的計画法(小さい方を返す):変数名はdpで引数を渡す
+// 小さい方を返す:変数名はdpで引数を渡す
 function chmin(dp, i, j, b) {
     if (dp[i][j] > b) {
         dp[i][j] = b;
@@ -191,14 +191,15 @@ function commonDfs(graph, v, seen) {
     }
 }
 function main() {
-    let [A, B, C] = nextNums(3);
-    let deliciousCookies = 0;
-    if (A + B < C) {
-        deliciousCookies += A + B + 1 + B;
+    let [N] = nextNums(1);
+    let seats = [];
+    let ans = 0;
+    for (let i = 0; i < N; ++i) {
+        seats.push(nextNums(2));
     }
-    else if (A + B >= C) {
-        deliciousCookies += B + C;
+    for (let seat of seats) {
+        ans += seat[1] - seat[0] + 1;
     }
-    print(`${deliciousCookies}`);
+    print(ans);
 }
-//# sourceMappingURL=AGC_030_Poisonous%20Cookies.js.map
+//# sourceMappingURL=ABC073B_Theater.js.map

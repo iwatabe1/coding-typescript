@@ -127,7 +127,7 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 動的計画法(大きい方を返す):変数名はdpで引数を渡す
+// 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
         dp[i][j] = b;
@@ -149,7 +149,7 @@ function chmax2(dp, b) {
     }
     return false;
 }
-// 動的計画法(小さい方を返す):変数名はdpで引数を渡す
+// 小さい方を返す:変数名はdpで引数を渡す
 function chmin(dp, i, j, b) {
     if (dp[i][j] > b) {
         dp[i][j] = b;
@@ -192,16 +192,14 @@ function commonDfs(graph, v, seen) {
 }
 function main() {
     let N = nextNum();
-    let X = nextNums(N);
-    let ans = 10000000;
-    for (let i = 1; i <= 100; i++) {
-        let sum = 0;
-        X.map((val) => {
-            sum += (val - i) * (val - i);
-            // sum += Math.pow(Math.abs(val - i), 2);
-        });
-        ans = Math.min(ans, sum);
+    let ai = nextNums(N);
+    let dp = Array.from({ length: 100010 }, () => Infinity);
+    dp[0] = 0;
+    for (let i = 1; i < N; ++i) {
+        chmin1(dp, i, dp[i - 1] + Math.abs(ai[i] - ai[i - 1]));
+        if (i > 1)
+            chmin1(dp, i, dp[i - 2] + Math.abs(ai[i] - ai[i - 2]));
     }
-    print(`${ans}`);
+    print(dp[N - 1]);
 }
-//# sourceMappingURL=ABC_156_C_Rally.js.map
+//# sourceMappingURL=ABC040C_%E6%9F%B1.js.map

@@ -222,4 +222,4 @@ function main() {
     }
     print(ans);
 }
-//# sourceMappingURL=ABC_007_C_%E5%B9%85%E5%84%AA%E5%85%88%E6%8E%A2%E7%B4%A2.js.map
+//# sourceMappingURL=ABC007C_%E5%B9%85%E5%84%AA%E5%85%88%E6%8E%A2%E7%B4%A2.js.map
