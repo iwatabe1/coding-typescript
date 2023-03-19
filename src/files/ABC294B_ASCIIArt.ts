@@ -182,29 +182,26 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [N, Q] = nextNums(2);
-  let man = Array.from({ length: N }, (v, k) => k + 1);
-  let recep = new Set(); // Setによって削除の時間を減らす
-  let result = [];
-  let index = 0;
-
-  for (let q = 0; q < Q; q++) {
-    let eventNum = nextNum();
-    if (eventNum === 1) {
-      // shiftを用いると配列を再生成して時間を喰う為、indexで対象を特定する
-      recep.add(man[index]);
-      index++;
-    } else if (eventNum === 2) {
-      let x = nextNum();
-      recep.delete(x);
-    } else if (eventNum === 3) {
-      // Setは最小のインデックスを指定できないので、for-ofで回して1つ目で抜ける
-      for (let s of recep) {
-        result.push(s);
-        break;
-      }
-    }
+  let [H, W] = nextNums(2);
+  let strs = [];
+  const result = [];
+  for (let i = 0; i < H; ++i) {
+    strs.push(nextNums(W));
   }
 
-  print(result.join('\n'));
+  const alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  for (let str of strs) {
+    result.push(
+      str.map((v) => {
+        if (v === 0) return '.';
+        else return alphabets[v - 1];
+      }),
+    );
+  }
+  let ans = '';
+  for (let res of result) {
+    ans += res.join('') + '\n';
+  }
+  print(ans);
 }

@@ -182,29 +182,8 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [N, Q] = nextNums(2);
-  let man = Array.from({ length: N }, (v, k) => k + 1);
-  let recep = new Set(); // Setによって削除の時間を減らす
-  let result = [];
-  let index = 0;
-
-  for (let q = 0; q < Q; q++) {
-    let eventNum = nextNum();
-    if (eventNum === 1) {
-      // shiftを用いると配列を再生成して時間を喰う為、indexで対象を特定する
-      recep.add(man[index]);
-      index++;
-    } else if (eventNum === 2) {
-      let x = nextNum();
-      recep.delete(x);
-    } else if (eventNum === 3) {
-      // Setは最小のインデックスを指定できないので、for-ofで回して1つ目で抜ける
-      for (let s of recep) {
-        result.push(s);
-        break;
-      }
-    }
-  }
-
-  print(result.join('\n'));
+  let N = nextNum();
+  let Ai = nextNums(N);
+  const result = Ai.filter((v) => v % 2 === 0);
+  print(result.join(' '));
 }

@@ -182,29 +182,41 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
 }
 
 function main() {
-  let [N, Q] = nextNums(2);
-  let man = Array.from({ length: N }, (v, k) => k + 1);
-  let recep = new Set(); // Setによって削除の時間を減らす
-  let result = [];
-  let index = 0;
+  let [N, M] = nextNums(2);
+  let Ai = nextNums(N);
+  let Bi = nextNums(M);
+  let result: number[][] = [];
+  result.push([]);
+  result.push([]);
+  let num = 1;
+  if (Ai[0] < Bi[0]) {
+    Ai.shift() as number;
+    result[0].push(num);
+  } else {
+    Bi.shift() as number;
+    result[1].push(num);
+  }
 
-  for (let q = 0; q < Q; q++) {
-    let eventNum = nextNum();
-    if (eventNum === 1) {
-      // shiftを用いると配列を再生成して時間を喰う為、indexで対象を特定する
-      recep.add(man[index]);
-      index++;
-    } else if (eventNum === 2) {
-      let x = nextNum();
-      recep.delete(x);
-    } else if (eventNum === 3) {
-      // Setは最小のインデックスを指定できないので、for-ofで回して1つ目で抜ける
-      for (let s of recep) {
-        result.push(s);
-        break;
-      }
+  for (let i = 0; i < N + M; ++i) {
+    num++;
+    if (!Ai[0] && !Bi[0]) break;
+    if (!Ai[0]) {
+      Bi.shift() as number;
+      result[1].push(num);
+      continue;
+    } else if (!Bi[0]) {
+      Ai.shift() as number;
+      result[0].push(num);
+      continue;
+    }
+    if (Ai[0] < Bi[0]) {
+      Ai.shift() as number;
+      result[0].push(num);
+    } else {
+      Bi.shift() as number;
+      result[1].push(num);
     }
   }
 
-  print(result.join('\n'));
+  print(result[0].join(' ') + '\n' + result[1].join(' '));
 }
