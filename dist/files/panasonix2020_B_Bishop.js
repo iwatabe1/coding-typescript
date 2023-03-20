@@ -205,4 +205,4 @@ function main() {
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=panasonix2020_B_Bishop.js.map
