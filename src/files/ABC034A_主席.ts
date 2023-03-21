@@ -181,50 +181,19 @@ function commonDfs(graph: Vector[], v: number, seen: boolean[]) {
   }
 }
 
-// 順列全探索
-function nextPermutation(arr: number[]) {
-  const len = arr.length;
-  let left = len - 2;
-  while (left >= 0 && arr[left] >= arr[left + 1]) left--;
-  if (left < 0) return false;
-  let right = len - 1;
-  while (arr[left] >= arr[right]) right--;
-  {
-    const t = arr[left];
-    arr[left] = arr[right];
-    arr[right] = t;
-  }
-  left++;
-  right = len - 1;
-  while (left < right) {
-    {
-      const t = arr[left];
-      arr[left] = arr[right];
-      arr[right] = t;
-    }
-    left++;
-    right--;
-  }
-  return true;
-}
-
 function main() {
-  let [N, M] = nextNums(2);
-  let Ai = nextNums(M);
-  let bitAi = Array(N).fill(0);
-  let ans = [];
+  let N = nextNum();
+  let scores: number[][] = [];
+  let result = [];
 
-  // Aiが存在するindexを1にする
-  for (let a of Ai) {
-    bitAi[a - 1] = 1;
+  for (let i = 0; i < N; ++i) {
+    scores.push(nextNums(5));
   }
 
-  for (let i = 0, j = 0; i < N; i = ++j) {
-    while (bitAi[j] === 1) j++;
-    for (let k = j; k >= i; k--) {
-      ans.push(k + 1);
-    }
+  for (let score of scores) {
+    result.push(score[0] + score[1] + score[2] + score[3] + (score[4] * 110) / 900);
   }
 
-  print(ans.join(' '));
+  result.sort(sortDesc);
+  print(result[0]);
 }

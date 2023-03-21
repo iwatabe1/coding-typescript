@@ -190,51 +190,10 @@ function commonDfs(graph, v, seen) {
         commonDfs(graph, value, seen);
     }
 }
-// 順列全探索
-function nextPermutation(arr) {
-    const len = arr.length;
-    let left = len - 2;
-    while (left >= 0 && arr[left] >= arr[left + 1])
-        left--;
-    if (left < 0)
-        return false;
-    let right = len - 1;
-    while (arr[left] >= arr[right])
-        right--;
-    {
-        const t = arr[left];
-        arr[left] = arr[right];
-        arr[right] = t;
-    }
-    left++;
-    right = len - 1;
-    while (left < right) {
-        {
-            const t = arr[left];
-            arr[left] = arr[right];
-            arr[right] = t;
-        }
-        left++;
-        right--;
-    }
-    return true;
-}
 function main() {
-    let [N, M] = nextNums(2);
-    let Ai = nextNums(M);
-    let bitAi = Array(N).fill(0);
-    let ans = [];
-    // Aiが存在するindexを1にする
-    for (let a of Ai) {
-        bitAi[a - 1] = 1;
-    }
-    for (let i = 0, j = 0; i < N; i = ++j) {
-        while (bitAi[j] === 1)
-            j++;
-        for (let k = j; k >= i; k--) {
-            ans.push(k + 1);
-        }
-    }
-    print(ans.join(' '));
+    let N = nextNum();
+    let Ai = nextNums(N);
+    const result = Ai.filter((v) => v % 2 === 0);
+    print(result.join(' '));
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC294A_Filter.js.map

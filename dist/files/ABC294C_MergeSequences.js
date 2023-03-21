@@ -190,51 +190,45 @@ function commonDfs(graph, v, seen) {
         commonDfs(graph, value, seen);
     }
 }
-// 順列全探索
-function nextPermutation(arr) {
-    const len = arr.length;
-    let left = len - 2;
-    while (left >= 0 && arr[left] >= arr[left + 1])
-        left--;
-    if (left < 0)
-        return false;
-    let right = len - 1;
-    while (arr[left] >= arr[right])
-        right--;
-    {
-        const t = arr[left];
-        arr[left] = arr[right];
-        arr[right] = t;
-    }
-    left++;
-    right = len - 1;
-    while (left < right) {
-        {
-            const t = arr[left];
-            arr[left] = arr[right];
-            arr[right] = t;
-        }
-        left++;
-        right--;
-    }
-    return true;
-}
 function main() {
     let [N, M] = nextNums(2);
-    let Ai = nextNums(M);
-    let bitAi = Array(N).fill(0);
-    let ans = [];
-    // Aiが存在するindexを1にする
-    for (let a of Ai) {
-        bitAi[a - 1] = 1;
+    let Ai = nextNums(N);
+    let Bi = nextNums(M);
+    let result = [];
+    result.push([]);
+    result.push([]);
+    let num = 1;
+    if (Ai[0] < Bi[0]) {
+        Ai.shift();
+        result[0].push(num);
     }
-    for (let i = 0, j = 0; i < N; i = ++j) {
-        while (bitAi[j] === 1)
-            j++;
-        for (let k = j; k >= i; k--) {
-            ans.push(k + 1);
+    else {
+        Bi.shift();
+        result[1].push(num);
+    }
+    for (let i = 0; i < N + M; ++i) {
+        num++;
+        if (!Ai[0] && !Bi[0])
+            break;
+        if (!Ai[0]) {
+            Bi.shift();
+            result[1].push(num);
+            continue;
+        }
+        else if (!Bi[0]) {
+            Ai.shift();
+            result[0].push(num);
+            continue;
+        }
+        if (Ai[0] < Bi[0]) {
+            Ai.shift();
+            result[0].push(num);
+        }
+        else {
+            Bi.shift();
+            result[1].push(num);
         }
     }
-    print(ans.join(' '));
+    print(result[0].join(' ') + '\n' + result[1].join(' '));
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC294C_MergeSequences.js.map
