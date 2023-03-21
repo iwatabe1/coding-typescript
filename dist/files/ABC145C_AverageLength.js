@@ -220,21 +220,30 @@ function nextPermutation(arr) {
     return true;
 }
 function main() {
-    let [N, M] = nextNums(2);
-    let Ai = nextNums(M);
-    let bitAi = Array(N).fill(0);
-    let ans = [];
-    // Aiが存在するindexを1にする
-    for (let a of Ai) {
-        bitAi[a - 1] = 1;
+    let N = nextNum();
+    let Xi = [];
+    let Yi = [];
+    let route = []; // index番号
+    let sum = 0;
+    for (let i = 0; i < N; ++i) {
+        route.push(i);
+        Xi.push(nextNum());
+        Yi.push(nextNum());
     }
-    for (let i = 0, j = 0; i < N; i = ++j) {
-        while (bitAi[j] === 1)
-            j++;
-        for (let k = j; k >= i; k--) {
-            ans.push(k + 1);
+    // 順列全探索して総和を計算
+    do {
+        for (let k = 0; k < N - 1; ++k) {
+            let i = route[k];
+            let j = route[k + 1];
+            let dx = Xi[i] - Xi[j];
+            let dy = Yi[i] - Yi[j];
+            sum += Math.sqrt(dx * dx + dy * dy);
         }
+    } while (nextPermutation(route));
+    // N!で割る
+    for (let i = 1; i <= N; ++i) {
+        sum /= i;
     }
-    print(ans.join(' '));
+    print(sum);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC145C_AverageLength.js.map
