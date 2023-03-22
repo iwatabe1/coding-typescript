@@ -235,4 +235,4 @@ function main() {
     const result = Math.min(cnt, K);
     print(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC290C_MaxMEX.js.map
