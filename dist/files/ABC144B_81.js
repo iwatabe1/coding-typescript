@@ -221,24 +221,13 @@ function nextPermutation(arr) {
 }
 function main() {
     let N = nextNum();
-    let S = next();
-    let count = 0;
-    let ans = 0;
-    for (let i = 0; i < N; ++i) {
-        if (count === 0 && S[i] === 'A') {
-            count++;
-        }
-        else if (count === 1 && S[i] === 'B') {
-            count++;
-        }
-        else if (count === 2 && S[i] === 'C') {
-            count = 0;
-            ans++;
-        }
-        else {
-            count = 0;
+    let set = new Set();
+    for (let i = 1; i <= 9; ++i) {
+        for (let j = 1; j <= 9; ++j) {
+            set.add(i * j);
         }
     }
-    print(ans);
+    const result = set.has(N) ? 'Yes' : 'No';
+    print(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC144B_81.js.map

@@ -210,22 +210,34 @@ function nextPermutation(arr: number[]) {
 
 function main() {
   let N = nextNum();
-  let S = next();
-  let count = 0;
-  let ans = 0;
-
+  let Ai: number[] = [];
   for (let i = 0; i < N; ++i) {
-    if (S[i] === 'A') {
-      count = 1;
-    } else if (count === 1 && S[i] === 'B') {
-      count++;
-    } else if (count === 2 && S[i] === 'C') {
-      count = 0;
-      ans++;
-    } else {
-      count = 0;
+    Ai.push(nextNum());
+  }
+
+  const dp: number[][] = Array.from({ length: N }, () => 0).map(() =>
+    Array.from({ length: N }, () => 0),
+  );
+  // dp初期値
+  dp[0].forEach((v, i, a) => (a[i] = Ai[i]));
+
+  for (let i = 1; i < N; ++i) {
+    for (let j = 0; j < N; ++j) {
+      const l = j === 0 ? N - 1 : j - 1;
+      const r = (j + i) % N;
+      if (i & 1) {
+        // IOI
+        if (Ai[l] > Ai[r]) dp[i][l] = Math.max(dp[i][l], dp[i - 1][j]);
+        else dp[i][j] = Math.max(dp[i][j], dp[i - 1][j]);
+      } else {
+        // JOI
+        dp[i][l] = Math.max(dp[i][l], dp[i - 1][j] + Ai[l]);
+        dp[i][j] = Math.max(dp[i][j], dp[i - 1][j] + Ai[r]);
+      }
     }
   }
 
-  print(ans);
+  const result = Math.max(...dp[N - 1]);
+
+  print(result);
 }
