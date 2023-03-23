@@ -251,4 +251,4 @@ function main() {
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=Sumitb2019_D_LuckyPIN.js.map

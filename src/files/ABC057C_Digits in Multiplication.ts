@@ -210,34 +210,17 @@ function nextPermutation(arr: number[]) {
 
 function main() {
   let N = nextNum();
-  let S = next()
-    .split('')
-    .map((v) => Number(v));
-  let ans = 0;
+  let ans = Infinity;
+  let n = Math.sqrt(N);
+  const nums = [];
 
-  for (let i = 0; i <= 9; ++i) {
-    for (let j = 0; j <= 9; ++j) {
-      for (let k = 0; k <= 9; ++k) {
-        let [a, b, c] = [-1, -1, -1];
-        for (let l = 0; l < S.length; ++l) {
-          if (a === -1 && S[l] === i) {
-            a = l;
-            continue;
-          }
-          if (a !== -1 && b === -1 && S[l] === j) {
-            b = l;
-            continue;
-          }
-          if (a !== -1 && b !== -1 && c === -1 && S[l] === k) {
-            c = l;
-          }
-          if (a !== -1 && b !== -1 && c !== -1) {
-            ans++;
-            break;
-          }
-        }
-      }
+  for (let i = 1; i <= n; ++i) {
+    if (N % i === 0) {
+      nums.push([String(i), String(N / i)]);
     }
+  }
+  for (let i = 0; i < nums.length; ++i) {
+    ans = Math.min(ans, Math.max(nums[i][0].length, nums[i][1].length));
   }
 
   print(ans);
