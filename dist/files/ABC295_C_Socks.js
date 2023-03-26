@@ -224,23 +224,19 @@ function nextPermutation(arr) {
     return true;
 }
 function main() {
-    let S = next().split('').map(Number);
-    let N = S.length;
-    let x = Array.from({ length: N + 1 }, () => 0);
+    let N = nextNum();
+    let Ai = nextNums(N);
+    let set = new Set();
     let ans = 0;
     for (let i = 0; i < N; ++i) {
-        x[i + 1] = x[i] ^ (1 << S[i]);
-    }
-    console.log(x);
-    const mp = new Map();
-    x.forEach((row) => {
-        mp.set(row, (mp.get(row) || 0) + 1);
-    });
-    console.log(mp);
-    for (let p of mp) {
-        const num = p[1];
-        ans += (num * (num - 1)) / 2;
+        if (set.has(Ai[i])) {
+            set.delete(Ai[i]);
+            ans++;
+        }
+        else {
+            set.add(Ai[i]);
+        }
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC295_C_Socks.js.map
