@@ -214,21 +214,24 @@ function nextPermutation(arr: number[]) {
 }
 
 function main() {
-  let S = next();
-  let str = '';
-  let ans = '';
+  let S = next().split('').map(Number);
+  let N = S.length;
+  let x: number[] = Array.from({ length: N + 1 }, () => 0);
+  let ans = 0;
 
-  for (let i = 0; i <= S.length; ++i) {
-    if (i === 0) {
-      str += S[i];
-      continue;
-    }
-    if (str[0] !== S[i]) {
-      ans += str[0] + str.length;
-      str = S[i];
-    } else {
-      str += S[i];
-    }
+  for (let i = 0; i < N; ++i) {
+    x[i + 1] = x[i] ^ (1 << S[i]);
+  }
+
+  const mp = new Map<number, number>();
+
+  x.forEach((row) => {
+    mp.set(row, (mp.get(row) || 0) + 1);
+  });
+
+  for (let p of mp) {
+    const num = p[1];
+    ans += (num * (num - 1)) / 2;
   }
 
   print(ans);
