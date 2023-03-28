@@ -214,17 +214,24 @@ function nextPermutation(arr: number[]) {
 }
 
 function main() {
-  let N = nextNum();
+  let S = next().split('').map(Number);
+  let N = S.length;
+  let x: number[] = Array.from({ length: N + 1 }, () => 0);
   let ans = 0;
-  let probs = [];
+
   for (let i = 0; i < N; ++i) {
-    probs.push(nextNums(5));
+    x[i + 1] = x[i] ^ (1 << S[i]);
   }
 
-  for (let p of probs) {
-    let point = 0;
-    p.forEach((v) => (point += v));
-    if (0 <= point && point < 20) ans++;
+  const mp = new Map<number, number>();
+
+  x.forEach((row) => {
+    mp.set(row, (mp.get(row) || 0) + 1);
+  });
+
+  for (let p of mp) {
+    const num = p[1];
+    ans += (num * (num - 1)) / 2;
   }
 
   print(ans);

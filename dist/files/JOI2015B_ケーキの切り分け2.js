@@ -127,10 +127,6 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 最小公倍数
-function lcm(a, b) {
-    return (a * b) / gcd(a, b);
-}
 // 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
@@ -225,17 +221,32 @@ function nextPermutation(arr) {
 }
 function main() {
     let N = nextNum();
-    let ans = 0;
-    let probs = [];
+    let Ai = [];
     for (let i = 0; i < N; ++i) {
-        probs.push(nextNums(5));
+        Ai.push(nextNum());
     }
-    for (let p of probs) {
-        let point = 0;
-        p.map((v) => (point += v));
-        if (0 <= point && point < 20)
-            ans++;
+    const dp = Array.from({ length: N }, () => 0).map(() => Array.from({ length: N }, () => 0));
+    // dp初期値
+    dp[0].forEach((v, i, a) => (a[i] = Ai[i]));
+    for (let i = 1; i < N; ++i) {
+        for (let j = 0; j < N; ++j) {
+            const l = j === 0 ? N - 1 : j - 1;
+            const r = (j + i) % N;
+            if (i & 1) {
+                // IOI
+                if (Ai[l] > Ai[r])
+                    dp[i][l] = Math.max(dp[i][l], dp[i - 1][j]);
+                else
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j]);
+            }
+            else {
+                // JOI
+                dp[i][l] = Math.max(dp[i][l], dp[i - 1][j] + Ai[l]);
+                dp[i][j] = Math.max(dp[i][j], dp[i - 1][j] + Ai[r]);
+            }
+        }
     }
-    print(ans);
+    const result = Math.max(...dp[N - 1]);
+    print(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=JOI2015B_%E3%82%B1%E3%83%BC%E3%82%AD%E3%81%AE%E5%88%87%E3%82%8A%E5%88%86%E3%81%912.js.map

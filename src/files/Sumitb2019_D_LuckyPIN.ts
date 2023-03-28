@@ -1,6 +1,6 @@
 import { createInterface } from 'readline';
 import * as fs from 'fs';
-import * as std from 'tstl';
+
 interface Vector {
   x: number;
   y: number;
@@ -112,11 +112,6 @@ function gcd(a: number, b: number): any {
   else return gcd(b, a % b);
 }
 
-// 最小公倍数
-function lcm(a: number, b: number): any {
-  return (a * b) / gcd(a, b);
-}
-
 // 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp: number[][], i: number, j: number, b: number) {
   if (dp[i][j] < b) {
@@ -215,16 +210,34 @@ function nextPermutation(arr: number[]) {
 
 function main() {
   let N = nextNum();
+  let S = next()
+    .split('')
+    .map((v) => Number(v));
   let ans = 0;
-  let probs = [];
-  for (let i = 0; i < N; ++i) {
-    probs.push(nextNums(5));
-  }
 
-  for (let p of probs) {
-    let point = 0;
-    p.forEach((v) => (point += v));
-    if (0 <= point && point < 20) ans++;
+  for (let i = 0; i <= 9; ++i) {
+    for (let j = 0; j <= 9; ++j) {
+      for (let k = 0; k <= 9; ++k) {
+        let [a, b, c] = [-1, -1, -1];
+        for (let l = 0; l < S.length; ++l) {
+          if (a === -1 && S[l] === i) {
+            a = l;
+            continue;
+          }
+          if (a !== -1 && b === -1 && S[l] === j) {
+            b = l;
+            continue;
+          }
+          if (a !== -1 && b !== -1 && c === -1 && S[l] === k) {
+            c = l;
+          }
+          if (a !== -1 && b !== -1 && c !== -1) {
+            ans++;
+            break;
+          }
+        }
+      }
+    }
   }
 
   print(ans);

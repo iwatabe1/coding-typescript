@@ -225,17 +225,47 @@ function nextPermutation(arr) {
 }
 function main() {
     let N = nextNum();
-    let ans = 0;
-    let probs = [];
+    // i番目の人がj番目の人を正直者か不親切と言ったか、証言無し(-1)
+    let Xij = Array.from({ length: N }, () => -1).map(() => Array(N).fill(-1));
     for (let i = 0; i < N; ++i) {
-        probs.push(nextNums(5));
+        let Ai = nextNum();
+        for (let j = 0; j < Ai; ++j) {
+            let a = nextNum();
+            a--;
+            Xij[i][a] = nextNum();
+        }
     }
-    for (let p of probs) {
-        let point = 0;
-        p.map((v) => (point += v));
-        if (0 <= point && point < 20)
-            ans++;
+    let ans = 0;
+    for (let i = 0; i < 1 << N; ++i) {
+        let d = Array(N).fill(0);
+        // 正直者と言った所を1、不親切と言ったかをd配列に格納
+        for (let j = 0; j < N; ++j) {
+            if ((i >> j) & 1) {
+                d[j] = 1;
+            }
+        }
+        // 正直者だと言う人がいたら、条件をチェックして問題無ければok
+        let ok = true;
+        for (let j = 0; j < N; ++j) {
+            if (d[j] === 1) {
+                for (let k = 0; k < N; ++k) {
+                    if (Xij[j][k] === -1)
+                        continue;
+                    if (Xij[j][k] !== d[k])
+                        ok = false;
+                }
+            }
+        }
+        // iをbitで1が立っている数を数える
+        let cnt = 0;
+        for (let l = 0; l < i; ++l) {
+            if ((i >> l) & 1)
+                cnt++;
+        }
+        // okだったら個数を更新する
+        if (ok)
+            ans = Math.max(ans, cnt);
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC147C_HonestOrUnkind2.js.map

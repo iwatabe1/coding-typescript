@@ -1,6 +1,6 @@
 import { createInterface } from 'readline';
 import * as fs from 'fs';
-import * as std from 'tstl';
+
 interface Vector {
   x: number;
   y: number;
@@ -215,16 +215,17 @@ function nextPermutation(arr: number[]) {
 
 function main() {
   let N = nextNum();
+  let Ai = nextNums(N);
+  let set = new Set();
   let ans = 0;
-  let probs = [];
-  for (let i = 0; i < N; ++i) {
-    probs.push(nextNums(5));
-  }
 
-  for (let p of probs) {
-    let point = 0;
-    p.forEach((v) => (point += v));
-    if (0 <= point && point < 20) ans++;
+  for (let i = 0; i < N; ++i) {
+    if (set.has(Ai[i])) {
+      set.delete(Ai[i]);
+      ans++;
+    } else {
+      set.add(Ai[i]);
+    }
   }
 
   print(ans);

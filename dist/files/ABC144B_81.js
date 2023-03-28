@@ -127,10 +127,6 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 最小公倍数
-function lcm(a, b) {
-    return (a * b) / gcd(a, b);
-}
 // 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
@@ -225,17 +221,13 @@ function nextPermutation(arr) {
 }
 function main() {
     let N = nextNum();
-    let ans = 0;
-    let probs = [];
-    for (let i = 0; i < N; ++i) {
-        probs.push(nextNums(5));
+    let set = new Set();
+    for (let i = 1; i <= 9; ++i) {
+        for (let j = 1; j <= 9; ++j) {
+            set.add(i * j);
+        }
     }
-    for (let p of probs) {
-        let point = 0;
-        p.map((v) => (point += v));
-        if (0 <= point && point < 20)
-            ans++;
-    }
-    print(ans);
+    const result = set.has(N) ? 'Yes' : 'No';
+    print(result);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC144B_81.js.map

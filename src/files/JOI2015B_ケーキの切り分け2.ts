@@ -1,6 +1,6 @@
 import { createInterface } from 'readline';
 import * as fs from 'fs';
-import * as std from 'tstl';
+
 interface Vector {
   x: number;
   y: number;
@@ -112,11 +112,6 @@ function gcd(a: number, b: number): any {
   else return gcd(b, a % b);
 }
 
-// 最小公倍数
-function lcm(a: number, b: number): any {
-  return (a * b) / gcd(a, b);
-}
-
 // 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp: number[][], i: number, j: number, b: number) {
   if (dp[i][j] < b) {
@@ -215,17 +210,34 @@ function nextPermutation(arr: number[]) {
 
 function main() {
   let N = nextNum();
-  let ans = 0;
-  let probs = [];
+  let Ai: number[] = [];
   for (let i = 0; i < N; ++i) {
-    probs.push(nextNums(5));
+    Ai.push(nextNum());
   }
 
-  for (let p of probs) {
-    let point = 0;
-    p.forEach((v) => (point += v));
-    if (0 <= point && point < 20) ans++;
+  const dp: number[][] = Array.from({ length: N }, () => 0).map(() =>
+    Array.from({ length: N }, () => 0),
+  );
+  // dp初期値
+  dp[0].forEach((v, i, a) => (a[i] = Ai[i]));
+
+  for (let i = 1; i < N; ++i) {
+    for (let j = 0; j < N; ++j) {
+      const l = j === 0 ? N - 1 : j - 1;
+      const r = (j + i) % N;
+      if (i & 1) {
+        // IOI
+        if (Ai[l] > Ai[r]) dp[i][l] = Math.max(dp[i][l], dp[i - 1][j]);
+        else dp[i][j] = Math.max(dp[i][j], dp[i - 1][j]);
+      } else {
+        // JOI
+        dp[i][l] = Math.max(dp[i][l], dp[i - 1][j] + Ai[l]);
+        dp[i][j] = Math.max(dp[i][j], dp[i - 1][j] + Ai[r]);
+      }
+    }
   }
 
-  print(ans);
+  const result = Math.max(...dp[N - 1]);
+
+  print(result);
 }

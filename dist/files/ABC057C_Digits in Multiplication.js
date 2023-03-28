@@ -127,10 +127,6 @@ function gcd(a, b) {
     else
         return gcd(b, a % b);
 }
-// 最小公倍数
-function lcm(a, b) {
-    return (a * b) / gcd(a, b);
-}
 // 大きい方を返す:変数名はdpで引数を渡す
 function chmax(dp, i, j, b) {
     if (dp[i][j] < b) {
@@ -225,17 +221,17 @@ function nextPermutation(arr) {
 }
 function main() {
     let N = nextNum();
-    let ans = 0;
-    let probs = [];
-    for (let i = 0; i < N; ++i) {
-        probs.push(nextNums(5));
+    let ans = Infinity;
+    let n = Math.sqrt(N);
+    const nums = [];
+    for (let i = 1; i <= n; ++i) {
+        if (N % i === 0) {
+            nums.push([String(i), String(N / i)]);
+        }
     }
-    for (let p of probs) {
-        let point = 0;
-        p.map((v) => (point += v));
-        if (0 <= point && point < 20)
-            ans++;
+    for (let i = 0; i < nums.length; ++i) {
+        ans = Math.min(ans, Math.max(nums[i][0].length, nums[i][1].length));
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC057C_Digits%20in%20Multiplication.js.map
