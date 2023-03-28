@@ -192,7 +192,7 @@ function commonDfs(graph, v, seen) {
 }
 function main() {
     let [N, M] = nextNums(2);
-    let si = [];
+    let si = Array.from({ length: N }, () => -1).map(() => Array(N).fill(-1));
     let ans = 0;
     // Sijを配列に格納する
     for (let i = 0; i < M; ++i) {
