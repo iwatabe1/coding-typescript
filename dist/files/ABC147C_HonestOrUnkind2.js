@@ -223,6 +223,12 @@ function nextPermutation(arr) {
     }
     return true;
 }
+// bitcount:2進数で1の数を数える
+function bitCount(n) {
+    n = n - ((n >> 1) & 0x55555555);
+    n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+    return (((n + (n >> 4)) & 0xf0f0f0f) * 0x1010101) >> 24;
+}
 function main() {
     let N = nextNum();
     // i番目の人がj番目の人を正直者か不親切と言ったか、証言無し(-1)
@@ -256,15 +262,9 @@ function main() {
                 }
             }
         }
-        // iをbitで1が立っている数を数える
-        let cnt = 0;
-        for (let l = 0; l < i; ++l) {
-            if ((i >> l) & 1)
-                cnt++;
-        }
         // okだったら個数を更新する
         if (ok)
-            ans = Math.max(ans, cnt);
+            ans = Math.max(ans, bitCount(i));
     }
     print(ans);
 }
