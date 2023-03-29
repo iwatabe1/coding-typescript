@@ -252,4 +252,4 @@ function main() {
     } while (nextPermutation(row));
     print(Math.abs(a - b));
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC150C_CountOrder.js.map
