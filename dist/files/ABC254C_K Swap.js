@@ -231,28 +231,26 @@ function bitCount(n) {
 }
 function main() {
     let [N, K] = nextNums(2);
-    let S = nexts(N);
-    let ans = 0;
-    // bit全探索により、Sの各文字列が 1 or 0 の全探索をする
-    for (let i = 0; i < 1 << N; ++i) {
-        // 英小文字(a~z)を26文字の数字として格納する為の配列
-        let sum = Array(26).fill(0);
-        // Sの内、1 となっている文字列の場合処理を行う。
-        // j は1となっているかどうかの判定の為に使う。
-        for (let j = 0; j < N; ++j) {
-            if ((i >> j) & 1) {
-                // Sの対象文字列の内の文字を1つずつ、sumの対応する添え字に1を加えていく。
-                S[j].split('').forEach((v) => (sum[v.charCodeAt(0) - 97] += 1));
-            }
-        }
-        // アルファベット毎に文字数がKと一致すればカウントする
-        let cnt = 0;
-        for (let su of sum) {
-            if (su === K)
-                cnt++;
-        }
-        ans = Math.max(ans, cnt);
+    let Ai = nextNums(N);
+    let sortedA = [...Ai].sort(sortAsc);
+    let sorts = Array.from({ length: K }, () => new Array());
+    // 入れ替えられる数(添え字 % K)毎に配列に値を格納
+    for (let i = 0; i < N; i++) {
+        sorts[i % K].push(Ai[i]);
     }
-    print(ans);
+    // 入れ替えられる数(添え字 % K)の配列毎にソート
+    for (let s of sorts) {
+        s.sort(sortAsc);
+    }
+    let ans = [];
+    // 入れ替えられる数(添え字 % K)の配列毎にソートした配列を、結合する
+    for (let i = 0; i <= Math.floor(N / K); i++) {
+        for (let j = 0; j < K; ++j) {
+            if (sorts[j][i] !== undefined)
+                ans.push(sorts[j][i]);
+        }
+    }
+    const res = sortedA.join('') === ans.join('') ? 'Yes' : 'No';
+    print(res);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC254C_K%20Swap.js.map
