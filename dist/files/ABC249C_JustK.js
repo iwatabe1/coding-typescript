@@ -255,4 +255,4 @@ function main() {
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC249C_JustK.js.map
