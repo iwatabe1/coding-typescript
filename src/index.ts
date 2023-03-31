@@ -221,31 +221,17 @@ function bitCount(n: number) {
 }
 
 function main() {
-  let [N, K] = nextNums(2);
-  let S = nexts(N);
-  let ans = 0;
+  let [A, K] = nextNums(2);
+  let t = A;
+  let day = 0;
 
-  // bit全探索により、Sの各文字列が 1 or 0 の全探索をする
-  for (let i = 0; i < 1 << N; ++i) {
-    // 英小文字(a~z)を26文字の数字として格納する為の配列
-    let sum: number[] = Array(26).fill(0);
-
-    // Sの内、1 となっている文字列の場合処理を行う。
-    // j は1となっているかどうかの判定の為に使う。
-    for (let j = 0; j < N; ++j) {
-      if ((i >> j) & 1) {
-        // Sの対象文字列の内の文字を1つずつ、sumの対応する添え字に1を加えていく。
-        S[j].split('').forEach((v) => (sum[v.charCodeAt(0) - 97] += 1));
-      }
+  if (K === 0) {
+    day = 2000000000000 - A;
+  } else {
+    while (t < 2000000000000) {
+      t += 1 + K * t;
+      day++;
     }
-
-    // アルファベット毎に文字数がKと一致すればカウントする
-    let cnt = 0;
-    for (let su of sum) {
-      if (su === K) cnt++;
-    }
-    ans = Math.max(ans, cnt);
   }
-
-  print(ans);
+  print(day);
 }
