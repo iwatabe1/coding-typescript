@@ -229,28 +229,9 @@ function bitCount(n) {
     n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
     return (((n + (n >> 4)) & 0xf0f0f0f) * 0x1010101) >> 24;
 }
-function isPrime(n) {
-    for (let i = 2n; i * i <= n; i++) {
-        // iは2〜√nまで+1ずつ変化
-        if (n % i === 0n)
-            return false;
-    }
-    return true;
-}
 function main() {
-    let [N, M] = nextBigInts(2);
-    let ans = 1000000000000000000000000n;
-    for (let i = 1n; i <= N; ++i) {
-        let x = (M + i - 1n) / i;
-        if (x <= N) {
-            let mul = i * x;
-            ans = ans < mul ? ans : mul;
-        }
-        if (i > x)
-            break;
-    }
-    if (ans === 1000000000000000000000000n)
-        ans = -1n;
+    let [N, M] = nextNums(2);
+    let ans = 0;
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=d.js.map
