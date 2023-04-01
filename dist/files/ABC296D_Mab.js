@@ -253,4 +253,4 @@ function main() {
         ans = -1n;
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC296D_Mab.js.map
