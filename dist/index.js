@@ -238,27 +238,15 @@ function isPrime(n) {
     return true;
 }
 function main() {
-    let N = nextNum();
-    let T = nextBigInts(N);
-    let arr = [];
-    for (let i = 0; i < N; ++i) {
-        if (i === 0) {
-            arr.push(1n << T[i]);
-            continue;
-        }
-        let num = arr[i - 1];
-        // 末尾に連なる 0 の個数T[i]分右シフトする
-        num = num >> T[i];
-        // 次の値を取得するために1を足す
-        num++;
-        // 1桁目が 0 の場合は1を足す
-        if (((num >> 0n) & 1n) === 0n) {
-            num++;
-        }
-        // T[i]分左シフトして、末尾に連なる 0 の個数T[i]を確保する
-        num = num << T[i];
-        arr.push(num);
+    let [A, B, N] = nextNums(3);
+    function floor(A, B, x) {
+        return Math.floor((A * x) / B) - A * Math.floor(x / B);
     }
-    print(arr[N - 1]);
+    let ans = 0;
+    ans = Math.max(ans, floor(A, B, N));
+    if (B - 1 <= N) {
+        ans = Math.max(ans, floor(A, B, B - 1));
+    }
+    print(ans);
 }
 //# sourceMappingURL=index.js.map
