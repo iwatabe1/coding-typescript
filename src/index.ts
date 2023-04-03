@@ -229,18 +229,10 @@ function isPrime(n: bigint) {
 }
 
 function main() {
-  let [N, M] = nextBigInts(2);
-  let ans = 1000000000000000000000000n;
+  let A = nextBigInt();
+  let B = nextNum();
 
-  for (let i = 1n; i <= N; ++i) {
-    let x = (M + i - 1n) / i;
-    if (x <= N) {
-      let mul = i * x;
-      ans = ans < mul ? ans : mul;
-    }
-    if (i > x) break;
-  }
+  let mul = (A * BigInt(Math.round(B * 100))) / 100n;
 
-  if (ans === 1000000000000000000000000n) ans = -1n;
-  print(ans);
+  print(mul);
 }
