@@ -261,4 +261,4 @@ function main() {
     }
     print(arr[N - 1]);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC139A_TrailingZeros.js.map
