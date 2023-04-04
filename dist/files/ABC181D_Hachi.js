@@ -291,4 +291,4 @@ function main() {
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC181D_Hachi.js.map
