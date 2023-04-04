@@ -252,4 +252,4 @@ function main() {
     }
     print(dp[N - 1]);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=m-solutions2020D_RoadtoMillionaire.js.map
