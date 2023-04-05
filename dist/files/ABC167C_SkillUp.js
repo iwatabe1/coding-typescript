@@ -269,4 +269,4 @@ function main() {
     }
     print(ans === Infinity ? -1 : ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC167C_SkillUp.js.map
