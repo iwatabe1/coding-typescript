@@ -238,35 +238,14 @@ function isPrime(n) {
     return true;
 }
 function main() {
-    let [N, M, X] = nextNums(3);
-    let C = [];
-    let A = [];
-    let ans = Infinity;
-    for (let i = 0; i < N; ++i) {
-        C.push(nextNum());
-        A.push(nextNums(M));
-    }
-    for (let i = 0; i < 1 << N; ++i) {
-        let money = 0;
-        let sumX = Array(M).fill(0);
-        for (let j = 0; j < A.length; ++j) {
-            if ((i >> j) & 1) {
-                for (let k = 0; k < M; ++k) {
-                    sumX[k] += A[j][k];
-                }
-                money += C[j];
-            }
-        }
-        let add = true;
-        sumX.forEach((v) => {
-            if (v < X) {
-                add = false;
-            }
-        });
-        if (add) {
-            ans = Math.min(ans, money);
+    let [L, R] = nextBigInts(2);
+    let ans = 2n * 10n ** 9n * (2n * 10n ** 9n);
+    for (let i = L; i < R; ++i) {
+        for (let j = i + 1n; j < R + 1n; ++j) {
+            let n = (i * j) % 2019n;
+            ans = ans < n ? ans : n;
         }
     }
-    print(ans === Infinity ? -1 : ans);
+    print(ans);
 }
 //# sourceMappingURL=index.js.map
