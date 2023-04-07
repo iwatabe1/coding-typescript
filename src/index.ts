@@ -236,7 +236,9 @@ function main() {
     for (let j = i + 1n; j < R + 1n; ++j) {
       let n = (i * j) % 2019n;
       ans = ans < n ? ans : n;
+      if (ans === 0n) break;
     }
+    if (ans === 0n) break;
   }
 
   print(ans);
