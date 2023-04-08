@@ -237,31 +237,51 @@ function isPrime(n) {
     }
     return true;
 }
+// １次元配列の値をキーとしてmapを生成する:number
+function mapFromArrayNumber(mp, arr) {
+    arr.forEach((v) => {
+        if (!mp.get(v)) {
+            mp.set(v, 1);
+        }
+        else {
+            mp.set(v, mp.get(v));
+        }
+    });
+    return mp;
+}
+// １次元配列の値をキーとしてmapを生成する:bigint
+function mapFromArrayBigInt(mp, arr) {
+    arr.forEach((v) => {
+        if (!mp.get(v)) {
+            mp.set(v, 1n);
+        }
+        else {
+            mp.set(v, mp.get(v));
+        }
+    });
+    return mp;
+}
 function main() {
     let N = nextNum();
-    let A = nextBigInts(N);
+    let A = nextNums(N);
+    let mp = new Map();
+    let arr = [];
     let ans = 0n;
-    for (let i = 0; i < 1 << N; ++i) {
-        if (bitCount(i) === 4) {
-            let area = 1n;
-            const nums = new Set();
-            for (let j = 0; j < N; ++j) {
-                if ((i >> j) & 1) {
-                    nums.add(A[j]);
-                }
-            }
-            if (nums.size === 2) {
-                for (let num of nums)
-                    area *= num;
-                ans = ans > area ? ans : area;
-            }
-            else if (nums.size === 1) {
-                for (let num of nums)
-                    area = num * num;
-                ans = ans > area ? ans : area;
-            }
+    A.forEach((v) => {
+        if (!mp.get(v)) {
+            mp.set(v, 1);
         }
-    }
+        else {
+            mp.set(v, mp.get(v) + 1);
+        }
+        if (mp.get(v) === 2) {
+            mp.set(v, 0);
+            arr.push(v);
+        }
+    });
+    arr.sort(sortDesc);
+    if (2 <= arr.length)
+        ans = BigInt(arr[0]) * BigInt(arr[1]);
     print(ans);
 }
 //# sourceMappingURL=index.js.map
