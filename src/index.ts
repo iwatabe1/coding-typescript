@@ -229,16 +229,27 @@ function isPrime(n: bigint) {
 }
 
 function main() {
-  let [L, R] = nextBigInts(2);
-  let ans = 2n * 10n ** 9n * (2n * 10n ** 9n);
+  let N = nextNum();
+  let A = nextBigInts(N);
+  let ans = 0n;
 
-  for (let i = L; i < R; ++i) {
-    for (let j = i + 1n; j < R + 1n; ++j) {
-      let n = (i * j) % 2019n;
-      ans = ans < n ? ans : n;
-      if (ans === 0n) break;
+  for (let i = 0; i < 1 << N; ++i) {
+    if (bitCount(i) === 4) {
+      let area = 1n;
+      const nums = new Set<bigint>();
+      for (let j = 0; j < N; ++j) {
+        if ((i >> j) & 1) {
+          nums.add(A[j]);
+        }
+      }
+      if (nums.size === 2) {
+        for (let num of nums) area *= num;
+        ans = ans > area ? ans : area;
+      } else if (nums.size === 1) {
+        for (let num of nums) area = num * num;
+        ans = ans > area ? ans : area;
+      }
     }
-    if (ans === 0n) break;
   }
 
   print(ans);
