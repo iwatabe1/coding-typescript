@@ -228,53 +228,20 @@ function isPrime(n: bigint) {
   return true;
 }
 
-// １次元配列の値をキーとしてmapを生成する:number
-function mapFromArrayNumber(mp: Map<number, number>, arr: number[]) {
-  arr.forEach((v) => {
-    if (!mp.get(v)) {
-      mp.set(v, 1);
-    } else {
-      mp.set(v, mp.get(v) as number);
-    }
-  });
-  return mp;
-}
-
-// １次元配列の値をキーとしてmapを生成する:bigint
-function mapFromArrayBigInt(mp: Map<bigint, bigint>, arr: bigint[]) {
-  arr.forEach((v) => {
-    if (!mp.get(v)) {
-      mp.set(v, 1n);
-    } else {
-      mp.set(v, mp.get(v) as bigint);
-    }
-  });
-  return mp;
-}
-
 function main() {
   let N = nextNum();
   let A = nextNums(N);
-  let mp = new Map<number, number>();
-  let arr: number[] = [];
-  let ans = 0n;
+  let dp: number[] = Array(N).fill(0);
 
-  A.forEach((v) => {
-    if (!mp.get(v)) {
-      mp.set(v, 1);
-    } else {
-      mp.set(v, (mp.get(v) as number) + 1);
+  dp[0] = 1000;
+  for (let i = 1; i < N; ++i) {
+    dp[i] = dp[i - 1];
+    for (let j = 0; j <= i - 1; ++j) {
+      let stock = Math.floor(dp[j] / A[j]); // jで購入した株の数
+      let money = dp[j] + (A[i] - A[j]) * stock; // i で株を売った場合の金額
+      dp[i] = Math.max(dp[i], money);
     }
+  }
 
-    if (mp.get(v) === 2) {
-      mp.set(v, 0);
-      arr.push(v);
-    }
-  });
-
-  arr.sort(sortDesc);
-
-  if (2 <= arr.length) ans = BigInt(arr[0]) * BigInt(arr[1]);
-
-  print(ans);
+  print(dp[N - 1]);
 }

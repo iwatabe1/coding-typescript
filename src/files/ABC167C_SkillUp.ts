@@ -228,53 +228,37 @@ function isPrime(n: bigint) {
   return true;
 }
 
-// １次元配列の値をキーとしてmapを生成する:number
-function mapFromArrayNumber(mp: Map<number, number>, arr: number[]) {
-  arr.forEach((v) => {
-    if (!mp.get(v)) {
-      mp.set(v, 1);
-    } else {
-      mp.set(v, mp.get(v) as number);
-    }
-  });
-  return mp;
-}
-
-// １次元配列の値をキーとしてmapを生成する:bigint
-function mapFromArrayBigInt(mp: Map<bigint, bigint>, arr: bigint[]) {
-  arr.forEach((v) => {
-    if (!mp.get(v)) {
-      mp.set(v, 1n);
-    } else {
-      mp.set(v, mp.get(v) as bigint);
-    }
-  });
-  return mp;
-}
-
 function main() {
-  let N = nextNum();
-  let A = nextNums(N);
-  let mp = new Map<number, number>();
-  let arr: number[] = [];
-  let ans = 0n;
+  let [N, M, X] = nextNums(3);
+  let C: number[] = [];
+  let A: number[][] = [];
+  let ans = Infinity;
 
-  A.forEach((v) => {
-    if (!mp.get(v)) {
-      mp.set(v, 1);
-    } else {
-      mp.set(v, (mp.get(v) as number) + 1);
+  for (let i = 0; i < N; ++i) {
+    C.push(nextNum());
+    A.push(nextNums(M));
+  }
+
+  for (let i = 0; i < 1 << N; ++i) {
+    let money = 0;
+    let sumX: number[] = Array(M).fill(0);
+    for (let j = 0; j < A.length; ++j) {
+      if ((i >> j) & 1) {
+        for (let k = 0; k < M; ++k) {
+          sumX[k] += A[j][k];
+        }
+        money += C[j];
+      }
     }
-
-    if (mp.get(v) === 2) {
-      mp.set(v, 0);
-      arr.push(v);
+    let add = true;
+    sumX.forEach((v) => {
+      if (v < X) {
+        add = false;
+      }
+    });
+    if (add) {
+      ans = Math.min(ans, money);
     }
-  });
-
-  arr.sort(sortDesc);
-
-  if (2 <= arr.length) ans = BigInt(arr[0]) * BigInt(arr[1]);
-
-  print(ans);
+  }
+  print(ans === Infinity ? -1 : ans);
 }

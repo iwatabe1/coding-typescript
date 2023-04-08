@@ -237,51 +237,58 @@ function isPrime(n) {
     }
     return true;
 }
-// １次元配列の値をキーとしてmapを生成する:number
-function mapFromArrayNumber(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
-// １次元配列の値をキーとしてmapを生成する:bigint
-function mapFromArrayBigInt(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1n);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
 function main() {
-    let N = nextNum();
-    let A = nextNums(N);
-    let mp = new Map();
-    let arr = [];
-    let ans = 0n;
-    A.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
+    let S = next().split('').map(Number);
+    let ans = 'No';
+    // |S| == 1の時
+    if (S.length === 1) {
+        if (S[0] === 8) {
+            ans = 'Yes';
+            return print(ans);
         }
         else {
-            mp.set(v, mp.get(v) + 1);
+            return print(ans);
         }
-        if (mp.get(v) === 2) {
-            mp.set(v, 0);
-            arr.push(v);
+    }
+    // |S| == 2の時
+    if (S.length === 2) {
+        S.sort(sortAsc);
+        do {
+            if (Number(S.join('')) % 8 === 0) {
+                ans = 'Yes';
+                return print(ans);
+            }
+        } while (nextPermutation(S));
+        return print(ans);
+    }
+    // |S|の数値を10個の配列の添え字に当たる場所に加算する
+    let sArr = Array(10).fill(0);
+    for (let s of S) {
+        sArr[s]++;
+    }
+    // 0は|S|に存在しないため、112から初めて、992まで全探索する
+    for (let i = 112; i < 1000; i += 8) {
+        let cnt = 0;
+        // iを|S|同様に、配列の添え字に当たる場所に加算する
+        let arr = String(i).padStart(3, '0').split('').map(Number);
+        let tArr = Array(10).fill(0);
+        for (let a of arr) {
+            tArr[a]++;
         }
-    });
-    arr.sort(sortDesc);
-    if (2 <= arr.length)
-        ans = BigInt(arr[0]) * BigInt(arr[1]);
+        // iと|S|の同じ添え字で、iが|S|より大きい場合加算する
+        // |S|でiを構成できるかどうかを判断しているということ
+        tArr.forEach((v, i) => {
+            if (v > 0) {
+                if (sArr[i] >= v)
+                    cnt += v;
+            }
+        });
+        // |S|でiを構成できる場合
+        if (cnt === 3) {
+            ans = 'Yes';
+            break;
+        }
+    }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC181D_Hachi.js.map

@@ -237,51 +237,36 @@ function isPrime(n) {
     }
     return true;
 }
-// １次元配列の値をキーとしてmapを生成する:number
-function mapFromArrayNumber(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
-// １次元配列の値をキーとしてmapを生成する:bigint
-function mapFromArrayBigInt(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1n);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
 function main() {
-    let N = nextNum();
-    let A = nextNums(N);
-    let mp = new Map();
-    let arr = [];
-    let ans = 0n;
-    A.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
+    let [N, M, X] = nextNums(3);
+    let C = [];
+    let A = [];
+    let ans = Infinity;
+    for (let i = 0; i < N; ++i) {
+        C.push(nextNum());
+        A.push(nextNums(M));
+    }
+    for (let i = 0; i < 1 << N; ++i) {
+        let money = 0;
+        let sumX = Array(M).fill(0);
+        for (let j = 0; j < A.length; ++j) {
+            if ((i >> j) & 1) {
+                for (let k = 0; k < M; ++k) {
+                    sumX[k] += A[j][k];
+                }
+                money += C[j];
+            }
         }
-        else {
-            mp.set(v, mp.get(v) + 1);
+        let add = true;
+        sumX.forEach((v) => {
+            if (v < X) {
+                add = false;
+            }
+        });
+        if (add) {
+            ans = Math.min(ans, money);
         }
-        if (mp.get(v) === 2) {
-            mp.set(v, 0);
-            arr.push(v);
-        }
-    });
-    arr.sort(sortDesc);
-    if (2 <= arr.length)
-        ans = BigInt(arr[0]) * BigInt(arr[1]);
-    print(ans);
+    }
+    print(ans === Infinity ? -1 : ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC167C_SkillUp.js.map
