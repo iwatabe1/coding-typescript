@@ -238,30 +238,24 @@ function isPrime(n) {
     return true;
 }
 function main() {
-    let N = nextNum();
-    let A = nextBigInts(N);
+    let [A, B] = nextBigInts(2);
     let ans = 0n;
-    for (let i = 0; i < 1 << N; ++i) {
-        if (bitCount(i) === 4) {
-            let area = 1n;
-            const nums = new Set();
-            for (let j = 0; j < N; ++j) {
-                if ((i >> j) & 1) {
-                    nums.add(A[j]);
-                }
-            }
-            if (nums.size === 2) {
-                for (let num of nums)
-                    area *= num;
-                ans = ans > area ? ans : area;
-            }
-            else if (nums.size === 1) {
-                for (let num of nums)
-                    area = num * num;
-                ans = ans > area ? ans : area;
-            }
+    if (A < B) {
+        let a = A;
+        let b = B;
+        A = B;
+        B = a;
+    }
+    while (B > 0) {
+        ans += A / B;
+        A %= B;
+        if (A < B) {
+            let a = A;
+            let b = B;
+            A = B;
+            B = a;
         }
     }
-    print(ans);
+    println(ans - 1n);
 }
 //# sourceMappingURL=index.js.map
