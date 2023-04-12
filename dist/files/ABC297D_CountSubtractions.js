@@ -237,51 +237,28 @@ function isPrime(n) {
     }
     return true;
 }
-// １次元配列の値をキーとしてmapを生成する:number
-function mapFromArrayNumber(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
-// １次元配列の値をキーとしてmapを生成する:bigint
-function mapFromArrayBigInt(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1n);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
 function main() {
-    let N = nextNum();
-    let A = nextNums(N);
-    let mp = new Map();
-    let arr = [];
+    let [A, B] = nextBigInts(2);
     let ans = 0n;
-    A.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
+    if (A < B) {
+        let a = A;
+        let b = B;
+        A = b;
+        B = a;
+    }
+    while (B > 0) {
+        // 単純に引くと、大量の数の時に遅くなる
+        // その為、割り算の結果をansに足すことで、一気に計算できる
+        // この時、引き算の結果は除算で表せる
+        ans += A / B;
+        A %= B;
+        if (A < B) {
+            let a = A;
+            let b = B;
+            A = b;
+            B = a;
         }
-        else {
-            mp.set(v, mp.get(v) + 1);
-        }
-        if (mp.get(v) === 2) {
-            mp.set(v, 0);
-            arr.push(v);
-        }
-    });
-    arr.sort(sortDesc);
-    if (2 <= arr.length)
-        ans = BigInt(arr[0]) * BigInt(arr[1]);
-    print(ans);
+    }
+    println(ans - 1n);
 }
-//# sourceMappingURL=ABC071C_MakeaRectangle.js.map
+//# sourceMappingURL=ABC297D_CountSubtractions.js.map

@@ -237,51 +237,41 @@ function isPrime(n) {
     }
     return true;
 }
-// １次元配列の値をキーとしてmapを生成する:number
-function mapFromArrayNumber(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
-// １次元配列の値をキーとしてmapを生成する:bigint
-function mapFromArrayBigInt(mp, arr) {
-    arr.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1n);
-        }
-        else {
-            mp.set(v, mp.get(v));
-        }
-    });
-    return mp;
-}
 function main() {
-    let N = nextNum();
-    let A = nextNums(N);
-    let mp = new Map();
-    let arr = [];
-    let ans = 0n;
-    A.forEach((v) => {
-        if (!mp.get(v)) {
-            mp.set(v, 1);
+    let [N, M] = nextNums(2);
+    let xy = Array.from({ length: N }, () => Array(N).fill(false));
+    let ans = 0;
+    // xyに入力値を入れていく
+    for (let i = 0; i < M; ++i) {
+        const [x, y] = nextNums(2).map((n) => n - 1); // 添え字に合わせる為-1
+        xy[x][y] = true;
+        xy[y][x] = true;
+    }
+    // bit全探索
+    for (let i = 0; i < 1 << N; ++i) {
+        // bitが1になっている人を配列に格納
+        let arr = [];
+        for (let j = 0; j < N; ++j) {
+            if ((i >> j) & 1) {
+                arr.push(j);
+            }
         }
-        else {
-            mp.set(v, mp.get(v) + 1);
+        // 1人担っている人同士が、互いに知り合いであるかを確認
+        // 知り合いではない場合はfalse
+        // arr同士の組み合わせで確認する
+        let ok = true;
+        for (let i = 0; i < arr.length; ++i) {
+            for (let j = i + 1; j < arr.length; ++j) {
+                if (!xy[arr[i]][arr[j]]) {
+                    ok = false;
+                    break;
+                }
+            }
         }
-        if (mp.get(v) === 2) {
-            mp.set(v, 0);
-            arr.push(v);
-        }
-    });
-    arr.sort(sortDesc);
-    if (2 <= arr.length)
-        ans = BigInt(arr[0]) * BigInt(arr[1]);
+        // 全て知り合いだったら、値を暫定確定
+        if (ok)
+            ans = Math.max(ans, arr.length);
+    }
     print(ans);
 }
-//# sourceMappingURL=ABC071C_MakeaRectangle.js.map
+//# sourceMappingURL=ABC002D_%E6%B4%BE%E9%96%A5.js.map
