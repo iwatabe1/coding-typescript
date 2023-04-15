@@ -238,38 +238,45 @@ function isPrime(n) {
     return true;
 }
 function main() {
-    let [N, Q] = nextNums(2);
-    let box = Array.from({ length: N + 1 }, () => []);
-    let mp = new Map();
-    let ans = [];
-    for (let i = 0; i < Q; ++i) {
-        let f = nextNum();
-        if (f === 1) {
-            // 箱にカードを追加
-            let query = nextNums(2);
-            box[query[1]].push(query[0]);
-            // カードがどこの箱に入っているかの情報を追加
-            let num = mp.get(query[0]);
-            if (num === undefined) {
-                num = new Set();
+    let N = nextNum();
+    // let A: number[][] = Array.from({ length: N }, () => Array(N).fill(0));
+    // let B: number[][] = Array.from({ length: N }, () => Array(N).fill(0));
+    let A = [];
+    let B = [];
+    for (let i = 0; i < N; ++i) {
+        A.push(nextNums(N));
+    }
+    for (let i = 0; i < N; ++i) {
+        B.push(nextNums(N));
+    }
+    let ans = 'No';
+    for (let k = 0; k < 4; ++k) {
+        let X = Array.from({ length: N }, () => Array(N).fill(0));
+        for (let i = 0; i < N; ++i) {
+            for (let j = 0; j < N; ++j) {
+                X[i][j] = A[N - 1 - j][i];
             }
-            num.add(query[1]);
-            mp.set(query[0], num);
         }
-        else if (f === 2) {
-            // 箱から、カードの情報を昇順に取得
-            let query = nextNum();
-            ans.push(box[query].sort(sortAsc).join(' '));
-        }
-        else if (f === 3) {
-            // mapから、カードが入っている箱の情報を昇順に取得
-            let query = nextNum();
-            let num = mp.get(query);
-            if (num) {
-                ans.push([...num].sort(sortAsc).join(' '));
+        let ok = true;
+        for (let i = 0; i < N; ++i) {
+            for (let j = 0; j < N; ++j) {
+                A = X;
+                if (X[i][j] === 0) {
+                    continue;
+                }
+                else if (X[i][j] === 1 && B[i][j] === 1) {
+                    continue;
+                }
+                else {
+                    ok = false;
+                }
             }
+        }
+        if (ok) {
+            ans = 'Yes';
+            break;
         }
     }
-    print(ans.join('\n'));
+    print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC298B_ColoringMatrix.js.map

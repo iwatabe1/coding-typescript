@@ -272,4 +272,4 @@ function main() {
     }
     print(ans.join('\n'));
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC298C_Cards%20Query%20Problem.js.map
