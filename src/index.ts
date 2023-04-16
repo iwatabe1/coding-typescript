@@ -229,38 +229,41 @@ function isPrime(n: bigint) {
 }
 
 function main() {
-  let [N, Q] = nextNums(2);
-  let box: number[][] = Array.from({ length: N + 1 }, () => []);
+  let [N, M] = nextNums(2);
+  let mp = new Map<number, number[]>();
+  let ans = '';
+  for (let i = 0; i < M; ++i) {
+    let [A, B] = nextNums(2);
+    let num = mp.get(A);
+    if (num) {
+      num.push(B);
+      mp.set(A, num);
+    } else {
+      num = [];
+      num.push(B);
+      mp.set(A, num);
+    }
 
-  let mp = new Map<number, Set<number>>();
-  let ans: string[] = [];
-
-  for (let i = 0; i < Q; ++i) {
-    let f = nextNum();
-    if (f === 1) {
-      // 箱にカードを追加
-      let query = nextNums(2);
-      box[query[1]].push(query[0]);
-
-      // カードがどこの箱に入っているかの情報を追加
-      let num = mp.get(query[0]);
-      if (num === undefined) {
-        num = new Set();
-      }
-      num.add(query[1]);
-      mp.set(query[0], num);
-    } else if (f === 2) {
-      // 箱から、カードの情報を昇順に取得
-      let query = nextNum();
-      ans.push(box[query].sort(sortAsc).join(' '));
-    } else if (f === 3) {
-      // mapから、カードが入っている箱の情報を昇順に取得
-      let query = nextNum();
-      let num = mp.get(query);
-      if (num) {
-        ans.push([...num].sort(sortAsc).join(' '));
-      }
+    let numB = mp.get(B);
+    if (numB) {
+      numB.push(A);
+      mp.set(B, numB);
+    } else {
+      numB = [];
+      numB.push(A);
+      mp.set(B, numB);
     }
   }
-  print(ans.join('\n'));
+
+  for (let i = 1; i <= N; ++i) {
+    const nums = mp.get(i);
+    if (nums) {
+      const len = nums.length;
+      ans += len + ' ' + nums.sort(sortAsc).join(' ') + '\n';
+    } else {
+      ans += '0\n';
+    }
+  }
+
+  print(ans);
 }
