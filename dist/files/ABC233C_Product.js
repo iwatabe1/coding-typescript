@@ -238,34 +238,41 @@ function isPrime(n) {
     return true;
 }
 function main() {
-    let [R, C] = nextNums(2);
-    let mochis = [];
-    for (let i = 0; i < R; ++i) {
-        mochis.push(nextNums(C));
-    }
+    let N = nextNum();
+    let X = nextBigInt();
+    let a = [];
     let ans = 0;
-    for (let i = 0; i < 1 << R; ++i) {
-        let tmpArr = JSON.parse(JSON.stringify(mochis));
-        // iでbitが1
-        for (let k = 0; k < R; ++k) {
-            if ((i >> k) & 1) {
-                // bit反転
-                mochis[k].forEach((v, i) => {
-                    tmpArr[k][i] = 1 ^ v;
-                });
-            }
-        }
-        let cnt = 0;
-        for (let l = 0; l < C; ++l) {
-            let zero = 0;
-            for (let k = 0; k < R; ++k) {
-                // 0又は1で大きい方を数える
-                tmpArr[k][l] === 0 ? zero++ : null;
-            }
-            cnt += Math.max(zero, R - zero);
-        }
-        ans = Math.max(ans, cnt);
+    for (let i = 0; i < N; ++i) {
+        let L = nextNum();
+        a.push(nextBigInts(L));
     }
+    function thisDfsStack(row, multi) {
+        if (row === N) {
+            if (multi === X)
+                ans++;
+            return;
+        }
+        for (let j = 0; j < a[row].length; ++j) {
+            // if(multi * a[row][j] > X) continue;
+            if (multi > X / a[row][j])
+                continue;
+            thisDfs(row + 1, multi * a[row][j]);
+        }
+    }
+    function thisDfs(row, multi) {
+        if (row === N) {
+            if (multi === X)
+                ans++;
+            return;
+        }
+        for (let j = 0; j < a[row].length; ++j) {
+            // if(multi * a[row][j] > X) continue;
+            if (multi > X / a[row][j])
+                continue;
+            thisDfs(row + 1, multi * a[row][j]);
+        }
+    }
+    thisDfs(0, 1n);
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC233C_Product.js.map

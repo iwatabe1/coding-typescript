@@ -268,4 +268,4 @@ function main() {
     }
     print(ans);
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=joi2008E_%E3%81%8A%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84.js.map
