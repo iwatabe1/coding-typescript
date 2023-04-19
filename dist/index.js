@@ -238,34 +238,24 @@ function isPrime(n) {
     return true;
 }
 function main() {
-    let [R, C] = nextNums(2);
-    let mochis = [];
-    for (let i = 0; i < R; ++i) {
-        mochis.push(nextNums(C));
+    let N = nextNum();
+    let A = nextNums(N);
+    let S = Array(N + 1).fill(0);
+    let ans = [];
+    S[0] = 0;
+    for (let i = 0; i < N; ++i) {
+        S[i + 1] = S[i] + A[i];
     }
-    let ans = 0;
-    for (let i = 0; i < 1 << R; ++i) {
-        let tmpArr = JSON.parse(JSON.stringify(mochis));
-        // iでbitが1
-        for (let k = 0; k < R; ++k) {
-            if ((i >> k) & 1) {
-                // bit反転
-                mochis[k].forEach((v, i) => {
-                    tmpArr[k][i] = 1 ^ v;
-                });
+    for (let i = 1; i <= N; ++i) {
+        let max = 0;
+        for (let j = 0; j < N + 1; ++j) {
+            if (j - i < 0) {
+                continue;
             }
+            max = Math.max(max, S[j] - S[j - i]);
         }
-        let cnt = 0;
-        for (let l = 0; l < C; ++l) {
-            let zero = 0;
-            for (let k = 0; k < R; ++k) {
-                // 0又は1で大きい方を数える
-                tmpArr[k][l] === 0 ? zero++ : null;
-            }
-            cnt += Math.max(zero, R - zero);
-        }
-        ans = Math.max(ans, cnt);
+        ans.push(max);
     }
-    print(ans);
+    print(ans.join('\n'));
 }
 //# sourceMappingURL=index.js.map
