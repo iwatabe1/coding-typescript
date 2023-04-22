@@ -81,7 +81,7 @@ if (process.env.OS == 'Windows_NT') {
   inputs = fs.readFileSync('/dev/stdin', 'utf8');
   inputArray = inputs.split(/\s/);
   main();
-  flush();
+  // flush();
 }
 /**
  * compare numbers for sort number[] ascending
@@ -228,27 +228,16 @@ function isPrime(n: bigint) {
   return true;
 }
 
-function main() {
+async function main() {
   let N = nextNum();
-  let A = nextNums(N);
-  let S = Array(N + 1).fill(0);
-  let ans = [];
-  S[0] = 0;
 
-  for (let i = 0; i < N; ++i) {
-    S[i + 1] = S[i] + A[i];
+  function input() {
+    inputs = fs.readFileSync('/dev/stdin', 'utf8');
+    inputArray = inputs.split(/\s/);
+    let currentIndex = 0;
   }
 
-  for (let i = 1; i <= N; ++i) {
-    let max = 0;
-    for (let j = 0; j < N + 1; ++j) {
-      if (j - i < 0) {
-        continue;
-      }
-      max = Math.max(max, S[j] - S[j - i]);
-    }
-    ans.push(max);
+  function out(str: string) {
+    console.log(str + '\n');
   }
-
-  print(ans.join('\n'));
 }

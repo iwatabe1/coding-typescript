@@ -96,7 +96,7 @@ else {
     inputs = fs.readFileSync('/dev/stdin', 'utf8');
     inputArray = inputs.split(/\s/);
     main();
-    flush();
+    // flush();
 }
 /**
  * compare numbers for sort number[] ascending
@@ -237,25 +237,24 @@ function isPrime(n) {
     }
     return true;
 }
-function main() {
+async function main() {
     let N = nextNum();
-    let A = nextNums(N);
-    let S = Array(N + 1).fill(0);
-    let ans = [];
+    let S = Array.from({ length: N });
     S[0] = 0;
+    S[N - 1] = 1;
     for (let i = 0; i < N; ++i) {
-        S[i + 1] = S[i] + A[i];
-    }
-    for (let i = 1; i <= N; ++i) {
-        let max = 0;
-        for (let j = 0; j < N + 1; ++j) {
-            if (j - i < 0) {
-                continue;
-            }
-            max = Math.max(max, S[j] - S[j - i]);
+        let question = '? ' + (i + 1) + '\n';
+        console.log(question);
+        await input();
+        S[i + 1] = nextNum();
+        if (S[i + 1] !== S[i]) {
+            return println(i);
         }
-        ans.push(max);
     }
-    print(ans.join('\n'));
+    async function input() {
+        inputs = fs.readFileSync('/dev/stdin', 'utf8');
+        inputArray = inputs.split(/\s/);
+        currentIndex = 0;
+    }
 }
 //# sourceMappingURL=index.js.map
