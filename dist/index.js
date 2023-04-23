@@ -29,6 +29,7 @@ let inputs = '';
 let inputArray;
 let currentIndex = 0;
 let outputBuffer = '';
+let interactiveFlag = false;
 function next() {
     return inputArray[currentIndex++];
 }
@@ -76,8 +77,7 @@ function println(out, separator) {
 function flush() {
     console.log(outputBuffer);
 }
-// デバッグ環境がWindowsであれば条件分岐する
-if (process.env.OS == 'Windows_NT') {
+if (interactiveFlag) {
     const stream = (0, readline_1.createInterface)({
         input: process.stdin,
         output: process.stdout,
@@ -86,17 +86,34 @@ if (process.env.OS == 'Windows_NT') {
         inputs += line;
         inputs += '\n';
     });
-    stream.on('close', () => {
+    const close = () => {
+        stream.close();
+    };
+    main().then(() => close());
+}
+else {
+    // デバッグ環境がWindowsであれば条件分岐する
+    if (process.env.OS == 'Windows_NT') {
+        const stream = (0, readline_1.createInterface)({
+            input: process.stdin,
+            output: process.stdout,
+        });
+        stream.on('line', (line) => {
+            inputs += line;
+            inputs += '\n';
+        });
+        stream.on('close', () => {
+            inputArray = inputs.split(/\s/);
+            main();
+            flush();
+        });
+    }
+    else {
+        inputs = fs.readFileSync('/dev/stdin', 'utf8');
         inputArray = inputs.split(/\s/);
         main();
         flush();
-    });
-}
-else {
-    inputs = fs.readFileSync('/dev/stdin', 'utf8');
-    inputArray = inputs.split(/\s/);
-    main();
-    // flush();
+    }
 }
 /**
  * compare numbers for sort number[] ascending
@@ -238,21 +255,30 @@ function isPrime(n) {
     return true;
 }
 async function main() {
+    await input();
     let N = nextNum();
-    let S = Array.from({ length: N });
-    S[0] = 0;
-    S[N - 1] = 1;
-    for (let i = 0; i < N; ++i) {
-        let question = '? ' + (i + 1) + '\n';
-        console.log(question);
+    let [low, high] = [1, N];
+    while (low + 1 < high) {
+        let mid = Math.floor((low + high) / 2);
+        await ask(mid);
         await input();
-        S[i + 1] = nextNum();
-        if (S[i + 1] !== S[i]) {
-            return println(i);
+        const S = nextNum();
+        if (S === 0) {
+            low = mid;
+        }
+        else {
+            high = mid;
         }
     }
+    console.log(`! ${low}`);
+    async function ask(num) {
+        inputs = '';
+        console.log(`? ${num}`);
+    }
     async function input() {
-        inputs = fs.readFileSync('/dev/stdin', 'utf8');
+        while (inputs.length === 0) {
+            await new Promise((resolve) => setTimeout(resolve, 0));
+        }
         inputArray = inputs.split(/\s/);
         currentIndex = 0;
     }

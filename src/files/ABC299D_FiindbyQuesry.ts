@@ -12,7 +12,7 @@ let inputs = '';
 let inputArray: string[];
 let currentIndex = 0;
 let outputBuffer = '';
-let interactiveFlag = false;
+let interactiveFlag = true;
 
 function next() {
   return inputArray[currentIndex++];
