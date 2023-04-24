@@ -255,32 +255,16 @@ function isPrime(n) {
     return true;
 }
 async function main() {
-    await input();
+    let S = next();
     let N = nextNum();
-    let [low, high] = [1, N];
-    while (low + 1 < high) {
-        let mid = Math.floor((low + high) / 2);
-        await ask(mid);
-        await input();
-        const S = nextNum();
-        if (S === 0) {
-            low = mid;
-        }
-        else {
-            high = mid;
+    S.split('').sort();
+    const str = [];
+    for (let i = 0; i < 5; ++i) {
+        for (let j = 0; j < 5; ++j) {
+            // if (i === j) continue;
+            str.push(S[i] + S[j]);
         }
     }
-    console.log(`! ${low}`);
-    async function ask(num) {
-        inputs = '';
-        console.log(`? ${num}`);
-    }
-    async function input() {
-        while (inputs.length === 0) {
-            await new Promise((resolve) => setTimeout(resolve, 0));
-        }
-        inputArray = inputs.split(/\s/);
-        currentIndex = 0;
-    }
+    print(str[N - 1]);
 }
 //# sourceMappingURL=index.js.map

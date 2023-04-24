@@ -1,7 +1,6 @@
 import { createInterface } from 'readline';
 import * as fs from 'fs';
 import * as std from 'tstl';
-import { get } from 'http';
 interface Vector {
   x: number;
   y: number;
@@ -249,34 +248,18 @@ function isPrime(n: bigint) {
 }
 
 async function main() {
-  await input();
+  let S = next();
   let N = nextNum();
-  let [low, high] = [1, N];
 
-  while (low + 1 < high) {
-    let mid = Math.floor((low + high) / 2);
-    await ask(mid);
-    await input();
-    const S = nextNum();
-    if (S === 0) {
-      low = mid;
-    } else {
-      high = mid;
+  S.split('').sort();
+
+  const str = [];
+
+  for (let i = 0; i < 5; ++i) {
+    for (let j = 0; j < 5; ++j) {
+      str.push(S[i] + S[j]);
     }
   }
 
-  console.log(`! ${low}`);
-
-  async function ask(num: number) {
-    inputs = '';
-    console.log(`? ${num}`);
-  }
-
-  async function input() {
-    while (inputs.length === 0) {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    }
-    inputArray = inputs.split(/\s/);
-    currentIndex = 0;
-  }
+  print(str[N - 1]);
 }
