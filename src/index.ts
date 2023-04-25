@@ -248,18 +248,11 @@ function isPrime(n: bigint) {
 }
 
 async function main() {
-  let S = next();
-  let N = nextNum();
+  let A = nextNums(2);
+  let B = nextNums(2);
+  let C = nextNums(2);
 
-  S.split('').sort();
+  const ans = Math.abs(((B[0] - A[0]) * (C[1] - A[1]) - (B[1] - A[1]) * (C[0] - A[0])) / 2);
 
-  const str = [];
-
-  for (let i = 0; i < 5; ++i) {
-    for (let j = 0; j < 5; ++j) {
-      str.push(S[i] + S[j]);
-    }
-  }
-
-  print(str[N - 1]);
+  print(ans);
 }
