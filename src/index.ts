@@ -248,24 +248,12 @@ function isPrime(n: bigint) {
 }
 
 async function main() {
-  let [N, K, S] = nextNums(3);
-  let ans = '';
+  let S = nexts(3);
+  let set = new Set(['ABC', 'ARC', 'AGC', 'AHC']);
 
-  if (S === 10 ** 9) {
-    for (let i = 0; i < K; ++i) {
-      ans += S + ' ';
-    }
-    for (let i = 0; i < N - K; ++i) {
-      ans += 1 + ' ';
-    }
-  } else {
-    for (let i = 0; i < K; ++i) {
-      ans += S + ' ';
-    }
-    for (let i = 0; i < N - K; ++i) {
-      ans += S + 1 + ' ';
-    }
+  for (let s of S) {
+    set.delete(s);
   }
 
-  print(ans);
+  print([...set], '');
 }
