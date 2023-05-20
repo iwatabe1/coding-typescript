@@ -255,23 +255,43 @@ function isPrime(n) {
     return true;
 }
 async function main() {
-    let [N, K, S] = nextNums(3);
-    let ans = '';
-    if (S === 10 ** 9) {
-        for (let i = 0; i < K; ++i) {
-            ans += S + ' ';
-        }
-        for (let i = 0; i < N - K; ++i) {
-            ans += 1 + ' ';
+    let [H, W] = nextNums(2);
+    let arr = Array.from({ length: H }, () => Array(W).fill(''));
+    for (let i = 0; i < H; i++) {
+        let str = next();
+        for (let j = 0; j < W; ++j) {
+            arr[i][j] = str[j];
         }
     }
-    else {
-        for (let i = 0; i < K; ++i) {
-            ans += S + ' ';
+    let ans = '';
+    const dx = [-1, -1, -1, 0, 0, 1, 1, 1];
+    const dy = [-1, 0, 1, -1, 1, -1, 0, 1];
+    for (let i = 0; i < H; i++) {
+        for (let j = 0; j < W; ++j) {
+            if (arr[i][j] == 's') {
+                // 縦、横、斜めの確認
+                for (let k = 0; k < 8; ++k) {
+                    let tempStr = '';
+                    let tempAns = '';
+                    for (let t = 0; t < 5; t++) {
+                        let x = i + t * dx[k];
+                        let y = j + t * dy[k];
+                        if (x < 0 || x >= H || y < 0 || y >= W)
+                            break;
+                        tempStr += arr[x][y];
+                        tempAns += x + 1 + ' ' + (y + 1) + '\n';
+                    }
+                    if (tempStr == 'snuke') {
+                        ans = tempAns;
+                        break;
+                    }
+                }
+            }
+            if (ans != '')
+                break;
         }
-        for (let i = 0; i < N - K; ++i) {
-            ans += S + 1 + ' ';
-        }
+        if (ans != '')
+            break;
     }
     print(ans);
 }
