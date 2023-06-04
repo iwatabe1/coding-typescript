@@ -257,22 +257,32 @@ function isPrime(n) {
     }
     return true;
 }
+function euclid(aOne, aTwo, bOne, bTwo) {
+    return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
+}
 async function main() {
-    let [N, W] = nextBigInts(2);
-    let AB = [];
-    for (let i = 0; i < N; ++i) {
-        let [A, B] = nextBigInts(2);
-        AB.push([A, B]);
+    let [N, D] = nextNums(2);
+    const [oneX, oneY] = nextNums(2);
+    let nums = [];
+    nums.push([oneX, oneY]);
+    const queue = [[oneX, oneY]]; // y軸、x軸
+    let ans = Array.from({ length: N }, () => 'No');
+    ans[0] = 'Yes';
+    for (let i = 1; i < N; ++i) {
+        nums.push(nextNums(2));
     }
-    AB.sort((a, b) => {
-        return Number(sortDescBigints(a[0], b[0]));
-    });
-    let ans = 0n;
-    for (let ab of AB) {
-        let num = W < ab[1] ? W : ab[1];
-        ans += ab[0] * num;
-        W -= num;
+    while (queue.length > 0) {
+        let [X, Y] = queue.shift();
+        for (let i = 1; i < N; ++i) {
+            if (ans[i] === 'Yes')
+                continue;
+            let num = euclid(X, Y, nums[i][0], nums[i][1]);
+            if (num <= D) {
+                ans[i] = 'Yes';
+                queue.push([nums[i][0], nums[i][1]]);
+            }
+        }
     }
-    print(ans);
+    print(ans, '\n');
 }
 //# sourceMappingURL=index.js.map
