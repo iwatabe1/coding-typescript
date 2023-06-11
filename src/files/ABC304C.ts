@@ -250,50 +250,38 @@ function isPrime(n: bigint) {
   return true;
 }
 
-// ユークリッドの互除法
 function euclid(aOne: number, aTwo: number, bOne: number, bTwo: number) {
   return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
 }
 
 async function main() {
-  let S = next();
+  let [N, D] = nextNums(2);
+  const [oneX, oneY] = nextNums(2);
+  let nums: number[][] = [];
+  nums.push([oneX, oneY]);
+  const queue = [[oneX, oneY]]; // y軸、x軸
 
-  let mp = new Map<string, number>();
-  mp.set(S, 0);
-  let queue = [];
+  let ans = Array.from({ length: N }, () => 'No');
+  ans[0] = 'Yes';
 
-  queue.push(S);
+  for (let i = 1; i < N; ++i) {
+    nums.push(nextNums(2));
+  }
 
-  let ans = 0;
   while (queue.length > 0) {
-    const currentStr = queue.shift() as string;
+    let [X, Y] = queue.shift() as number[];
 
-    if (currentStr === 'atcoder') {
-      let num = mp.get(currentStr) as number;
-      ans = num;
-      break;
-    }
+    for (let i = 1; i < N; ++i) {
+      if (ans[i] === 'Yes') continue;
 
-    for (let i = 1; i < 7; ++i) {
-      let nextStr = currentStr.split('') as string[];
-      if (nextStr) {
-        // 入れ替え
-        nextStr[i - 1] = currentStr[i];
-        nextStr[i] = currentStr[i - 1];
-        let next = nextStr.join('');
-        if (!mp.get(next)) {
-          queue.push(next);
+      let num = euclid(X, Y, nums[i][0], nums[i][1]);
 
-          let num = mp.get(currentStr) as number;
-          mp.set(next, ++num);
-        }
+      if (num <= D) {
+        ans[i] = 'Yes';
+        queue.push([nums[i][0], nums[i][1]]);
       }
     }
   }
 
-<<<<<<< HEAD
-  print(ans);
-=======
   print(ans, '\n');
->>>>>>> 29de05ff24d73151254b41cef5f7888f3a48720d
 }
