@@ -257,21 +257,38 @@ function isPrime(n) {
     }
     return true;
 }
+// ユークリッドの互除法
+function euclid(aOne, aTwo, bOne, bTwo) {
+    return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
+}
 async function main() {
-    let [N, W] = nextBigInts(2);
-    let AB = [];
-    for (let i = 0; i < N; ++i) {
-        let [A, B] = nextBigInts(2);
-        AB.push([A, B]);
-    }
-    AB.sort((a, b) => {
-        return Number(sortDescBigints(a[0], b[0]));
-    });
-    let ans = 0n;
-    for (let ab of AB) {
-        let num = W < ab[1] ? W : ab[1];
-        ans += ab[0] * num;
-        W -= num;
+    let S = next();
+    let mp = new Map();
+    mp.set(S, 0);
+    let queue = [];
+    queue.push(S);
+    let ans = 0;
+    while (queue.length > 0) {
+        const currentStr = queue.shift();
+        if (currentStr === 'atcoder') {
+            let num = mp.get(currentStr);
+            ans = num;
+            break;
+        }
+        for (let i = 1; i < 7; ++i) {
+            let nextStr = currentStr.split('');
+            if (nextStr) {
+                // 入れ替え
+                nextStr[i - 1] = currentStr[i];
+                nextStr[i] = currentStr[i - 1];
+                let next = nextStr.join('');
+                if (!mp.get(next)) {
+                    queue.push(next);
+                    let num = mp.get(currentStr);
+                    mp.set(next, ++num);
+                }
+            }
+        }
     }
     print(ans);
 }
