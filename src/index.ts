@@ -256,44 +256,19 @@ function euclid(aOne: number, aTwo: number, bOne: number, bTwo: number) {
 }
 
 async function main() {
-  let S = next();
+  function maxProfit(prices: number[]): number {
+    let max = 0;
+    let min = prices[0];
 
-  let mp = new Map<string, number>();
-  mp.set(S, 0);
-  let queue = [];
-
-  queue.push(S);
-
-  let ans = 0;
-  while (queue.length > 0) {
-    const currentStr = queue.shift() as string;
-
-    if (currentStr === 'atcoder') {
-      let num = mp.get(currentStr) as number;
-      ans = num;
-      break;
+    for (let i = 1; i < prices.length; i++) {
+      min = Math.min(min, prices[i - 1]);
+      max = Math.max(max, prices[i] - min);
     }
-
-    for (let i = 1; i < 7; ++i) {
-      let nextStr = currentStr.split('') as string[];
-      if (nextStr) {
-        // 入れ替え
-        nextStr[i - 1] = currentStr[i];
-        nextStr[i] = currentStr[i - 1];
-        let next = nextStr.join('');
-        if (!mp.get(next)) {
-          queue.push(next);
-
-          let num = mp.get(currentStr) as number;
-          mp.set(next, ++num);
-        }
-      }
-    }
+    return max;
   }
 
-<<<<<<< HEAD
+  const prices = [7, 1, 5, 3, 6, 4];
+  const ans = maxProfit(prices);
+
   print(ans);
-=======
-  print(ans, '\n');
->>>>>>> 29de05ff24d73151254b41cef5f7888f3a48720d
 }
