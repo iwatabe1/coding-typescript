@@ -4,14 +4,13 @@ import * as std from 'tstl';
 interface Vector {
   x: number;
   y: number;
-  // description: number; //座標,ベクトル
+  // description: number; //座標、ベクトル
 }
 
 let inputs = '';
 let inputArray: string[];
 let currentIndex = 0;
 let outputBuffer = '';
-let interactiveFlag = false;
 
 function next() {
   return inputArray[currentIndex++];
@@ -63,44 +62,26 @@ function flush() {
   console.log(outputBuffer);
 }
 
-if (interactiveFlag) {
+// デバッグ環境がWindowsであれば条件分岐する
+if (process.env.OS == 'Windows_NT') {
   const stream = createInterface({
     input: process.stdin,
     output: process.stdout,
   });
-
-  stream.on('line', (line: string) => {
+  stream.on('line', (line) => {
     inputs += line;
     inputs += '\n';
   });
-
-  const close = () => {
-    stream.close();
-  };
-
-  main().then(() => close());
-} else {
-  // デバッグ環境がWindowsであれば条件分岐する
-  if (process.env.OS == 'Windows_NT') {
-    const stream = createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-    stream.on('line', (line) => {
-      inputs += line;
-      inputs += '\n';
-    });
-    stream.on('close', () => {
-      inputArray = inputs.split(/\s/);
-      main();
-      flush();
-    });
-  } else {
-    inputs = fs.readFileSync('/dev/stdin', 'utf8');
+  stream.on('close', () => {
     inputArray = inputs.split(/\s/);
     main();
     flush();
-  }
+  });
+} else {
+  inputs = fs.readFileSync('/dev/stdin', 'utf8');
+  inputArray = inputs.split(/\s/);
+  main();
+  flush();
 }
 /**
  * compare numbers for sort number[] ascending
@@ -112,20 +93,13 @@ function sortAsc(a: number, b: number) {
   return a - b;
 }
 
-function sortAscBigints(a: bigint, b: bigint): bigint {
-  return a - b;
-}
-
 /**
  * compare numbers for sort number[] descending
  * @param a
  * @param b
  * @returns number
  */
-function sortDesc(a: number, b: number): number {
-  return b - a;
-}
-function sortDescBigints(a: bigint, b: bigint): bigint {
+function sortDesc(a: number, b: number) {
   return b - a;
 }
 // 文字列反転
@@ -186,7 +160,7 @@ function chmin1(dp: number[], i: number, b: number) {
 }
 
 // bit探索
-function searchBound(array: number[] | bigint[], item: number | bigint) {
+function searchBound(array: number[], item: number) {
   let low = 0;
   let high = array.length - 1;
   while (high - low > 1) {
@@ -254,48 +228,44 @@ function isPrime(n: bigint) {
   return true;
 }
 
-// ユークリッドの互除法
-function euclid(aOne: number, aTwo: number, bOne: number, bTwo: number) {
-  return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
-}
-
-async function main() {
+function main() {
   let N = nextNum();
-  // went
-  let C = Array.from({ length: N + 1 }, () => false);
-  let P = [];
-  P.push([]);
+  let X = nextBigInt();
+  let a: bigint[][] = [];
+  let ans = 0;
 
-  for (let i = 0; i < N; i++) {
-    let c = nextNum();
-    if (c === 0) {
-      P.push([0]);
-    } else {
-      P.push(nextNums(c));
+  for (let i = 0; i < N; ++i) {
+    let L = nextNum();
+    a.push(nextBigInts(L));
+  }
+
+  function thisDfsStack(row: number, multi: bigint) {
+    if (row === N) {
+      if (multi === X) ans++;
+      return;
+    }
+
+    for (let j = 0; j < a[row].length; ++j) {
+      // if(multi * a[row][j] > X) continue;
+      if (multi > X / a[row][j]) continue;
+      thisDfs(row + 1, multi * a[row][j]);
     }
   }
 
-  let queue: number[] = [];
-  queue.push(...P[1]);
-
-  let ans: number[] = [];
-  let index = 1;
-
-  dfs(P, index, C);
-
-  function dfs(graph: number[][], v: number, seen: boolean[]) {
-    // v から行ける各頂点 next_v について
-    for (const [key, value] of Object.entries(graph[v])) {
-      if (!seen[value] && value !== 0) {
-        dfs(graph, value, seen);
-      }
+  function thisDfs(row: number, multi: bigint) {
+    if (row === N) {
+      if (multi === X) ans++;
+      return;
     }
 
-    ans.push(v);
-    seen[v] = true;
+    for (let j = 0; j < a[row].length; ++j) {
+      // if(multi * a[row][j] > X) continue;
+      if (multi > X / a[row][j]) continue;
+      thisDfs(row + 1, multi * a[row][j]);
+    }
   }
 
-  ans.pop();
+  thisDfs(0, 1n);
 
-  print(ans, ' ');
+  print(ans);
 }

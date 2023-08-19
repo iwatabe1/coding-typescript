@@ -1,17 +1,18 @@
 import { createInterface } from 'readline';
 import * as fs from 'fs';
 import * as std from 'tstl';
+import { get } from 'http';
 interface Vector {
   x: number;
   y: number;
-  // description: number; //座標,ベクトル
+  // description: number; //座標、ベクトル
 }
 
 let inputs = '';
 let inputArray: string[];
 let currentIndex = 0;
 let outputBuffer = '';
-let interactiveFlag = false;
+let interactiveFlag = true;
 
 function next() {
   return inputArray[currentIndex++];
@@ -112,20 +113,13 @@ function sortAsc(a: number, b: number) {
   return a - b;
 }
 
-function sortAscBigints(a: bigint, b: bigint): bigint {
-  return a - b;
-}
-
 /**
  * compare numbers for sort number[] descending
  * @param a
  * @param b
  * @returns number
  */
-function sortDesc(a: number, b: number): number {
-  return b - a;
-}
-function sortDescBigints(a: bigint, b: bigint): bigint {
+function sortDesc(a: number, b: number) {
   return b - a;
 }
 // 文字列反転
@@ -186,7 +180,7 @@ function chmin1(dp: number[], i: number, b: number) {
 }
 
 // bit探索
-function searchBound(array: number[] | bigint[], item: number | bigint) {
+function searchBound(array: number[], item: number) {
   let low = 0;
   let high = array.length - 1;
   while (high - low > 1) {
@@ -254,48 +248,35 @@ function isPrime(n: bigint) {
   return true;
 }
 
-// ユークリッドの互除法
-function euclid(aOne: number, aTwo: number, bOne: number, bTwo: number) {
-  return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
-}
-
 async function main() {
+  await input();
   let N = nextNum();
-  // went
-  let C = Array.from({ length: N + 1 }, () => false);
-  let P = [];
-  P.push([]);
+  let [low, high] = [1, N];
 
-  for (let i = 0; i < N; i++) {
-    let c = nextNum();
-    if (c === 0) {
-      P.push([0]);
+  while (low + 1 < high) {
+    let mid = Math.floor((low + high) / 2);
+    await ask(mid);
+    await input();
+    const S = nextNum();
+    if (S === 0) {
+      low = mid;
     } else {
-      P.push(nextNums(c));
+      high = mid;
     }
   }
 
-  let queue: number[] = [];
-  queue.push(...P[1]);
+  console.log(`! ${low}`);
 
-  let ans: number[] = [];
-  let index = 1;
-
-  dfs(P, index, C);
-
-  function dfs(graph: number[][], v: number, seen: boolean[]) {
-    // v から行ける各頂点 next_v について
-    for (const [key, value] of Object.entries(graph[v])) {
-      if (!seen[value] && value !== 0) {
-        dfs(graph, value, seen);
-      }
-    }
-
-    ans.push(v);
-    seen[v] = true;
+  async function ask(num: number) {
+    inputs = '';
+    console.log(`? ${num}`);
   }
 
-  ans.pop();
-
-  print(ans, ' ');
+  async function input() {
+    while (inputs.length === 0) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+    inputArray = inputs.split(/\s/);
+    currentIndex = 0;
+  }
 }

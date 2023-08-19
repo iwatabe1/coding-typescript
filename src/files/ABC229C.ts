@@ -4,7 +4,7 @@ import * as std from 'tstl';
 interface Vector {
   x: number;
   y: number;
-  // description: number; //座標,ベクトル
+  // description: number; //座標、ベクトル
 }
 
 let inputs = '';
@@ -112,10 +112,6 @@ function sortAsc(a: number, b: number) {
   return a - b;
 }
 
-function sortAscBigints(a: bigint, b: bigint): bigint {
-  return a - b;
-}
-
 /**
  * compare numbers for sort number[] descending
  * @param a
@@ -186,7 +182,7 @@ function chmin1(dp: number[], i: number, b: number) {
 }
 
 // bit探索
-function searchBound(array: number[] | bigint[], item: number | bigint) {
+function searchBound(array: number[], item: number) {
   let low = 0;
   let high = array.length - 1;
   while (high - low > 1) {
@@ -254,48 +250,26 @@ function isPrime(n: bigint) {
   return true;
 }
 
-// ユークリッドの互除法
-function euclid(aOne: number, aTwo: number, bOne: number, bTwo: number) {
-  return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
-}
-
 async function main() {
-  let N = nextNum();
-  // went
-  let C = Array.from({ length: N + 1 }, () => false);
-  let P = [];
-  P.push([]);
+  let [N, W] = nextBigInts(2);
+  let AB: bigint[][] = [];
 
-  for (let i = 0; i < N; i++) {
-    let c = nextNum();
-    if (c === 0) {
-      P.push([0]);
-    } else {
-      P.push(nextNums(c));
-    }
+  for (let i = 0; i < N; ++i) {
+    let [A, B] = nextBigInts(2);
+    AB.push([A, B]);
   }
 
-  let queue: number[] = [];
-  queue.push(...P[1]);
+  AB.sort((a, b) => {
+    return Number(sortDescBigints(a[0], b[0]));
+  });
 
-  let ans: number[] = [];
-  let index = 1;
+  let ans = 0n;
 
-  dfs(P, index, C);
-
-  function dfs(graph: number[][], v: number, seen: boolean[]) {
-    // v から行ける各頂点 next_v について
-    for (const [key, value] of Object.entries(graph[v])) {
-      if (!seen[value] && value !== 0) {
-        dfs(graph, value, seen);
-      }
-    }
-
-    ans.push(v);
-    seen[v] = true;
+  for (let ab of AB) {
+    let num = W < ab[1] ? W : ab[1];
+    ans += ab[0] * num;
+    W -= num;
   }
 
-  ans.pop();
-
-  print(ans, ' ');
+  print(ans);
 }

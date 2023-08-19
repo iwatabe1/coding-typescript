@@ -124,9 +124,6 @@ else {
 function sortAsc(a, b) {
     return a - b;
 }
-function sortAscBigints(a, b) {
-    return a - b;
-}
 /**
  * compare numbers for sort number[] descending
  * @param a
@@ -260,59 +257,32 @@ function isPrime(n) {
     }
     return true;
 }
-// ユークリッドの互除法
 function euclid(aOne, aTwo, bOne, bTwo) {
     return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
 }
 async function main() {
-    let N = nextNum();
-    // went
-    let C = Array.from({ length: N + 1 }, () => false);
-    let P = [];
-    P.push([]);
-    for (let i = 0; i < N; i++) {
-        let c = nextNum();
-        if (c === 0) {
-            P.push([0]);
-        }
-        else {
-            P.push(nextNums(c));
-        }
+    let [N, D] = nextNums(2);
+    const [oneX, oneY] = nextNums(2);
+    let nums = [];
+    nums.push([oneX, oneY]);
+    const queue = [[oneX, oneY]]; // y軸、x軸
+    let ans = Array.from({ length: N }, () => 'No');
+    ans[0] = 'Yes';
+    for (let i = 1; i < N; ++i) {
+        nums.push(nextNums(2));
     }
-    let queue = [];
-    queue.push(...P[1]);
-    // while (queue.length >= index) {
-    //   let num = queue[index];
-    //   index++;
-    //   if (num === undefined) continue;
-    //   if (!C[num]) {
-    //     ans.push(num);
-    //     C[num] = true;
-    //     if (P[num][0] !== 0) {
-    //       queue.push(...P[num]);
-    //     }
-    //   }
-    // }
-    let ans = [];
-    let index = 1;
-    dfs(P, index, C);
-    function dfs(graph, v, seen) {
-        // v から行ける各頂点 next_v について
-        for (const [key, value] of Object.entries(graph[v])) {
-            if (!seen[value] && value !== 0) {
-                dfs(graph, value, seen);
+    while (queue.length > 0) {
+        let [X, Y] = queue.shift();
+        for (let i = 1; i < N; ++i) {
+            if (ans[i] === 'Yes')
+                continue;
+            let num = euclid(X, Y, nums[i][0], nums[i][1]);
+            if (num <= D) {
+                ans[i] = 'Yes';
+                queue.push([nums[i][0], nums[i][1]]);
             }
         }
-        ans.push(v);
-        seen[v] = true;
     }
-    // ans.reverse();
-    // P[1].forEach((v) => {
-    //   if (!C[v]) {
-    //     ans.push(v);
-    //   }
-    // });
-    ans.pop();
-    print(ans, ' ');
+    print(ans, '\n');
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ABC304C.js.map
