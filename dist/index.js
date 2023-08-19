@@ -124,6 +124,9 @@ else {
 function sortAsc(a, b) {
     return a - b;
 }
+function sortAscBigints(a, b) {
+    return a - b;
+}
 /**
  * compare numbers for sort number[] descending
  * @param a
@@ -262,19 +265,54 @@ function euclid(aOne, aTwo, bOne, bTwo) {
     return Math.abs(Math.sqrt((aOne - bOne) ** 2 + (aTwo - bTwo) ** 2));
 }
 async function main() {
-    function maxProfit(prices) {
-        let max = 0;
-        let boughts = [];
-        for (let i = 0; i < prices.length; i++) {
-            for (let b of boughts) {
-                max = Math.max(max, prices[i] - b);
-            }
-            boughts.push(prices[i]);
+    let N = nextNum();
+    // went
+    let C = Array.from({ length: N + 1 }, () => false);
+    let P = [];
+    P.push([]);
+    for (let i = 0; i < N; i++) {
+        let c = nextNum();
+        if (c === 0) {
+            P.push([0]);
         }
-        return max;
+        else {
+            P.push(nextNums(c));
+        }
     }
-    const prices = [7, 1, 5, 3, 6, 4];
-    const ans = maxProfit(prices);
-    print(ans);
+    let queue = [];
+    queue.push(...P[1]);
+    // while (queue.length >= index) {
+    //   let num = queue[index];
+    //   index++;
+    //   if (num === undefined) continue;
+    //   if (!C[num]) {
+    //     ans.push(num);
+    //     C[num] = true;
+    //     if (P[num][0] !== 0) {
+    //       queue.push(...P[num]);
+    //     }
+    //   }
+    // }
+    let ans = [];
+    let index = 1;
+    dfs(P, index, C);
+    function dfs(graph, v, seen) {
+        // v から行ける各頂点 next_v について
+        for (const [key, value] of Object.entries(graph[v])) {
+            if (!seen[value] && value !== 0) {
+                dfs(graph, value, seen);
+            }
+        }
+        ans.push(v);
+        seen[v] = true;
+    }
+    // ans.reverse();
+    // P[1].forEach((v) => {
+    //   if (!C[v]) {
+    //     ans.push(v);
+    //   }
+    // });
+    ans.pop();
+    print(ans, ' ');
 }
 //# sourceMappingURL=index.js.map

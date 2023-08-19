@@ -4,7 +4,7 @@ import * as std from 'tstl';
 interface Vector {
   x: number;
   y: number;
-  // description: number; //座標、ベクトル
+  // description: number; //座標,ベクトル
 }
 
 let inputs = '';
@@ -112,6 +112,10 @@ function sortAsc(a: number, b: number) {
   return a - b;
 }
 
+function sortAscBigints(a: bigint, b: bigint): bigint {
+  return a - b;
+}
+
 /**
  * compare numbers for sort number[] descending
  * @param a
@@ -182,7 +186,7 @@ function chmin1(dp: number[], i: number, b: number) {
 }
 
 // bit探索
-function searchBound(array: number[], item: number) {
+function searchBound(array: number[] | bigint[], item: number | bigint) {
   let low = 0;
   let high = array.length - 1;
   while (high - low > 1) {
@@ -256,19 +260,42 @@ function euclid(aOne: number, aTwo: number, bOne: number, bTwo: number) {
 }
 
 async function main() {
-  function maxProfit(prices: number[]): number {
-    let max = 0;
-    let min = prices[0];
+  let N = nextNum();
+  // went
+  let C = Array.from({ length: N + 1 }, () => false);
+  let P = [];
+  P.push([]);
 
-    for (let i = 1; i < prices.length; i++) {
-      min = Math.min(min, prices[i - 1]);
-      max = Math.max(max, prices[i] - min);
+  for (let i = 0; i < N; i++) {
+    let c = nextNum();
+    if (c === 0) {
+      P.push([0]);
+    } else {
+      P.push(nextNums(c));
     }
-    return max;
   }
 
-  const prices = [7, 1, 5, 3, 6, 4];
-  const ans = maxProfit(prices);
+  let queue: number[] = [];
+  queue.push(...P[1]);
 
-  print(ans);
+  let ans: number[] = [];
+  let index = 1;
+
+  dfs(P, index, C);
+
+  function dfs(graph: number[][], v: number, seen: boolean[]) {
+    // v から行ける各頂点 next_v について
+    for (const [key, value] of Object.entries(graph[v])) {
+      if (!seen[value] && value !== 0) {
+        dfs(graph, value, seen);
+      }
+    }
+
+    ans.push(v);
+    seen[v] = true;
+  }
+
+  ans.pop();
+
+  print(ans, ' ');
 }
